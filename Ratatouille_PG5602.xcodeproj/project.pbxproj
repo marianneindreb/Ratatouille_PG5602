@@ -16,6 +16,11 @@
 		D992188F2B06B38400715C04 /* Ratatouille_PG5602Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D992188E2B06B38400715C04 /* Ratatouille_PG5602Tests.swift */; };
 		D99218992B06B38400715C04 /* Ratatouille_PG5602UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218982B06B38400715C04 /* Ratatouille_PG5602UITests.swift */; };
 		D992189B2B06B38400715C04 /* Ratatouille_PG5602UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D992189A2B06B38400715C04 /* Ratatouille_PG5602UITestsLaunchTests.swift */; };
+		D99218A82B06B63700715C04 /* RecipeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218A72B06B63700715C04 /* RecipeListView.swift */; };
+		D99218AA2B06B64700715C04 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218A92B06B64700715C04 /* SettingsView.swift */; };
+		D99218AC2B06B65100715C04 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218AB2B06B65100715C04 /* SearchView.swift */; };
+		D99218AE2B06B66100715C04 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218AD2B06B66100715C04 /* TabView.swift */; };
+		D99218B02B06B66F00715C04 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218AF2B06B66F00715C04 /* SplashScreenView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +53,11 @@
 		D99218942B06B38400715C04 /* Ratatouille_PG5602UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Ratatouille_PG5602UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D99218982B06B38400715C04 /* Ratatouille_PG5602UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ratatouille_PG5602UITests.swift; sourceTree = "<group>"; };
 		D992189A2B06B38400715C04 /* Ratatouille_PG5602UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ratatouille_PG5602UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D99218A72B06B63700715C04 /* RecipeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListView.swift; sourceTree = "<group>"; };
+		D99218A92B06B64700715C04 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		D99218AB2B06B65100715C04 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		D99218AD2B06B66100715C04 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
+		D99218AF2B06B66F00715C04 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +109,7 @@
 			isa = PBXGroup;
 			children = (
 				D99218782B06B38300715C04 /* Ratatouille_PG5602App.swift */,
+				D99218B12B06B67900715C04 /* Views */,
 				D992187A2B06B38300715C04 /* ContentView.swift */,
 				D992187C2B06B38400715C04 /* Assets.xcassets */,
 				D99218812B06B38400715C04 /* Persistence.swift */,
@@ -131,6 +142,18 @@
 				D992189A2B06B38400715C04 /* Ratatouille_PG5602UITestsLaunchTests.swift */,
 			);
 			path = Ratatouille_PG5602UITests;
+			sourceTree = "<group>";
+		};
+		D99218B12B06B67900715C04 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D99218AF2B06B66F00715C04 /* SplashScreenView.swift */,
+				D99218AB2B06B65100715C04 /* SearchView.swift */,
+				D99218AD2B06B66100715C04 /* TabView.swift */,
+				D99218A92B06B64700715C04 /* SettingsView.swift */,
+				D99218A72B06B63700715C04 /* RecipeListView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +288,11 @@
 			files = (
 				D99218852B06B38400715C04 /* Ratatouille_PG5602.xcdatamodeld in Sources */,
 				D99218822B06B38400715C04 /* Persistence.swift in Sources */,
+				D99218B02B06B66F00715C04 /* SplashScreenView.swift in Sources */,
+				D99218AE2B06B66100715C04 /* TabView.swift in Sources */,
+				D99218A82B06B63700715C04 /* RecipeListView.swift in Sources */,
+				D99218AC2B06B65100715C04 /* SearchView.swift in Sources */,
+				D99218AA2B06B64700715C04 /* SettingsView.swift in Sources */,
 				D992187B2B06B38300715C04 /* ContentView.swift in Sources */,
 				D99218792B06B38300715C04 /* Ratatouille_PG5602App.swift in Sources */,
 			);
