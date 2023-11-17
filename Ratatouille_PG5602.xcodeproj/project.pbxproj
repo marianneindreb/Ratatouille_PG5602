@@ -19,8 +19,11 @@
 		D99218A82B06B63700715C04 /* RecipeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218A72B06B63700715C04 /* RecipeListView.swift */; };
 		D99218AA2B06B64700715C04 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218A92B06B64700715C04 /* SettingsView.swift */; };
 		D99218AC2B06B65100715C04 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218AB2B06B65100715C04 /* SearchView.swift */; };
-		D99218AE2B06B66100715C04 /* TabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218AD2B06B66100715C04 /* TabView.swift */; };
+		D99218AE2B06B66100715C04 /* RatatouilleTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218AD2B06B66100715C04 /* RatatouilleTabView.swift */; };
 		D99218B02B06B66F00715C04 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218AF2B06B66F00715C04 /* SplashScreenView.swift */; };
+		D99218B32B06B95000715C04 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218B22B06B95000715C04 /* OnboardingView.swift */; };
+		D99218B52B0740F700715C04 /* OnboardingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218B42B0740F700715C04 /* OnboardingModel.swift */; };
+		D99218B72B07436100715C04 /* OnboardingPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218B62B07436100715C04 /* OnboardingPageView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,8 +59,11 @@
 		D99218A72B06B63700715C04 /* RecipeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListView.swift; sourceTree = "<group>"; };
 		D99218A92B06B64700715C04 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		D99218AB2B06B65100715C04 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
-		D99218AD2B06B66100715C04 /* TabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabView.swift; sourceTree = "<group>"; };
+		D99218AD2B06B66100715C04 /* RatatouilleTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatatouilleTabView.swift; sourceTree = "<group>"; };
 		D99218AF2B06B66F00715C04 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		D99218B22B06B95000715C04 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		D99218B42B0740F700715C04 /* OnboardingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingModel.swift; sourceTree = "<group>"; };
+		D99218B62B07436100715C04 /* OnboardingPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,12 +115,14 @@
 			isa = PBXGroup;
 			children = (
 				D99218782B06B38300715C04 /* Ratatouille_PG5602App.swift */,
+				D99218B42B0740F700715C04 /* OnboardingModel.swift */,
 				D99218B12B06B67900715C04 /* Views */,
 				D992187A2B06B38300715C04 /* ContentView.swift */,
 				D992187C2B06B38400715C04 /* Assets.xcassets */,
 				D99218812B06B38400715C04 /* Persistence.swift */,
 				D99218832B06B38400715C04 /* Ratatouille_PG5602.xcdatamodeld */,
 				D992187E2B06B38400715C04 /* Preview Content */,
+				D99218B62B07436100715C04 /* OnboardingPageView.swift */,
 			);
 			path = Ratatouille_PG5602;
 			sourceTree = "<group>";
@@ -147,9 +155,10 @@
 		D99218B12B06B67900715C04 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D99218B22B06B95000715C04 /* OnboardingView.swift */,
 				D99218AF2B06B66F00715C04 /* SplashScreenView.swift */,
 				D99218AB2B06B65100715C04 /* SearchView.swift */,
-				D99218AD2B06B66100715C04 /* TabView.swift */,
+				D99218AD2B06B66100715C04 /* RatatouilleTabView.swift */,
 				D99218A92B06B64700715C04 /* SettingsView.swift */,
 				D99218A72B06B63700715C04 /* RecipeListView.swift */,
 			);
@@ -289,7 +298,10 @@
 				D99218852B06B38400715C04 /* Ratatouille_PG5602.xcdatamodeld in Sources */,
 				D99218822B06B38400715C04 /* Persistence.swift in Sources */,
 				D99218B02B06B66F00715C04 /* SplashScreenView.swift in Sources */,
-				D99218AE2B06B66100715C04 /* TabView.swift in Sources */,
+				D99218B52B0740F700715C04 /* OnboardingModel.swift in Sources */,
+				D99218B32B06B95000715C04 /* OnboardingView.swift in Sources */,
+				D99218AE2B06B66100715C04 /* RatatouilleTabView.swift in Sources */,
+				D99218B72B07436100715C04 /* OnboardingPageView.swift in Sources */,
 				D99218A82B06B63700715C04 /* RecipeListView.swift in Sources */,
 				D99218AC2B06B65100715C04 /* SearchView.swift in Sources */,
 				D99218AA2B06B64700715C04 /* SettingsView.swift in Sources */,
