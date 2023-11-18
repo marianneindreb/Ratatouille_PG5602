@@ -11,7 +11,8 @@ final class NetworkManager {
     static let shared = NetworkManager()
     
     static let baseURL = "www.themealdb.com/api/json/v1/1/"
-    private let categoryURL = baseURL + "categories.php"
+    static let apiProtocol = "https://"
+    private let categoryURL = apiProtocol + baseURL + "search.php?s=Arrabiata"
 
     
     private init() {}
@@ -23,7 +24,7 @@ final class NetworkManager {
         }
         
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
-            guard let _ = error else {
+            if let _ = error {
                 completed(.failure(.unableToComplete))
                 return
             }
@@ -35,11 +36,14 @@ final class NetworkManager {
                 completed(.failure(.InvalidData))
                 return
             }
+            print("Received data: \(String(data: data, encoding: .utf8) ?? "Unable to convert data to string")")
+            
             do {
                 let decoder = JSONDecoder()
                 let decodedResponse = try decoder.decode(MealResponse.self, from: data)
-                completed(.success(decodedResponse.request))
+                completed(.success(decodedResponse.meals))
             } catch {
+                print("Decoding error: \(error)")
                 completed(.failure(.InvalidData))
             }
         }

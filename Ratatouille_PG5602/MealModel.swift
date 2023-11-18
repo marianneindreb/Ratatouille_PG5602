@@ -8,20 +8,20 @@
 import Foundation
 
 struct Meal: Decodable {
-    let idMeal: Int
+    let idMeal: String
     let strMeal: String
     let strCategory: String
     let strArea: String
     let strInstructions: String
-    let strImageSource: String
+    let strImageSource: [String]?
 }
 
 struct MealResponse: Decodable {
-    let request: [Meal]
+    let meals: [Meal]
 }
 
 struct MockData {
-    static let sampleMeal = Meal(idMeal: 0001, strMeal: "Test Meal", strCategory: "Vegetarian", strArea: "Norway", strInstructions: "This is sample instructions", strImageSource: "ratatouille")
+    static let sampleMeal = Meal(idMeal: "0001", strMeal: "Test Meal", strCategory: "Vegetarian", strArea: "Norway", strInstructions: "This is sample instructions", strImageSource: [""])
     
     static let meals = [sampleMeal, sampleMeal, sampleMeal, sampleMeal]
 }
