@@ -16,7 +16,7 @@ struct Meal: Decodable {
     let strImageSource: String
 }
 
-struct MealResponse {
+struct MealResponse: Decodable {
     let request: [Meal]
 }
 
