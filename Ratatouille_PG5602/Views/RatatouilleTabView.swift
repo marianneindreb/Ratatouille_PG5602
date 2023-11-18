@@ -12,20 +12,21 @@ struct RatatouilleTabView: View {
         TabView {
             RecipeListView()
                 .tabItem {
-                    Image(systemName: "house")
+                    Image(systemName: "fork.knife")
                     Text("Mine Oppskrifter")
                 }
             SearchView()
                 .tabItem {
-                    Image(systemName: "house")
-                    Text("Mine Oppskrifter")
+                    Image(systemName: "magnifyingglass")
+                    Text("Søk")
                 }
             SettingsView()
                 .tabItem {
-                    Image(systemName: "house")
-                    Text("Mine Oppskrifter")
+                    Image(systemName: "gear")
+                    Text("Innstillinger")
                 }
         }
+        .accentColor(Color("brandPrimary"))
     }
 }
 

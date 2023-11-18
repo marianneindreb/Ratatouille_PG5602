@@ -9,7 +9,13 @@ import SwiftUI
 
 struct RecipeListView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List(MockData.meals, id: \.idMeal) { meal in
+                MealListCell(meal: meal)
+                
+            }
+            .navigationTitle("Mine oppskrifter")
+        }
     }
 }
 

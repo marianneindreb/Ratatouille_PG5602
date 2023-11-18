@@ -31,7 +31,7 @@ struct OnboardingView: View {
                                 Spacer()
                                 
                                 if page == pages.last {
-                                    NavigationLink(destination: RecipeListView()) {
+                                    NavigationLink(destination: RatatouilleTabView().navigationBarBackButtonHidden(true)) {
                                         Text("La oss lage mat!")
                                             .padding(20)
                                             .background(Color.brandPrimary)

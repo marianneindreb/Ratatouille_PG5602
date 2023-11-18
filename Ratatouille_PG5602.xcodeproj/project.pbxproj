@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D95FE5812B089EFF00FC7091 /* MealModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5802B089EFF00FC7091 /* MealModel.swift */; };
+		D95FE5832B08A4BE00FC7091 /* MealListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5822B08A4BE00FC7091 /* MealListCell.swift */; };
 		D99218792B06B38300715C04 /* Ratatouille_PG5602App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218782B06B38300715C04 /* Ratatouille_PG5602App.swift */; };
 		D992187B2B06B38300715C04 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D992187A2B06B38300715C04 /* ContentView.swift */; };
 		D992187D2B06B38400715C04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D992187C2B06B38400715C04 /* Assets.xcassets */; };
@@ -44,6 +46,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D95FE5802B089EFF00FC7091 /* MealModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealModel.swift; sourceTree = "<group>"; };
+		D95FE5822B08A4BE00FC7091 /* MealListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListCell.swift; sourceTree = "<group>"; };
 		D99218752B06B38300715C04 /* Ratatouille_PG5602.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ratatouille_PG5602.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D99218782B06B38300715C04 /* Ratatouille_PG5602App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ratatouille_PG5602App.swift; sourceTree = "<group>"; };
 		D992187A2B06B38300715C04 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -123,6 +127,8 @@
 				D99218832B06B38400715C04 /* Ratatouille_PG5602.xcdatamodeld */,
 				D992187E2B06B38400715C04 /* Preview Content */,
 				D99218B62B07436100715C04 /* OnboardingPageView.swift */,
+				D95FE5802B089EFF00FC7091 /* MealModel.swift */,
+				D95FE5822B08A4BE00FC7091 /* MealListCell.swift */,
 			);
 			path = Ratatouille_PG5602;
 			sourceTree = "<group>";
@@ -304,8 +310,10 @@
 				D99218B72B07436100715C04 /* OnboardingPageView.swift in Sources */,
 				D99218A82B06B63700715C04 /* RecipeListView.swift in Sources */,
 				D99218AC2B06B65100715C04 /* SearchView.swift in Sources */,
+				D95FE5812B089EFF00FC7091 /* MealModel.swift in Sources */,
 				D99218AA2B06B64700715C04 /* SettingsView.swift in Sources */,
 				D992187B2B06B38300715C04 /* ContentView.swift in Sources */,
+				D95FE5832B08A4BE00FC7091 /* MealListCell.swift in Sources */,
 				D99218792B06B38300715C04 /* Ratatouille_PG5602App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
