@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Meal: Decodable {
+struct MealModel: Decodable {
     let idMeal: String
     let strMeal: String
     let strCategory: String
@@ -17,11 +17,11 @@ struct Meal: Decodable {
 }
 
 struct MealResponse: Decodable {
-    let meals: [Meal]
+    let meals: [MealModel]
 }
 
 struct MockData {
-    static let sampleMeal = Meal(idMeal: "0001", strMeal: "Test Meal", strCategory: "Vegetarian", strArea: "Norway", strInstructions: "This is sample instructions", strImageSource: [""])
+    static let sampleMeal = MealModel(idMeal: "0001", strMeal: "Test Meal", strCategory: "Vegetarian", strArea: "Norway", strInstructions: "This is sample instructions", strImageSource: [""])
     
     static let meals = [sampleMeal, sampleMeal, sampleMeal, sampleMeal]
 }

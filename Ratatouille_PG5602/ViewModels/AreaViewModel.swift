@@ -6,3 +6,12 @@
 //
 
 import Foundation
+import SwiftUI
+
+class AreaViewModel: ObservableObject {
+    
+    @Published var areas: [AreaModel] = []
+    
+    
+    
+}

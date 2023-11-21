@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Category: Decodable {
+struct CategoryModel: Decodable {
     let idCategory: String
     let strCategory: String
     let strCategoryThumb: String
@@ -16,7 +16,5 @@ struct Category: Decodable {
 }
 
 struct CategoryResponse: Decodable {
-    let categories: [Category]
+    let categoryMeals: [CategoryModel]
 }
-
-// https://www.themealdb.com/api/json/v1/1/categories.php

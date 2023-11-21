@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+struct IngredientModel: Decodable {
+    let idMeal: String
+    let strMeal: String
+    let strsMealThumb: String
+}
+
+struct IngredientResponse: Decodable {
+    let ingredientMeals: [IngredientModel]
+}

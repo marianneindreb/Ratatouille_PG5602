@@ -9,8 +9,6 @@ import SwiftUI
 
 struct areaFilterView: View {
     
-    @Published var areas: [AreaModel] = []
-    
     @State private var selectedOption = "Norway"
     let options = ["American", "British", "Canadian", "Chinese", "Croatian", "Dutch", "Egyptian", "Filipino", "French", "Greek", "Indian", "Irish", "Italian", "Jamaican", "Japanese", "Kenyan", "Malaysian", "Mexican", "Moroccan", "Polish", "Portuguese", "Russian", "Spanish", "Thai", "Tunisian", "Turkish", "Unknown", "Vietnamese"]
     
