@@ -7,18 +7,22 @@
 
 import Foundation
 
-final class NetworkManager {
-    static let shared = NetworkManager()
+final class MealFetch {
+    static let shared = MealFetch()
     
-    static let baseURL = "www.themealdb.com/api/json/v1/1/"
     static let apiProtocol = "https://"
-    private let categoryURL = apiProtocol + baseURL + "search.php?s=Arrabiata"
+    static let baseURL = "www.themealdb.com/api/json/v1/1/"
+    
+    private let searchURL = baseURL + apiProtocol + "search.php?s="
+    private let areaURL = baseURL + apiProtocol + "filter.php?a="
+    private let ingredientURL = baseURL + apiProtocol + ""
+    private let categoryURL = baseURL + apiProtocol + "filter.php?c="
 
     
     private init() {}
     
     func getMeals(completed: @escaping (Result<[Meal], MealError>) -> Void) {
-        guard let url = URL(string: categoryURL) else {
+        guard let url = URL(string: searchURL) else {
             completed(.failure(.invalidURL))
             return
         }

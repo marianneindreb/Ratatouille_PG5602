@@ -16,15 +16,17 @@ struct OnboardingPageView: View {
             Image("\(onboarding.imageUrl)")
                 .resizable()
                 .scaledToFit()
+                .frame(width: 300)
                 .padding()
             
             Text(onboarding.title)
                 .font(.title)
                 .fontWeight(.bold)
-            
+                
             Text(onboarding.description)
                 .font(.subheadline)
                 .frame(width: 300)
+                .multilineTextAlignment(.center)
         }
     }
 }
