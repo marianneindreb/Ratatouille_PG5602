@@ -12,8 +12,8 @@ final class AreaViewModel: ObservableObject {
     @Published var area: [AreaModel] = []
     @Published var alertItem: AlertItem?
     
-    func getArea() {
-        NetworkManager.shared.getAreas { result in
+    func getArea(area: String) {
+        NetworkManager.shared.getAreas(area: area) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let area):

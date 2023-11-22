@@ -13,7 +13,7 @@ final class MealListViewModel: ObservableObject {
     @Published var alertItem: AlertItem?
     
     func getMeals() {
-        NetworkManager.shared.getMeals { result in
+        NetworkManager.shared.getMeals() { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let meals):

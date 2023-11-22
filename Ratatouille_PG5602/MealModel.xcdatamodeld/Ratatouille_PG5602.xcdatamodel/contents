@@ -24,10 +24,10 @@
     </entity>
     <entity name="MealEntity" representedClassName="MealEntity" syncable="YES">
         <attribute name="archived" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="area_id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="category_id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="meal_id" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="meal_name" optional="YES" attributeType="String"/>
+        <attribute name="areaId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="categoryId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="mealId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="mealName" optional="YES" attributeType="String"/>
         <relationship name="area" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AreaEntity" inverseName="meal" inverseEntity="AreaEntity"/>
         <relationship name="categoory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CategoryEntity" inverseName="meal" inverseEntity="CategoryEntity"/>
         <userInfo>

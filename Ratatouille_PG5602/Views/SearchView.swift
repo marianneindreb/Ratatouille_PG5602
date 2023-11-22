@@ -22,7 +22,6 @@ struct SearchView: View {
                     }
                 }
                 .pickerStyle(SegmentedPickerStyle())
-                .padding()
                 
                 Spacer()
                 ChosenFilterView(selectedFilter: selectedFilter)
@@ -44,9 +43,7 @@ struct ChosenFilterView: View {
     var body: some View {
         switch selectedFilter {
         case .area:
-          
             areaFilterView()
-            
         case .category:
             Text("Kategori")
         case .ingredient:

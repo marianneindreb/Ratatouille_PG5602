@@ -11,9 +11,9 @@ struct areaFilterView: View {
     
     @StateObject var viewModel = AreaViewModel()
     
-    @State private var selectedOption = "Norway"
+    @State private var selectedOption = "Canadian"
     let options = ["American", "British", "Canadian", "Chinese", "Croatian", "Dutch", "Egyptian", "Filipino", "French", "Greek", "Indian", "Irish", "Italian", "Jamaican", "Japanese", "Kenyan", "Malaysian", "Mexican", "Moroccan", "Polish", "Portuguese", "Russian", "Spanish", "Thai", "Tunisian", "Turkish", "Unknown", "Vietnamese"]
-    
+    // Array skal komme fra Core Data
     
     //    @State var selectedArea: String?
     //    @StateObject var cdm = CoreDataManager()
@@ -27,7 +27,7 @@ struct areaFilterView: View {
                     ForEach(options, id: \.self) { option in
                         Button(action: {
                             self.selectedOption = option
-                            viewModel.getArea()
+                            viewModel.getArea(area: selectedOption)
                         }) {
                             Text(option)
                                 .foregroundColor(.gray)
@@ -43,7 +43,6 @@ struct areaFilterView: View {
                 .padding(.horizontal, 10)
                 .frame(width: 300)
                 .background(Color.black)
-                // .frame(width: .infinity)
                 .foregroundColor(.white)
                 .font(.headline)
                 .cornerRadius(10)
@@ -56,7 +55,7 @@ struct areaFilterView: View {
                     Text(area.strMeal)
                 }
                 .onAppear {
-                    viewModel.getArea()
+                    viewModel.getArea(area: selectedOption)
                 }
                 .alert(item: $viewModel.alertItem) { alertItem in
                     Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)

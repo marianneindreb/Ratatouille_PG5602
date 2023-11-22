@@ -56,12 +56,18 @@ final class NetworkManager {
         }
         task.resume()
     }
+    // decodedResponse.meals må inn i et array som er av typen mealmodel
     
-    func getAreas(completed: @escaping (Result<[AreaModel], MealError>) -> Void) {
-        guard let url = URL(string: areaURL) else {
+    func getAreas(area: String, completed: @escaping (Result<[AreaModel], MealError>) -> Void) {
+        guard let url = URL(string: "\(areaURL)\(area)") else { 
             completed(.failure(.invalidURL))
             return
         }
+//        func getMeals(forCategory category: String, completion: @escaping (Result<[Meal], Error>) -> Void) {
+//                var urlComponents = URLComponents(string: baseURL + "filter.php")!
+//                urlComponents.queryItems = [
+//                    URLQueryItem(name: "c", value: category)
+//                ]
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
             if let _ = error {
                 completed(.failure(.unableToComplete))
@@ -80,7 +86,7 @@ final class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 let decodedResponse = try decoder.decode(AreaResponse.self, from: data)
-                completed(.success(decodedResponse.categories))
+                completed(.success(decodedResponse.meals))
             } catch {
                 print("Decoding error: \(error)")
                 completed(.failure(.InvalidData))
@@ -88,6 +94,7 @@ final class NetworkManager {
         }
         task.resume()
     }
+    
     
     func getCategory(completed: @escaping (Result<[CategoryModel], MealError>) -> Void) {
         guard let url = URL(string: areaURL) else {

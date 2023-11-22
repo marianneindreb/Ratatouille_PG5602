@@ -14,7 +14,7 @@ struct AreaModel: Decodable {
 }
 
 struct AreaResponse: Decodable {
-    let categories: [AreaModel]
+    let meals: [AreaModel]
 }
 
 
