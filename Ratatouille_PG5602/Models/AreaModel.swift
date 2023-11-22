@@ -10,11 +10,11 @@ import Foundation
 struct AreaModel: Decodable {
     let idMeal: String
     let strMeal: String
-    let strsMealThumb: String
+    let strMealThumb: String?
 }
 
 struct AreaResponse: Decodable {
-    let areaMeals: [AreaModel]
+    let categories: [AreaModel]
 }
 
 

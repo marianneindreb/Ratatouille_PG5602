@@ -18,8 +18,20 @@
 		D95FE5962B0CEE4000FC7091 /* AreaModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5952B0CEE4000FC7091 /* AreaModel.swift */; };
 		D95FE5982B0CEE4B00FC7091 /* IngredientModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5972B0CEE4B00FC7091 /* IngredientModel.swift */; };
 		D95FE59D2B0CF88300FC7091 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE59C2B0CF88300FC7091 /* CategoryViewModel.swift */; };
-		D95FE59F2B0D1B3800FC7091 /* areayFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE59E2B0D1B3800FC7091 /* areayFilterView.swift */; };
+		D95FE59F2B0D1B3800FC7091 /* areaFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE59E2B0D1B3800FC7091 /* areaFilterView.swift */; };
 		D95FE5A12B0D2F6000FC7091 /* AreaViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5A02B0D2F6000FC7091 /* AreaViewModel.swift */; };
+		D95FE5A32B0D375500FC7091 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5A22B0D375500FC7091 /* CoreDataManager.swift */; };
+		D95FE5A52B0D3C3D00FC7091 /* AreaListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5A42B0D3C3D00FC7091 /* AreaListCell.swift */; };
+		D95FE5B02B0E4EA000FC7091 /* MealEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5A62B0E4EA000FC7091 /* MealEntity+CoreDataClass.swift */; };
+		D95FE5B12B0E4EA000FC7091 /* MealEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5A72B0E4EA000FC7091 /* MealEntity+CoreDataProperties.swift */; };
+		D95FE5B22B0E4EA000FC7091 /* ArchiveEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5A82B0E4EA000FC7091 /* ArchiveEntity+CoreDataClass.swift */; };
+		D95FE5B32B0E4EA000FC7091 /* ArchiveEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5A92B0E4EA000FC7091 /* ArchiveEntity+CoreDataProperties.swift */; };
+		D95FE5B42B0E4EA000FC7091 /* AreaEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5AA2B0E4EA000FC7091 /* AreaEntity+CoreDataClass.swift */; };
+		D95FE5B52B0E4EA000FC7091 /* AreaEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5AB2B0E4EA000FC7091 /* AreaEntity+CoreDataProperties.swift */; };
+		D95FE5B62B0E4EA000FC7091 /* CategoryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5AC2B0E4EA000FC7091 /* CategoryEntity+CoreDataClass.swift */; };
+		D95FE5B72B0E4EA000FC7091 /* CategoryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5AD2B0E4EA000FC7091 /* CategoryEntity+CoreDataProperties.swift */; };
+		D95FE5B82B0E4EA000FC7091 /* IngredientEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5AE2B0E4EA000FC7091 /* IngredientEntity+CoreDataClass.swift */; };
+		D95FE5B92B0E4EA000FC7091 /* IngredientEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5AF2B0E4EA000FC7091 /* IngredientEntity+CoreDataProperties.swift */; };
 		D99218792B06B38300715C04 /* Ratatouille_PG5602App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218782B06B38300715C04 /* Ratatouille_PG5602App.swift */; };
 		D992187B2B06B38300715C04 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D992187A2B06B38300715C04 /* ContentView.swift */; };
 		D992187D2B06B38400715C04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D992187C2B06B38400715C04 /* Assets.xcassets */; };
@@ -68,8 +80,20 @@
 		D95FE5952B0CEE4000FC7091 /* AreaModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaModel.swift; sourceTree = "<group>"; };
 		D95FE5972B0CEE4B00FC7091 /* IngredientModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientModel.swift; sourceTree = "<group>"; };
 		D95FE59C2B0CF88300FC7091 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
-		D95FE59E2B0D1B3800FC7091 /* areayFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = areayFilterView.swift; sourceTree = "<group>"; };
+		D95FE59E2B0D1B3800FC7091 /* areaFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = areaFilterView.swift; sourceTree = "<group>"; };
 		D95FE5A02B0D2F6000FC7091 /* AreaViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaViewModel.swift; sourceTree = "<group>"; };
+		D95FE5A22B0D375500FC7091 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		D95FE5A42B0D3C3D00FC7091 /* AreaListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaListCell.swift; sourceTree = "<group>"; };
+		D95FE5A62B0E4EA000FC7091 /* MealEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MealEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D95FE5A72B0E4EA000FC7091 /* MealEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MealEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D95FE5A82B0E4EA000FC7091 /* ArchiveEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArchiveEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D95FE5A92B0E4EA000FC7091 /* ArchiveEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ArchiveEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D95FE5AA2B0E4EA000FC7091 /* AreaEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AreaEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D95FE5AB2B0E4EA000FC7091 /* AreaEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AreaEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D95FE5AC2B0E4EA000FC7091 /* CategoryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D95FE5AD2B0E4EA000FC7091 /* CategoryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CategoryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D95FE5AE2B0E4EA000FC7091 /* IngredientEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IngredientEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D95FE5AF2B0E4EA000FC7091 /* IngredientEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "IngredientEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D99218752B06B38300715C04 /* Ratatouille_PG5602.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ratatouille_PG5602.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D99218782B06B38300715C04 /* Ratatouille_PG5602App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ratatouille_PG5602App.swift; sourceTree = "<group>"; };
 		D992187A2B06B38300715C04 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -150,6 +174,16 @@
 		D992186C2B06B38200715C04 = {
 			isa = PBXGroup;
 			children = (
+				D95FE5A62B0E4EA000FC7091 /* MealEntity+CoreDataClass.swift */,
+				D95FE5A72B0E4EA000FC7091 /* MealEntity+CoreDataProperties.swift */,
+				D95FE5A82B0E4EA000FC7091 /* ArchiveEntity+CoreDataClass.swift */,
+				D95FE5A92B0E4EA000FC7091 /* ArchiveEntity+CoreDataProperties.swift */,
+				D95FE5AA2B0E4EA000FC7091 /* AreaEntity+CoreDataClass.swift */,
+				D95FE5AB2B0E4EA000FC7091 /* AreaEntity+CoreDataProperties.swift */,
+				D95FE5AC2B0E4EA000FC7091 /* CategoryEntity+CoreDataClass.swift */,
+				D95FE5AD2B0E4EA000FC7091 /* CategoryEntity+CoreDataProperties.swift */,
+				D95FE5AE2B0E4EA000FC7091 /* IngredientEntity+CoreDataClass.swift */,
+				D95FE5AF2B0E4EA000FC7091 /* IngredientEntity+CoreDataProperties.swift */,
 				D99218772B06B38300715C04 /* Ratatouille_PG5602 */,
 				D992188D2B06B38400715C04 /* Ratatouille_PG5602Tests */,
 				D99218972B06B38400715C04 /* Ratatouille_PG5602UITests */,
@@ -171,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				D99218782B06B38300715C04 /* Ratatouille_PG5602App.swift */,
+				D95FE5A42B0D3C3D00FC7091 /* AreaListCell.swift */,
 				D99218B12B06B67900715C04 /* Views */,
 				D992187A2B06B38300715C04 /* ContentView.swift */,
 				D992187C2B06B38400715C04 /* Assets.xcassets */,
@@ -184,6 +219,7 @@
 				D95FE59B2B0CF86C00FC7091 /* ViewModels */,
 				D95FE58A2B08BD6C00FC7091 /* Alert.swift */,
 				D95FE5942B0CE04900FC7091 /* ViewModifiers */,
+				D95FE5A22B0D375500FC7091 /* CoreDataManager.swift */,
 			);
 			path = Ratatouille_PG5602;
 			sourceTree = "<group>";
@@ -223,7 +259,7 @@
 				D99218A92B06B64700715C04 /* SettingsView.swift */,
 				D99218A72B06B63700715C04 /* RecipeListView.swift */,
 				D99218B62B07436100715C04 /* OnboardingPageView.swift */,
-				D95FE59E2B0D1B3800FC7091 /* areayFilterView.swift */,
+				D95FE59E2B0D1B3800FC7091 /* areaFilterView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -359,9 +395,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				D95FE58B2B08BD6C00FC7091 /* Alert.swift in Sources */,
+				D95FE5B92B0E4EA000FC7091 /* IngredientEntity+CoreDataProperties.swift in Sources */,
+				D95FE5B32B0E4EA000FC7091 /* ArchiveEntity+CoreDataProperties.swift in Sources */,
+				D95FE5A52B0D3C3D00FC7091 /* AreaListCell.swift in Sources */,
 				D95FE5892B08BA5E00FC7091 /* MealListViewModel.swift in Sources */,
+				D95FE5B22B0E4EA000FC7091 /* ArchiveEntity+CoreDataClass.swift in Sources */,
 				D99218852B06B38400715C04 /* Ratatouille_PG5602.xcdatamodeld in Sources */,
+				D95FE5B12B0E4EA000FC7091 /* MealEntity+CoreDataProperties.swift in Sources */,
 				D99218822B06B38400715C04 /* Persistence.swift in Sources */,
+				D95FE5B02B0E4EA000FC7091 /* MealEntity+CoreDataClass.swift in Sources */,
 				D99218B02B06B66F00715C04 /* SplashScreenView.swift in Sources */,
 				D95FE5A12B0D2F6000FC7091 /* AreaViewModel.swift in Sources */,
 				D95FE5932B0CE04500FC7091 /* ButtonStyle.swift in Sources */,
@@ -370,18 +412,24 @@
 				D99218B32B06B95000715C04 /* OnboardingView.swift in Sources */,
 				D99218AE2B06B66100715C04 /* RatatouilleTabView.swift in Sources */,
 				D99218B72B07436100715C04 /* OnboardingPageView.swift in Sources */,
+				D95FE5B52B0E4EA000FC7091 /* AreaEntity+CoreDataProperties.swift in Sources */,
+				D95FE5B62B0E4EA000FC7091 /* CategoryEntity+CoreDataClass.swift in Sources */,
 				D99218A82B06B63700715C04 /* RecipeListView.swift in Sources */,
 				D99218AC2B06B65100715C04 /* SearchView.swift in Sources */,
+				D95FE5B42B0E4EA000FC7091 /* AreaEntity+CoreDataClass.swift in Sources */,
 				D95FE5962B0CEE4000FC7091 /* AreaModel.swift in Sources */,
 				D95FE5812B089EFF00FC7091 /* MealModel.swift in Sources */,
 				D95FE59D2B0CF88300FC7091 /* CategoryViewModel.swift in Sources */,
 				D99218AA2B06B64700715C04 /* SettingsView.swift in Sources */,
 				D992187B2B06B38300715C04 /* ContentView.swift in Sources */,
 				D95FE5852B08A60500FC7091 /* NetworkManager.swift in Sources */,
+				D95FE5A32B0D375500FC7091 /* CoreDataManager.swift in Sources */,
 				D95FE5982B0CEE4B00FC7091 /* IngredientModel.swift in Sources */,
 				D95FE58F2B0CC3F400FC7091 /* CategoryModel.swift in Sources */,
 				D95FE5832B08A4BE00FC7091 /* MealListCell.swift in Sources */,
-				D95FE59F2B0D1B3800FC7091 /* areayFilterView.swift in Sources */,
+				D95FE59F2B0D1B3800FC7091 /* areaFilterView.swift in Sources */,
+				D95FE5B82B0E4EA000FC7091 /* IngredientEntity+CoreDataClass.swift in Sources */,
+				D95FE5B72B0E4EA000FC7091 /* CategoryEntity+CoreDataProperties.swift in Sources */,
 				D99218792B06B38300715C04 /* Ratatouille_PG5602App.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

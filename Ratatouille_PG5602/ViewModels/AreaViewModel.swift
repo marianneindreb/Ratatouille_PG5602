@@ -1,17 +1,37 @@
 //
-//  AreaViewModel.swift
+//  MealListViewModel.swift
 //  Ratatouille_PG5602
 //
-//  Created by Marianne Indrebø on 21/11/2023.
+//  Created by Marianne Indrebø on 18/11/2023.
 //
 
 import Foundation
-import SwiftUI
 
-class AreaViewModel: ObservableObject {
+final class AreaViewModel: ObservableObject {
     
-    @Published var areas: [AreaModel] = []
+    @Published var area: [AreaModel] = []
+    @Published var alertItem: AlertItem?
     
-    
-    
+    func getArea() {
+        NetworkManager.shared.getAreas { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let area):
+                    self.area = area
+                case .failure(let error):
+                    switch error {
+                    case .invalidURL:
+                        self.alertItem = AlertContext.invalidURL
+                    case .invalidResponse:
+                        self.alertItem = AlertContext.invalidResponse
+                    case .InvalidData:
+                        self.alertItem = AlertContext.invalidData
+                    case .unableToComplete:
+                        self.alertItem = AlertContext.unableToComplete
+                    }
+                }
+            }
+        }
+    }
 }
+//

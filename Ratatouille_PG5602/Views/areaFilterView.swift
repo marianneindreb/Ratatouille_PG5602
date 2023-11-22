@@ -9,8 +9,15 @@ import SwiftUI
 
 struct areaFilterView: View {
     
+    @StateObject var viewModel = AreaViewModel()
+    
     @State private var selectedOption = "Norway"
     let options = ["American", "British", "Canadian", "Chinese", "Croatian", "Dutch", "Egyptian", "Filipino", "French", "Greek", "Indian", "Irish", "Italian", "Jamaican", "Japanese", "Kenyan", "Malaysian", "Mexican", "Moroccan", "Polish", "Portuguese", "Russian", "Spanish", "Thai", "Tunisian", "Turkish", "Unknown", "Vietnamese"]
+    
+    
+    //    @State var selectedArea: String?
+    //    @StateObject var cdm = CoreDataManager()
+    //    @StateObject var avm =  AreaViewModel()
     
     var body: some View {
         VStack {
@@ -20,9 +27,10 @@ struct areaFilterView: View {
                     ForEach(options, id: \.self) { option in
                         Button(action: {
                             self.selectedOption = option
+                            viewModel.getArea()
                         }) {
                             Text(option)
-                                .foregroundColor(.gray) // Set the desired text color
+                                .foregroundColor(.gray)
                         }
                     }
                 } label: {
@@ -35,16 +43,32 @@ struct areaFilterView: View {
                 .padding(.horizontal, 10)
                 .frame(width: 300)
                 .background(Color.black)
-                .frame(width: .infinity)
+                // .frame(width: .infinity)
                 .foregroundColor(.white)
                 .font(.headline)
                 .cornerRadius(10)
                 .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
             }
+            
+            NavigationView {
+                List(viewModel.area, id: \.idMeal) { area in
+                    // Use properties of the AreaModel to display information
+                    Text(area.strMeal)
+                }
+                .onAppear {
+                    viewModel.getArea()
+                }
+                .alert(item: $viewModel.alertItem) { alertItem in
+                    Alert(title: alertItem.title, message: alertItem.message, dismissButton: alertItem.dismissButton)
+                }
+            }
+            
+            // onAppear
+            // onChange
+            // if else - no result, else List
         }
     }
 }
-          
 
 #Preview {
     areaFilterView()

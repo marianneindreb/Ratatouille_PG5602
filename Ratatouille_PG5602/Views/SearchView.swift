@@ -26,11 +26,6 @@ struct SearchView: View {
                 
                 Spacer()
                 ChosenFilterView(selectedFilter: selectedFilter)
-                
-                ScrollView{
-                    
-                }
-                
                 }
                 .navigationTitle("Søk")
             }
@@ -49,6 +44,7 @@ struct ChosenFilterView: View {
     var body: some View {
         switch selectedFilter {
         case .area:
+          
             areaFilterView()
             
         case .category:

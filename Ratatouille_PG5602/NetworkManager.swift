@@ -14,13 +14,13 @@ final class NetworkManager {
     static let baseURL = "www.themealdb.com/api/json/v1/1/"
     
     // La bruker søke på navn
-    private let searchURL = baseURL + apiProtocol + "search.php?s="
+    private let searchURL = apiProtocol + baseURL + "search.php?s=Arrabiata"
     // La bruker velge land fra liste
-    private let areaURL = baseURL + apiProtocol + "filter.php?a="
+    private let areaURL = apiProtocol + baseURL + "filter.php?a="
     // La bruker velge hovedingrediens fra liste
-    private let ingredientURL = baseURL + apiProtocol + "filter.php?i="
+    private let ingredientURL = apiProtocol + baseURL + "filter.php?i="
     // La bruker velge kategori fra liste
-    private let categoryURL = baseURL + apiProtocol + "categories.php"
+    private let categoryURL = apiProtocol + baseURL +  "categories.php"
 
     
     
@@ -80,7 +80,7 @@ final class NetworkManager {
             do {
                 let decoder = JSONDecoder()
                 let decodedResponse = try decoder.decode(AreaResponse.self, from: data)
-                completed(.success(decodedResponse.areaMeals))
+                completed(.success(decodedResponse.categories))
             } catch {
                 print("Decoding error: \(error)")
                 completed(.failure(.InvalidData))
