@@ -8,9 +8,9 @@
 import Foundation
 
 struct IngredientModel: Decodable {
-    let idMeal: String
-    let strMeal: String
-    let strsMealThumb: String
+    let ingredientId: String
+    let strIngredient: String
+    let isArchived: Bool
 }
 
 struct IngredientResponse: Decodable {

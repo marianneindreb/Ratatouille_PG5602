@@ -1,36 +1,76 @@
-////
-////  CategoryViewModel.swift
-////  Ratatouille_PG5602
-////
-////  Created by Marianne Indrebø on 21/11/2023.
-////
-//
-//import Foundation
-//
-//final class CategoryListViewModel: ObservableObject {
-//    
-//    @Published var categories: [Category] = []
-//    @Published var alertItem: AlertItem?
-//    
-//    func getCategories() {
-//        CategoryFetch.shared.getCategories { result in
-//            DispatchQueue.main.async {
-//                switch result {
-//                case .success(let categories):
-//                    self.categories = categories
-//                case .failure(let error):
-//                    switch error {
-//                    case .invalidURL:
-//                        self.alertItem = AlertContext.invalidURL
-//                    case .invalidResponse:
-//                        self.alertItem = AlertContext.invalidResponse
-//                    case .InvalidData:
-//                        self.alertItem = AlertContext.invalidData
-//                    case .unableToComplete:
-//                        self.alertItem = AlertContext.unableToComplete
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
+import Foundation
+import CoreData
+
+class CategoryViewModel {
+    private var categories: [CategoryModel] = []
+   
+    var onErrorHandling: ((Error) -> Void)?
+    var onFetchCompleted: (() -> Void)?
+    
+    func fetchCategories() {
+        let urlString = "https://www.themealdb.com/api/json/v1/1/categories.php"
+        NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.parseCategoryData(data)
+            case .failure(let error):
+                self?.onErrorHandling?(error)
+            }
+        }
+    }
+    
+    private func parseCategoryData(_ data: Data) {
+        do {
+            let categoryResponse = try JSONDecoder().decode(CategoryResponse.self, from: data)
+            self.categories = categoryResponse.categories
+            self.onFetchCompleted?()
+        } catch {
+            self.onErrorHandling?(error)
+        }
+    }
+    
+    var numberOfCategories: Int {
+        return categories.count
+    }
+    
+    func category(at index: Int) -> CategoryModel? {
+        guard index >= 0 && index < categories.count else {
+            return nil
+        }
+        return categories[index]
+    }
+    
+}
+
+extension CategoryViewModel {
+    func saveCategoriesToCoreData() {
+        guard categories.count > 0 else {
+            return
+        }
+        
+        let context = CoreDataManager.shared.context
+        for category in categories {
+            let categoryEntity = CategoryEntity(context: context)
+            categoryEntity.strCategory = category.strCategory
+            categoryEntity.idCategory = category.idCategory
+            categoryEntity.strCategoryThumb = category.strCategoryThumb
+            categoryEntity.strCategoryDescription = category.strCategoryDescription
+        }
+        CoreDataManager.shared.saveContext()
+    }
+
+    private func deleteAllCategories(in context: NSManagedObjectContext) {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = CategoryEntity.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        do {
+            try context.execute(deleteRequest)
+        } catch let error as NSError {
+            print("Error deleting existing records: \(error), \(error.userInfo)")
+        }
+    }
+}
+
+
+
+

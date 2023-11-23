@@ -16,5 +16,5 @@ struct CategoryModel: Decodable {
 }
 
 struct CategoryResponse: Decodable {
-    let categoryMeals: [CategoryModel]
+    let categories: [CategoryModel]
 }

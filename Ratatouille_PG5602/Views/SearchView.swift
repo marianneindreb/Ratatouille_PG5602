@@ -43,7 +43,8 @@ struct ChosenFilterView: View {
     var body: some View {
         switch selectedFilter {
         case .area:
-            areaFilterView()
+         //   areaFilterView()
+            Text("Land")
         case .category:
             Text("Kategori")
         case .ingredient:

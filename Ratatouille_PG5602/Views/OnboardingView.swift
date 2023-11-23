@@ -9,6 +9,7 @@ import SwiftUI
 
 struct OnboardingView: View {
     @State private var pageIndex = 0
+    @AppStorage("hasLaunchedBefore") var hasLaunchedBefore: Bool = false
     
     private let pages: [Onboarding] = Onboarding.onboardingPages
     private let progressAppearance = UIPageControl.appearance()
@@ -33,6 +34,10 @@ struct OnboardingView: View {
                                 if page == pages.last {
                                     NavigationLink(destination: RatatouilleTabView().navigationBarBackButtonHidden(true)) {
                                         Text("La oss lage mat!")
+                                            .onTapGesture {
+                                                        hasLaunchedBefore = true
+                                                       // TODO: Fetche area, ingredients og categories og lagre i coredata
+                                                    }
                                             .padding(20)
                                             .background(Color.brandPrimary)
                                             .foregroundColor(.black)
@@ -87,8 +92,8 @@ struct OnboardingView: View {
         }
     }
 }
-    
-    #Preview {
-        OnboardingView()
-    }
+
+#Preview {
+    OnboardingView()
+}
 

@@ -10,11 +10,11 @@ import SwiftUI
 struct RatatouilleTabView: View {
     var body: some View {
         TabView {
-            RecipeListView()
-                .tabItem {
-                    Image(systemName: "fork.knife")
-                    Text("Mine Oppskrifter")
-                }
+           // RecipeListView()
+//                .tabItem {
+//                    Image(systemName: "fork.knife")
+//                    Text("Mine Oppskrifter")
+//                }
             SearchView()
                 .tabItem {
                     Image(systemName: "magnifyingglass")

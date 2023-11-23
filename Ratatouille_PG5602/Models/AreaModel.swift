@@ -8,9 +8,8 @@
 import Foundation
 
 struct AreaModel: Decodable {
-    let idMeal: String
-    let strMeal: String
-    let strMealThumb: String?
+    let flagURL: String
+    let strArea: String
 }
 
 struct AreaResponse: Decodable {
