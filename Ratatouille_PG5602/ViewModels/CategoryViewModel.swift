@@ -50,6 +50,7 @@ extension CategoryViewModel {
         
         let context = CoreDataManager.shared.context
         for category in categories {
+            
             let categoryEntity = CategoryEntity(context: context)
             categoryEntity.strCategory = category.strCategory
             categoryEntity.idCategory = category.idCategory
