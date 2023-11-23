@@ -10,21 +10,23 @@ import SwiftUI
 struct areaFilterView: View {
     
     @StateObject var viewModel = AreaViewModel()
+    @StateObject var cdm = CoreDataManager()
+    // @State var selectedArea: String?
     
     @State private var selectedOption = "Canadian"
-    let options = ["American", "British", "Canadian", "Chinese", "Croatian", "Dutch", "Egyptian", "Filipino", "French", "Greek", "Indian", "Irish", "Italian", "Jamaican", "Japanese", "Kenyan", "Malaysian", "Mexican", "Moroccan", "Polish", "Portuguese", "Russian", "Spanish", "Thai", "Tunisian", "Turkish", "Unknown", "Vietnamese"]
+    @State private var optionsArray: [String] = []
+    
+    var options = ["American", "British", "Canadian", "Chinese", "Croatian", "Dutch", "Egyptian", "Filipino", "French", "Greek", "Indian", "Irish", "Italian", "Jamaican", "Japanese", "Kenyan", "Malaysian", "Mexican", "Moroccan", "Polish", "Portuguese", "Russian", "Spanish", "Thai", "Tunisian", "Turkish", "Unknown", "Vietnamese"]
     // Array skal komme fra Core Data
     
-    //    @State var selectedArea: String?
-    //    @StateObject var cdm = CoreDataManager()
-    //    @StateObject var avm =  AreaViewModel()
+    
     
     var body: some View {
         VStack {
             Text("Hvilket land ønsker du oppskrifter fra?")
             HStack {
                 Menu {
-                    ForEach(options, id: \.self) { option in
+                    ForEach(optionsArray, id: \.self) { option in
                         Button(action: {
                             self.selectedOption = option
                             viewModel.getArea(area: selectedOption)
@@ -55,6 +57,7 @@ struct areaFilterView: View {
                     Text(area.strMeal)
                 }
                 .onAppear {
+                    fetchAreasFromCoreData()
                     viewModel.getArea(area: selectedOption)
                 }
                 .alert(item: $viewModel.alertItem) { alertItem in
@@ -67,7 +70,22 @@ struct areaFilterView: View {
             // if else - no result, else List
         }
     }
+    
+    
+    private func fetchAreasFromCoreData() {
+        // Fetch areas from Core Data and update the options array
+        do {
+            let areaEntities = try cdm.container.viewContext.fetch(AreaEntity.fetchRequest()) as! [AreaEntity]
+            DispatchQueue.main.async {
+                optionsArray = areaEntities.compactMap { $0.areaName }
+                print("Options Array: \(optionsArray)")
+            }
+        } catch {
+            print("Error fetching areas from Core Data: \(error)")
+        }
+    }
 }
+    
 
 #Preview {
     areaFilterView()
