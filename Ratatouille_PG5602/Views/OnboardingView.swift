@@ -17,20 +17,20 @@ struct OnboardingView: View {
     
     func fetchDataAndSave() {
             areasViewModel.fetchAreas()
-//            categoriesViewModel.fetchCategories()
-//            ingredientsViewModel.fetchIngredients()
+            categoriesViewModel.fetchCategories()
+            ingredientsViewModel.fetchIngredients()
 
             areasViewModel.onFetchCompleted = {
                 self.areasViewModel.saveAreasToCoreData()
             }
             
-//            categoriesViewModel.onFetchCompleted = {
-//                self.categoriesViewModel.saveCategoriesToCoreData()
-//            }
-//
-//            ingredientsViewModel.onFetchCompleted = {
-//                self.ingredientsViewModel.saveIngredientsToCoreData()
-//            }
+            categoriesViewModel.onFetchCompleted = {
+                self.categoriesViewModel.saveCategoriesToCoreData()
+           }
+
+            ingredientsViewModel.onFetchCompleted = {
+                self.ingredientsViewModel.saveIngredientsToCoreData()
+            }
         }
     
     var body: some View {

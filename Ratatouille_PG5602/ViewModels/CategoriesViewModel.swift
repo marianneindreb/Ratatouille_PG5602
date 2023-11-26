@@ -1,23 +1,88 @@
 import Foundation
 import CoreData
 
-class CategoriesViewModel {
-    private var categories: [CategoryModel] = []
-   
+class CategoriesViewModel: ObservableObject {
+    @Published var categories: [CategoryModel] = []
+    @Published var meals: [MealListItemModel] = []
+    
     var onErrorHandling: ((Error) -> Void)?
     var onFetchCompleted: (() -> Void)?
     
+    init() {
+        getCategoriesFromCoreDataIfNeeded()
+    }
+    
+    func getCategoriesFromCoreDataIfNeeded() {
+           let context = CoreDataManager.shared.context
+           let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+
+           do {
+               let categoryEntities = try context.fetch(fetchRequest)
+               if categoryEntities.isEmpty {
+                   fetchCategories()
+               } else {
+                   self.categories = categoryEntities.map { CategoryModel(idCategory: $0.idCategory ?? "", strCategory: $0.strCategory ?? "", strCategoryThumb: $0.strCategoryThumb ?? "", strCategoryDescription: $0.strCategoryDescription ?? "") }
+               }
+           } catch {
+               print("Error fetching categories from Core Data: \(error)")
+           }
+       }
+    
     func fetchCategories() {
-        let urlString = "https://www.themealdb.com/api/json/v1/1/categories.php"
+        print("Fetching categories from API")
+        self.categories.removeAll()
+        let urlString = "https://www.themealdb.com/api/json/v1/1/list.php?c=list"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
             case .success(let data):
+                self?.categories.removeAll()
                 self?.parseCategoryData(data)
             case .failure(let error):
                 self?.onErrorHandling?(error)
             }
         }
     }
+    
+    func fetchMeals(forCategory category: String) {
+          let urlString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=\(category)"
+          NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
+              switch result {
+              case .success(let data):
+                  self?.parseMealData(data)
+              case .failure(let error):
+                  self?.onErrorHandling?(error)
+              }
+          }
+      }
+    
+    private func parseMealData(_ data: Data) {
+         do {
+             let mealResponse = try JSONDecoder().decode(MealListItemResponse.self, from: data)
+             DispatchQueue.main.async {
+                 self.meals = mealResponse.meals
+                 self.onFetchCompleted?()
+             }
+         } catch {
+             DispatchQueue.main.async {
+                 self.onErrorHandling?(error)
+             }
+         }
+     }
+    
+    func getCategoriesFromCoreData() {
+        print("Fetching categories from core data")
+        self.categories.removeAll()
+            let context = CoreDataManager.shared.context
+            let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+
+            do {
+                let categoryEntities = try context.fetch(fetchRequest)
+                self.categories.removeAll()
+                self.categories = categoryEntities.map { CategoryModel(idCategory: $0.idCategory ?? "", strCategory: $0.strCategory ?? "", strCategoryThumb: $0.strCategoryThumb ?? "", strCategoryDescription: $0.strCategoryDescription ?? "") }
+            } catch {
+                print("Error fetching categories from Core Data: \(error)")
+            }
+        }
     
     private func parseCategoryData(_ data: Data) {
         do {
@@ -39,23 +104,29 @@ class CategoriesViewModel {
         }
         return categories[index]
     }
+}
     
-    func saveCategoriesToCoreData() {
-        guard categories.count > 0 else {
-            return
-        }
-        
-        let context = CoreDataManager.shared.context
-        for category in categories {
+    extension CategoriesViewModel {
+        func saveCategoriesToCoreData() {
+            guard categories.count > 0 else {
+                return
+            }
             
-            let categoryEntity = CategoryEntity(context: context)
-            categoryEntity.strCategory = category.strCategory
-            categoryEntity.idCategory = category.idCategory
-            categoryEntity.strCategoryThumb = category.strCategoryThumb
-            categoryEntity.strCategoryDescription = category.strCategoryDescription
+            let context = CoreDataManager.shared.context
+            for category in categories {
+                let categoryEntity = CategoryEntity(context: context)
+                categoryEntity.strCategory = category.strCategory
+                categoryEntity.idCategory = category.idCategory
+                categoryEntity.strCategoryThumb = category.strCategoryThumb
+                categoryEntity.strCategoryDescription = category.strCategoryDescription
+            }
+            do {
+                try context.save()
+            } catch {
+                print("Error saving categories to Core Data: \(error)")
+            }
         }
-        CoreDataManager.shared.saveContext()
-    }
+    
 
     private func deleteAllCategories(in context: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = CategoryEntity.fetchRequest()
@@ -64,7 +135,7 @@ class CategoriesViewModel {
         do {
             try context.execute(deleteRequest)
         } catch let error as NSError {
-            print("Error deleting existing records: \(error), \(error.userInfo)")
+            print("Error deleting existing categories: \(error), \(error.userInfo)")
         }
     }
     

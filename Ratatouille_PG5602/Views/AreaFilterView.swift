@@ -18,8 +18,6 @@ struct AreaFilterView: View {
                         Button(action: {
                             self.selectedOption = area.strArea
                             viewModel.fetchMeals(forArea: area.strArea)
-                            print(viewModel.fetchMeals(forArea: area.strArea))
-                            
                         }) {
                             
                             Text(area.strArea)

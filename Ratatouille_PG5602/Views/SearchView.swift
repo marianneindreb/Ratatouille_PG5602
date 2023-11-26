@@ -38,11 +38,12 @@ struct ChosenFilterView: View {
         switch selectedFilter {
         case .area:
             AreaFilterView(viewModel: AreasViewModel())
-            Text("Land")
+            
         case .category:
-            Text("Kategori")
+            CategoryFilterView(viewModel: CategoriesViewModel())
         case .ingredient:
-            Text("Ingrediens")
+            IngredientFilterView(viewModel: IngredientsViewModel())
+        
         case .search:
             Text("Søk")
         }

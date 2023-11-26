@@ -140,20 +140,17 @@ extension AreasViewModel {
             
             
             //            let countryCode = countryCodes[area.strArea] ?? "";
-            //            areaEntity.flagURL = (countryCode.isEmpty) ? "" : "https://flagsapi.com/\(countryCode)/shiny/64.png"
+            //            areaEntity.flagURL = (countryCode.isEmpty) ? "" : //"https://flagsapi.com/\(countryCode)/shiny/64.png"
         }
         do {
             try context.save()
         } catch {
             print("Error")
         }
-        // TODO: 
-    // handle optionals
         
       //  CoreDataManager.shared.saveContext()
     }
-    
-    // Get areas from coredata?
+
 
     private func deleteAllAreas(in context: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = AreaEntity.fetchRequest()
