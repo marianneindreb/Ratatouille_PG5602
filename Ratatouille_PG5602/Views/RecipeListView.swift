@@ -26,9 +26,9 @@ struct RecipeListView: View {
                         }
                     } else {
                         List(viewModel.savedMeals, id: \.idMeal) { meal in
-                            MealListItem(meal: meal, onArchive: {
-                                viewModel.archiveMeal(meal.idMeal)
-                            })
+//                            MealListItem(meal: meal, onArchive: {
+//                                viewModel.archiveMeal(meal.idMeal)
+//                            })
                         }
                     }
                 }

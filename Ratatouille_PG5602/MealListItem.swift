@@ -2,10 +2,11 @@
 import SwiftUI
 
 struct MealListItem: View {
-    let meal: MealModel
-    var onArchive: () -> Void
+    let meal: MealListItemModel
+   // var onArchive: () -> Void
     
     var body: some View {
+        ZStack(alignment: .topTrailing) {
         HStack {
             if let imageUrl = meal.strMealThumb, let url = URL(string: imageUrl) {
                 AsyncImage(url: url) { phase in
@@ -19,7 +20,7 @@ struct MealListItem: View {
                             .frame(width: 120)
                             .cornerRadius(8)
                     case .failure:
-                        Image(systemName: "fork.knife.circle")
+                        Image("ratatouille")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 120)
@@ -29,26 +30,37 @@ struct MealListItem: View {
                     }
                 }
             } else {
-                Image(systemName: "fork.knife.circle")
+                Image("ratatouille")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 120)
                     .cornerRadius(8)
             }
             
-            VStack(alignment: .leading, spacing: 5) {
-                Text(meal.strMeal )
-                              .font(.title2)
-                              .fontWeight(.medium)
-                Text(meal.strArea )
-                              .font(.subheadline)
-                              .foregroundStyle(Color(.gray))
-                      }
-                      .padding(.leading)
-                  }
+           
+                HStack {
+                    Text(meal.strMeal )
+                        .font(.title2)
+                        .fontWeight(.medium)
+                    
+                }
+                .padding(.leading)
+                
+                Spacer()
+            }
+            
+            
+            if meal.isFavorited == true {
+                Image("favorite")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
+                    .padding([.top, .trailing])
+            }
+        }
                   .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                       Button("Archive") {
-                          onArchive()
+                        //  onArchive()
                       }
                       .tint(.blue)
                   }
@@ -58,5 +70,5 @@ struct MealListItem: View {
 
 
 #Preview {
-    MealListItem(meal: MealModel.sampleMeal, onArchive: {print("Archive action")})
+    MealListItem(meal: MealListItemModel.sampleMealList)
 }

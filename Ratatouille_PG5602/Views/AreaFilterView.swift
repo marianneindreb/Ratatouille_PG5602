@@ -6,7 +6,7 @@ struct AreaFilterView: View {
     @StateObject var viewModel: AreasViewModel
     
     @State private var selectedOption = "Velg land"
-    @State private var meals: [MealModel] = []
+ //   @State private var meals: [MealModel] = []
     // optionsArray should include areas and flag
     
     var body: some View {
@@ -16,7 +16,6 @@ struct AreaFilterView: View {
                 Menu {
                     ForEach(viewModel.areas, id: \.strArea) { area in
                         Button(action: {
-                        
                             self.selectedOption = area.strArea
                             viewModel.fetchMeals(forArea: area.strArea)
                             print(viewModel.fetchMeals(forArea: area.strArea))
@@ -64,14 +63,14 @@ struct AreaFilterView: View {
     
     NavigationView {
         List(viewModel.meals, id: \.idMeal) { meal in
-            Text(meal.strMeal)
+            MealListItem(meal: meal)
         }
-        
     }
 }
     .onAppear {
         viewModel.getAreasFromCoreDataIfNeeded()
     }
+    .navigationTitle("Oppskrifter")
 }
 }
 
