@@ -15,31 +15,38 @@ struct RecipeListView: View {
                 .padding(.top, -10)
             
             NavigationView {
-                if viewModel.savedMeals.isEmpty {
-                    VStack {
-                        Image("rat1")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 150, height: 150)
-                        Text("Du har ikke lagret noen oppskrifter")
-                    }
-                } else {
-                    List(viewModel.savedMeals, id: \.idMeal) { meal in
-                        MealListItem(meal: meal, onArchive: {
-                            viewModel.archiveMeal(meal.idMeal)
-                        })
+                ZStack {
+                    if viewModel.savedMeals.isEmpty {
+                        VStack {
+                            Image("rat1")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 150, height: 150)
+                            Text("Du har ikke lagret noen oppskrifter")
+                        }
+                    } else {
+                        List(viewModel.savedMeals, id: \.idMeal) { meal in
+                            MealListItem(meal: meal, onArchive: {
+                                viewModel.archiveMeal(meal.idMeal)
+                            })
+                        }
                     }
                 }
+                
+                // .navigationTitle("Mine oppskrifter")
             }
-                    
-                .navigationTitle("Mine oppskrifter")
+            .onAppear {
+                viewModel.getSavedMeals()
             }
-        .onAppear {
-            viewModel.getSavedMeals() 
-        }
+            
+            if viewModel.isLoading {
+                LoadingView()
+            }
+            
             Spacer(minLength: 0)
         }
     }
+}
 
 
 #Preview {

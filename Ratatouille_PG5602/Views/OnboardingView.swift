@@ -48,10 +48,6 @@ struct OnboardingView: View {
                                 if page == pages.last {
                                     NavigationLink(destination: RatatouilleTabView().navigationBarBackButtonHidden(true)) {
                                         Text("La oss lage mat!")
-                                            .onTapGesture {
-                                                hasLaunchedBefore = true
-                                                fetchDataAndSave()
-                                            }
                                             .padding(20)
                                             .background(Color.brandPrimary)
                                             .foregroundColor(.black)
@@ -59,6 +55,12 @@ struct OnboardingView: View {
                                             .textCase(.uppercase)
                                             .cornerRadius(15)
                                             .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                                    }
+                                    .onAppear {
+                                        if self.hasLaunchedBefore == false {
+                                            self.fetchDataAndSave()
+                                            self.hasLaunchedBefore = true
+                                        }
                                     }
                                     
                                 } else {

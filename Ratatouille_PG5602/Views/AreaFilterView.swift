@@ -21,7 +21,7 @@ struct AreaFilterView: View {
                             
                         }) {
                             
-                            Text("America")
+                            Text(area.strArea)
                                 .foregroundColor(.gray)
                             
                             //                                if let url = URL(string: area.flagURL), !area.flagURL.isEmpty {

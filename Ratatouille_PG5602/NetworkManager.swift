@@ -1,7 +1,9 @@
 import Foundation
+import UIKit
 
 class NetworkManager {
     static let shared = NetworkManager()
+    private let cache = NSCache<NSString, UIImage>()
 
     private init() {}
 
@@ -31,6 +33,33 @@ class NetworkManager {
         }
         task.resume()
     }
+    
+    
+    func downloadImage(fromURLString: String, completed: @escaping (UIImage?) -> Void) {
+        
+        let cacheKey = NSString(string: fromURLString)
+        
+        if let image = cache.object(forKey: cacheKey) {
+            completed(image)
+            return
+        }
+        guard let url = URL(string: fromURLString) else {
+            completed(nil)
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, let image = UIImage(data: data) else {
+                completed(nil)
+                return
+            }
+            self.cache.setObject(image, forKey: cacheKey)
+            completed(image)
+        
+        }
+        task.resume()
+    }
+    
 }
 
 enum NetworkError: Error {

@@ -20,6 +20,7 @@
 		D95FE59F2B0D1B3800FC7091 /* AreaFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE59E2B0D1B3800FC7091 /* AreaFilterView.swift */; };
 		D95FE5A12B0D2F6000FC7091 /* AreasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5A02B0D2F6000FC7091 /* AreasViewModel.swift */; };
 		D95FE5A32B0D375500FC7091 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5A22B0D375500FC7091 /* CoreDataManager.swift */; };
+		D9819B4E2B135FD100D0ED5C /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9819B4D2B135FD100D0ED5C /* LoadingView.swift */; };
 		D99218792B06B38300715C04 /* Ratatouille_PG5602App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218782B06B38300715C04 /* Ratatouille_PG5602App.swift */; };
 		D992187D2B06B38400715C04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D992187C2B06B38400715C04 /* Assets.xcassets */; };
 		D99218802B06B38400715C04 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D992187F2B06B38400715C04 /* Preview Assets.xcassets */; };
@@ -71,6 +72,7 @@
 		D95FE59E2B0D1B3800FC7091 /* AreaFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreaFilterView.swift; sourceTree = "<group>"; };
 		D95FE5A02B0D2F6000FC7091 /* AreasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AreasViewModel.swift; sourceTree = "<group>"; };
 		D95FE5A22B0D375500FC7091 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		D9819B4D2B135FD100D0ED5C /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		D99218752B06B38300715C04 /* Ratatouille_PG5602.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ratatouille_PG5602.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D99218782B06B38300715C04 /* Ratatouille_PG5602App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ratatouille_PG5602App.swift; sourceTree = "<group>"; };
 		D992187C2B06B38400715C04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				D95FE5942B0CE04900FC7091 /* ViewModifiers */,
 				D95FE5A22B0D375500FC7091 /* CoreDataManager.swift */,
 				D9BE1D582B125CEF009FFAA2 /* SavedMealsViewModel.swift */,
+				D9819B4D2B135FD100D0ED5C /* LoadingView.swift */,
 			);
 			path = Ratatouille_PG5602;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				D99218AE2B06B66100715C04 /* RatatouilleTabView.swift in Sources */,
 				D99218B72B07436100715C04 /* OnboardingPageView.swift in Sources */,
 				D99218A82B06B63700715C04 /* RecipeListView.swift in Sources */,
+				D9819B4E2B135FD100D0ED5C /* LoadingView.swift in Sources */,
 				D99218AC2B06B65100715C04 /* SearchView.swift in Sources */,
 				D95FE5962B0CEE4000FC7091 /* AreaModel.swift in Sources */,
 				D95FE5812B089EFF00FC7091 /* MealModel.swift in Sources */,
