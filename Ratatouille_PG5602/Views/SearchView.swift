@@ -21,6 +21,7 @@ struct SearchView: View {
                 }
                 .navigationTitle("Søk")
             }
+        
         }
     }
 enum Filters: String, CaseIterable {

@@ -58,5 +58,5 @@ struct MealListItem: View {
 
 
 #Preview {
-    MealListItem(meal: MealModel.sampleMeal, onArchive: {})
+    MealListItem(meal: MealModel.sampleMeal, onArchive: {print("Archive action")})
 }

@@ -1,9 +1,10 @@
 import Foundation
 
-struct AreaModel: Decodable, Hashable, Identifiable {
+struct AreaModel: Decodable, Hashable {
+    
     //let flagURL: String
     let strArea: String
-    var id: String {strArea}
+    //var id: String {strArea}
 }
 
 struct AreasResponse: Decodable {

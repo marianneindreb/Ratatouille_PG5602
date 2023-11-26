@@ -2,7 +2,7 @@ import Foundation
 import CoreData
 
 class MealViewModel: ObservableObject {
-    private var meal: MealModel?
+    private var meals: MealModel?
    
     var onErrorHandling: ((Error) -> Void)?
     var onFetchCompleted: (() -> Void)?
@@ -21,9 +21,11 @@ class MealViewModel: ObservableObject {
     
     private func parseMealData(_ data: Data) {
         do {
-            let mealResponse = try JSONDecoder().decode(MealModel.MealResponse.self, from: data)
-            self.meal = mealResponse.meals
-            self.onFetchCompleted?()
+            let mealResponse = try JSONDecoder().decode(MealResponse.self, from: data)
+            if let firstMeal = mealResponse.meals.first {
+                self.meals = firstMeal
+                self.onFetchCompleted?()
+            }
         } catch {
             self.onErrorHandling?(error)
         }
@@ -32,7 +34,7 @@ class MealViewModel: ObservableObject {
 
 extension MealViewModel {
     func saveMealToCoreData() {
-        guard let unwrappedMeal = meal else {
+        guard let unwrappedMeal = meals else {
             return
         }
         

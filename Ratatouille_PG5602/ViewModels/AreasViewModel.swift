@@ -3,6 +3,8 @@ import CoreData
 
 class AreasViewModel: ObservableObject {
     @Published var areas: [AreaModel] = []
+    @Published var meals: [MealListItemModel] = []
+    
     private var countryCodes: Dictionary<String, String> = [
         "American": "US",
         "British" : "GB",
@@ -38,12 +40,12 @@ class AreasViewModel: ObservableObject {
     var onFetchCompleted: (() -> Void)?
     
     init() {
-        fetchAreasFromCoreDataIfNeeded()
+        getAreasFromCoreDataIfNeeded()
     }
     
-    func fetchAreasFromCoreDataIfNeeded() {
+    func getAreasFromCoreDataIfNeeded() {
         if areas.isEmpty {
-            fetchAreasFromCoreData()
+            getAreasFromCoreData()
         }
     }
     
@@ -59,7 +61,34 @@ class AreasViewModel: ObservableObject {
         }
     }
     
-    func fetchAreasFromCoreData() {
+    func fetchMeals(forArea area: String) {
+        let urlString = "https://www.themealdb.com/api/json/v1/1/filter.php?a=\(area)"
+        NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.parseMealData(data)
+            case .failure(let error):
+                self?.onErrorHandling?(error)
+            }
+        }
+    }
+
+    private func parseMealData(_ data: Data) {
+        do {
+            let mealResponse = try JSONDecoder().decode(MealListItemResponse.self, from: data)
+                    DispatchQueue.main.async {
+                        self.meals = mealResponse.meals
+                        self.onFetchCompleted?()
+                    }
+        } catch {
+            DispatchQueue.main.async {
+                self.onErrorHandling?(error)
+            }
+        }
+    }
+    
+    
+    func getAreasFromCoreData() {
             let context = CoreDataManager.shared.context
             let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
 
