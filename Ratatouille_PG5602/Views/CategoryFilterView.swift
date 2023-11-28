@@ -2,8 +2,9 @@ import SwiftUI
 import Kingfisher
 
 struct CategoryFilterView: View {
- @StateObject var viewModel: CategoriesViewModel
-@State private var selectedOption = "Velg kategori"
+ @StateObject var viewModel = CategoriesViewModel()
+ @State var options: [CategoryModel] = []
+ @State private var selectedOption = "Velg kategori"
     
         
         var body: some View {
@@ -11,13 +12,12 @@ struct CategoryFilterView: View {
                 Text("Hvilken kategori ønsker du oppskrifter fra?")
                 HStack {
                     Menu {
-                        ForEach(viewModel.categories, id: \.idCategory) { category in
+                        ForEach(options, id: \.idCategory) {
+                            //Get from CoreData not from api
+                            
+                            category in
                             Button(action: {
                                 self.selectedOption = category.strCategory
-                                
-                                viewModel.fetchMeals(forCategory: category.strCategory)
-                                print(viewModel.fetchMeals(forCategory: category.strCategory))
-                                
                             }) {
                                 
                                 Text(category.strCategory)
@@ -52,7 +52,7 @@ struct CategoryFilterView: View {
         }
     }
         .onAppear {
-            viewModel.getCategoriesFromCoreDataIfNeeded()
+            options = viewModel.getCategories()
         }
         .navigationTitle("Oppskrifter")
     }

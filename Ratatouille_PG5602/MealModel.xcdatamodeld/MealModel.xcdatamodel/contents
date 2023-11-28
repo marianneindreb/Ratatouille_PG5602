@@ -19,7 +19,7 @@
         <relationship name="meal" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MealEntity" inverseName="category" inverseEntity="MealEntity"/>
     </entity>
     <entity name="IngredientEntity" representedClassName="IngredientEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="ingredientId" optional="YES" attributeType="String"/>
+        <attribute name="idIngredient" optional="YES" attributeType="String"/>
         <attribute name="isArchived" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="strIngredient" optional="YES" attributeType="String"/>
     </entity>

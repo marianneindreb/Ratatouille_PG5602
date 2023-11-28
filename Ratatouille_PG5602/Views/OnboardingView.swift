@@ -2,11 +2,6 @@ import SwiftUI
 
 struct OnboardingView: View {
     @State private var pageIndex = 0
-    @AppStorage("hasLaunchedBefore") var hasLaunchedBefore: Bool = false
-    
-    private var areasViewModel = AreasViewModel()
-       private var categoriesViewModel = CategoriesViewModel()
-       private var ingredientsViewModel = IngredientsViewModel()
     
     private let pages: [Onboarding] = Onboarding.onboardingPages
     private let progressAppearance = UIPageControl.appearance()
@@ -14,24 +9,7 @@ struct OnboardingView: View {
     func incrementPage() {
         pageIndex += 1
     }
-    
-    func fetchDataAndSave() {
-            areasViewModel.fetchAreas()
-            categoriesViewModel.fetchCategories()
-            ingredientsViewModel.fetchIngredients()
 
-            areasViewModel.onFetchCompleted = {
-                self.areasViewModel.saveAreasToCoreData()
-            }
-            
-            categoriesViewModel.onFetchCompleted = {
-                self.categoriesViewModel.saveCategoriesToCoreData()
-           }
-
-            ingredientsViewModel.onFetchCompleted = {
-                self.ingredientsViewModel.saveIngredientsToCoreData()
-            }
-        }
     
     var body: some View {
         NavigationView {
@@ -56,13 +34,6 @@ struct OnboardingView: View {
                                             .cornerRadius(15)
                                             .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                                     }
-                                    .onAppear {
-                                        if self.hasLaunchedBefore == false {
-                                            self.fetchDataAndSave()
-                                            self.hasLaunchedBefore = true
-                                        }
-                                    }
-                                    
                                 } else {
                                     HStack {
                                         Button {

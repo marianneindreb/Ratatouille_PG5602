@@ -11,7 +11,7 @@ struct IngredientFilterView: View {
                 Text("Hvilken hovedingrediens ønsker du oppskrifter fra?")
                 HStack {
                     Menu {
-                        ForEach(viewModel.ingredients, id: \.ingredientId) { ingredient in
+                        ForEach(viewModel.ingredients, id: \.idIngredient) { ingredient in
                             Button(action: {
                                 self.selectedOption = ingredient.strIngredient
                                 

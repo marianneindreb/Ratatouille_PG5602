@@ -23,7 +23,7 @@ class IngredientsViewModel: ObservableObject {
                    fetchIngredients()
                } else {
                    self.ingredients = ingredientEntities.map {
-                       IngredientModel(ingredientId: $0.ingredientId ?? "", strIngredient: $0.strIngredient ?? "", isArchived: $0.isArchived)}
+                       IngredientModel(idIngredient: $0.idIngredient ?? "", strIngredient: $0.strIngredient ?? "")}
                }
            } catch {
                print("Error fetching ingredients from Core Data: \(error)")
@@ -79,7 +79,7 @@ class IngredientsViewModel: ObservableObject {
             do {
                 let ingredientEntities = try context.fetch(fetchRequest)
                 self.ingredients.removeAll()
-                self.ingredients = ingredientEntities.map { IngredientModel(ingredientId: $0.ingredientId ?? "", strIngredient: $0.strIngredient ?? "", isArchived: $0.isArchived)}
+                self.ingredients = ingredientEntities.map { IngredientModel(idIngredient: $0.idIngredient ?? "", strIngredient: $0.strIngredient ?? "")}
             } catch {
                 print("Error fetching ingredients from Core Data: \(error)")
             }
@@ -88,7 +88,7 @@ class IngredientsViewModel: ObservableObject {
     private func parseIngredientData(_ data: Data) {
         do {
             let ingredientResponse = try JSONDecoder().decode(IngredientsResponse.self, from: data)
-            self.ingredients = ingredientResponse.ingredientMeals
+            self.ingredients = ingredientResponse.meals
             self.onFetchCompleted?()
         } catch {
             self.onErrorHandling?(error)
