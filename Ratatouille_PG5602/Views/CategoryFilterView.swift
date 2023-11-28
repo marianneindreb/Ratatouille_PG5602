@@ -2,30 +2,23 @@ import SwiftUI
 import Kingfisher
 
 struct CategoryFilterView: View {
- @StateObject var viewModel = CategoriesViewModel()
- @State var options: [CategoryModel] = []
+ @Binding var viewModel: CategoriesViewModel
+ //@State var options: [CategoryModel] = []
  @State private var selectedOption = "Velg kategori"
     
         
         var body: some View {
             VStack {
-                Text("Hvilken kategori ønsker du oppskrifter fra?")
                 HStack {
                     Menu {
-                        ForEach(options, id: \.idCategory) {
-                            //Get from CoreData not from api
-                            
-                            category in
+                        ForEach(viewModel.categories, id: \.strCategory) { category in
                             Button(action: {
                                 self.selectedOption = category.strCategory
                             }) {
-                                
                                 Text(category.strCategory)
                                     .foregroundColor(.gray)
                             }
                         }
-                    
-                
             } label: {
                 Text("\(selectedOption)")
                     .fontWeight(.regular)
@@ -36,13 +29,13 @@ struct CategoryFilterView: View {
             }
             .padding()
             .padding(.horizontal, 10)
-            .frame(width: 300)
-            .background(Color.black)
-            .foregroundColor(.white)
+            .frame(width: 370)
+            .background(Color.white)
+            .foregroundColor(.black)
             .font(.headline)
             .cornerRadius(10)
-            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
-        }
+            .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+                } .padding()
               
         
         NavigationView {
@@ -51,13 +44,10 @@ struct CategoryFilterView: View {
             }
         }
     }
-        .onAppear {
-            options = viewModel.getCategories()
-        }
-        .navigationTitle("Oppskrifter")
+        .navigationTitle("Velg kategori")
     }
 }
 
 #Preview {
-    CategoryFilterView(viewModel: CategoriesViewModel())
+    CategoryFilterView(viewModel: .constant(CategoriesViewModel()))
 }

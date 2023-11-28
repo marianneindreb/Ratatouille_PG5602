@@ -11,11 +11,7 @@
         <relationship name="meal" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MealEntity" inverseName="area" inverseEntity="MealEntity"/>
     </entity>
     <entity name="CategoryEntity" representedClassName="CategoryEntity" syncable="YES" codeGenerationType="class">
-        <attribute name="idCategory" optional="YES" attributeType="String"/>
-        <attribute name="isArchived" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="strCategory" optional="YES" attributeType="String"/>
-        <attribute name="strCategoryDescription" optional="YES" attributeType="String"/>
-        <attribute name="strCategoryThumb" optional="YES" attributeType="String"/>
         <relationship name="meal" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="MealEntity" inverseName="category" inverseEntity="MealEntity"/>
     </entity>
     <entity name="IngredientEntity" representedClassName="IngredientEntity" syncable="YES" codeGenerationType="class">

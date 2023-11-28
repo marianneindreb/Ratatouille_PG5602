@@ -1,6 +1,10 @@
 import SwiftUI
 
 struct RatatouilleTabView: View {
+    @Binding var areasViewModel: AreasViewModel
+    @Binding var categoriesViewModel: CategoriesViewModel
+    @Binding var ingredientsViewModel: IngredientsViewModel
+    
     var body: some View {
         TabView {
             RecipeListView()
@@ -8,7 +12,7 @@ struct RatatouilleTabView: View {
                     Image(systemName: "fork.knife")
                     Text("Mine Oppskrifter")
                 }
-            SearchView()
+            SearchView(areasViewModel: $areasViewModel, categoriesViewModel: $categoriesViewModel, ingredientsViewModel: $ingredientsViewModel)
                 .tabItem {
                     Image(systemName: "magnifyingglass")
                     Text("Søk")
@@ -24,5 +28,5 @@ struct RatatouilleTabView: View {
 }
 
 #Preview {
-    RatatouilleTabView()
+    RatatouilleTabView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel()))
 }

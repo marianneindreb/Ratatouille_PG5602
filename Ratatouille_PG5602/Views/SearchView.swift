@@ -3,6 +3,9 @@ import SwiftUI
 struct SearchView: View {
   //  @StateObject var viewModel = MealListViewModel()
     @State private var selectedFilter: Filters = .area
+    @Binding var areasViewModel: AreasViewModel
+    @Binding var categoriesViewModel: CategoriesViewModel
+    @Binding var ingredientsViewModel: IngredientsViewModel
     
   
     
@@ -17,13 +20,15 @@ struct SearchView: View {
                 .pickerStyle(SegmentedPickerStyle())
                 
                 Spacer()
-                ChosenFilterView(selectedFilter: selectedFilter)
+                
+                ChosenFilterView(areasViewModel: $areasViewModel, categoriesViewModel: $categoriesViewModel, ingredientsViewModel: $ingredientsViewModel, selectedFilter: selectedFilter)
                 }
                 .navigationTitle("Søk")
             }
         
         }
     }
+
 enum Filters: String, CaseIterable {
     case area = "Landområde"
     case category = "Kategori"
@@ -32,17 +37,20 @@ enum Filters: String, CaseIterable {
 }
 
 struct ChosenFilterView: View {
+    
+    @Binding var areasViewModel: AreasViewModel
+    @Binding var categoriesViewModel: CategoriesViewModel
+    @Binding var ingredientsViewModel: IngredientsViewModel
     var selectedFilter: Filters
     
     var body: some View {
         switch selectedFilter {
         case .area:
-            AreaFilterView(viewModel: AreasViewModel())
-            
+            AreaFilterView(viewModel: $areasViewModel)
         case .category:
-            CategoryFilterView(viewModel: CategoriesViewModel())
+            CategoryFilterView(viewModel: $categoriesViewModel)
         case .ingredient:
-            IngredientFilterView(viewModel: IngredientsViewModel())
+            IngredientFilterView(viewModel: $ingredientsViewModel)
         
         case .search:
             Text("Søk")
@@ -52,6 +60,6 @@ struct ChosenFilterView: View {
 }
     
     #Preview {
-        SearchView()
+        SearchView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel()))
     }
 

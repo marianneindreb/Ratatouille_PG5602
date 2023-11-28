@@ -9,6 +9,7 @@ class CategoriesViewModel: ObservableObject {
     var onFetchCompleted: (() -> Void)?
     
     init() {
+        self.fetchCategoriesFromAPIAndSaveToCoreData()
     }
     
     func getCategories() -> [CategoryModel] {
@@ -18,6 +19,7 @@ class CategoriesViewModel: ObservableObject {
             return getCategoriesFromCoreData()
         }
     }
+    
     func getCategoriesFromCoreData() -> [CategoryModel] {
         let context = CoreDataManager.shared.context
         let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
@@ -28,10 +30,7 @@ class CategoriesViewModel: ObservableObject {
                 return []
             } else {
                let categoriesMapped = categoryEntities.map {
-                    CategoryModel(idCategory: $0.idCategory ?? "",
-                                  strCategory: $0.strCategory ?? "",
-                                  strCategoryThumb: $0.strCategoryThumb ?? "",
-                                  strCategoryDescription: $0.strCategoryDescription ?? "")
+                    CategoryModel(strCategory: $0.strCategory ?? "")
                 }
                 return categoriesMapped;
             }
@@ -55,7 +54,7 @@ class CategoriesViewModel: ObservableObject {
                         from: data
                     )
                     DispatchQueue.main.async {
-                        self?.categories = categoryResponse.categories
+                        self?.categories = categoryResponse.meals
                         self?.saveCategoriesToCoreData()
                     }
                 } catch {
@@ -90,18 +89,6 @@ class CategoriesViewModel: ObservableObject {
         }
     }
     
-    //    func fetchMeals(forCategory category: String) {
-    //          let urlString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=\(category)"
-    //        NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
-    //                    switch result {
-    //                    case .success(let data):
-    //                        self?.parseMealData(data)
-    //                    case .failure(let error):
-    //                        self?.onErrorHandling?(error)
-    //              }
-    //          }
-    //      }
-    
     private func parseMealData(_ data: Data) {
         do {
             let mealResponse = try JSONDecoder().decode(MealListItemResponse.self, from: data)
@@ -124,32 +111,10 @@ class CategoriesViewModel: ObservableObject {
         do {
             return try context.fetch(fetchRequest)
         } catch {
-            print("Error fetching meals for category \(category) from Core Data: \(error)")
+            print("Error fetching meals for category: \(category) from Core Data: \(error)")
             return nil
         }
     }
-    
-    //    private func parseCategoryData(_ data: Data) {
-    //        do {
-    //            let categoryResponse = try JSONDecoder().decode(CategoriesResponse.self, from: data)
-    //            self.categories = categoryResponse.categories
-    //            self.onFetchCompleted?()
-    //        } catch {
-    //            self.onErrorHandling?(error)
-    //        }
-    //    }
-    //
-    //    var numberOfCategories: Int {
-    //        return categories.count
-    //    }
-    //
-    //    func category(at index: Int) -> CategoryModel? {
-    //        guard index >= 0 && index < categories.count else {
-    //            return nil
-    //        }
-    //        return categories[index]
-    //    }
-    //}
 }
     
     extension CategoriesViewModel {
@@ -162,9 +127,6 @@ class CategoriesViewModel: ObservableObject {
             for category in categories {
                 let categoryEntity = CategoryEntity(context: context)
                 categoryEntity.strCategory = category.strCategory
-                categoryEntity.idCategory = category.idCategory
-                categoryEntity.strCategoryThumb = category.strCategoryThumb
-                categoryEntity.strCategoryDescription = category.strCategoryDescription
             }
             do {
                 try context.save()

@@ -10,34 +10,59 @@ class IngredientsViewModel: ObservableObject {
     var onFetchCompleted: (() -> Void)?
     
     init() {
-        getIngredientsFromCoreDataIfNeeded()
+        self.fetchIngredientsFromAPIAndSaveToCoreData()
     }
     
-    func getIngredientsFromCoreDataIfNeeded() {
-           let context = CoreDataManager.shared.context
-           let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
-
-           do {
-               let ingredientEntities = try context.fetch(fetchRequest)
-               if ingredientEntities.isEmpty {
-                   fetchIngredients()
-               } else {
-                   self.ingredients = ingredientEntities.map {
-                       IngredientModel(idIngredient: $0.idIngredient ?? "", strIngredient: $0.strIngredient ?? "")}
-               }
-           } catch {
-               print("Error fetching ingredients from Core Data: \(error)")
-           }
-       }
+    func getIngredients() -> [IngredientModel] {
+        if !self.ingredients.isEmpty {
+            return self.ingredients
+        } else {
+            return getIngredientsFromCoreData()
+        }
+    }
     
-    
-    
-    func fetchIngredients() {
+    func getIngredientsFromCoreData() -> [IngredientModel] {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
+        
+        do {
+            let ingredientEntities = try context.fetch(fetchRequest)
+            if ingredientEntities.isEmpty {
+                return []
+            } else {
+                let ingredientsMapped = ingredientEntities.map {
+                    IngredientModel(idIngredient: $0.idIngredient ?? "", strIngredient: $0.strIngredient ?? "")
+                }
+            return ingredientsMapped;
+        }
+        } catch {
+            print("Error fetching ingredients from Core Data: \(error)")
+            return []
+        }
+    }
+     
+    func fetchIngredientsFromAPIAndSaveToCoreData() {
+        print("Fetching ingredients from API and saves to coredata")
+        self.ingredients.removeAll()
         let urlString = "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
-            case .success(let data):
-                self?.parseIngredientData(data)
+                case .success(let data):
+                    self?.ingredients.removeAll()
+                do {
+                    let ingredientResponse = try JSONDecoder().decode(
+                        IngredientsResponse.self,
+                        from: data
+                    )
+                    DispatchQueue.main.async {
+                        self?.ingredients = ingredientResponse.meals
+                        self?.saveIngredientsToCoreData()
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        self?.onErrorHandling?(error)
+                    }
+                }
             case .failure(let error):
                 self?.onErrorHandling?(error)
             }
@@ -45,6 +70,14 @@ class IngredientsViewModel: ObservableObject {
     }
     
     func fetchMeals(forIngredient ingredient: String) {
+        if let fetchedMeals = getMealsFromCoreData(forIngredient: ingredient), !fetchedMeals.isEmpty {
+            self.meals = fetchedMeals.map { MealListItemModel(from: $0) }
+        } else {
+            fetchMealsFromAPI(forIngredient: ingredient)
+        }
+    }
+    
+    func fetchMealsFromAPI(forIngredient ingredient: String) {
         let urlString = "https://www.themealdb.com/api/json/v1/1/filter.php?i=\(ingredient)"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
@@ -70,42 +103,18 @@ class IngredientsViewModel: ObservableObject {
         }
     }
     
-    func getIngredientsFromCoreData() {
-        print("Fetching ingredients from core data")
-        self.ingredients.removeAll()
-            let context = CoreDataManager.shared.context
-            let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
-
-            do {
-                let ingredientEntities = try context.fetch(fetchRequest)
-                self.ingredients.removeAll()
-                self.ingredients = ingredientEntities.map { IngredientModel(idIngredient: $0.idIngredient ?? "", strIngredient: $0.strIngredient ?? "")}
-            } catch {
-                print("Error fetching ingredients from Core Data: \(error)")
-            }
-        }
-    
-    private func parseIngredientData(_ data: Data) {
+    private func getMealsFromCoreData(forIngredient ingredient: String) -> [MealEntity]? {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "strIngredient == %@", ingredient)
+        
         do {
-            let ingredientResponse = try JSONDecoder().decode(IngredientsResponse.self, from: data)
-            self.ingredients = ingredientResponse.meals
-            self.onFetchCompleted?()
+            return try context.fetch(fetchRequest)
         } catch {
-            self.onErrorHandling?(error)
-        }
-    }
-    
-    var numberOfIngredients: Int {
-        return ingredients.count
-    }
-    
-    func ingredient(at index: Int) -> IngredientModel? {
-        guard index >= 0 && index < ingredients.count else {
+            print("Error fetching meals for ingredient: \(ingredient) from Core Data: \(error)")
             return nil
         }
-        return ingredients[index]
     }
-    
 }
 
 extension IngredientsViewModel {
@@ -120,7 +129,11 @@ extension IngredientsViewModel {
             let ingredientEntity = IngredientEntity(context: context)
             ingredientEntity.strIngredient = ingredient.strIngredient
         }
-        CoreDataManager.shared.saveContext()
+        do {
+            try context.save()
+        } catch {
+            print("Error saving ingredients to Core Data: \(error)")
+        }
     }
 
     private func deleteAllIngredients(in context: NSManagedObjectContext) {

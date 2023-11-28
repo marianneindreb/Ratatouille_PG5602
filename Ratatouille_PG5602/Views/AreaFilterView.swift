@@ -3,7 +3,7 @@ import SwiftUI
 import Kingfisher
 
 struct AreaFilterView: View {
-    @StateObject var viewModel: AreasViewModel
+    @Binding var viewModel: AreasViewModel
     
     @State private var selectedOption = "Velg land"
  //   @State private var meals: [MealModel] = []
@@ -11,15 +11,12 @@ struct AreaFilterView: View {
     
     var body: some View {
         VStack {
-            Text("Hvilket land ønsker du oppskrifter fra?")
             HStack {
                 Menu {
                     ForEach(viewModel.areas, id: \.strArea) { area in
                         Button(action: {
                             self.selectedOption = area.strArea
-                            viewModel.fetchMeals(forArea: area.strArea)
                         }) {
-                            
                             Text(area.strArea)
                                 .foregroundColor(.gray)
                             
@@ -44,19 +41,18 @@ struct AreaFilterView: View {
             Text("\(selectedOption)")
                 .fontWeight(.regular)
             
-            
             Spacer()
             Image(systemName: "arrowtriangle.down")
         }
         .padding()
         .padding(.horizontal, 10)
-        .frame(width: 300)
-        .background(Color.black)
-        .foregroundColor(.white)
+        .frame(width: 370)
+        .background(Color.white)
+        .foregroundColor(.black)
         .font(.headline)
         .cornerRadius(10)
-        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
-    }
+        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+            } .padding()
           
     
     NavigationView {
@@ -65,14 +61,11 @@ struct AreaFilterView: View {
         }
     }
 }
-    .onAppear {
-        viewModel.getAreasFromCoreDataIfNeeded()
-    }
-    .navigationTitle("Oppskrifter")
+    .navigationTitle("Velg landområde")
 }
 }
 
 #Preview {
-    AreaFilterView(viewModel: AreasViewModel())
+    AreaFilterView(viewModel: .constant(AreasViewModel()))
 }
 

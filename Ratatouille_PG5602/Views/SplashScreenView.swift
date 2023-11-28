@@ -5,9 +5,9 @@ struct SplashScreenView: View {
     @AppStorage ("coreDataLoaded") var coreDataLoaded = false
     @AppStorage ("hasLaunchedBefore") var hasLaunchedBefore = false
     
-    private var areasViewModel = AreasViewModel()
-    private var categoriesViewModel = CategoriesViewModel()
-    private var ingredientsViewModel = IngredientsViewModel()
+    @ObservedObject var areasViewModel = AreasViewModel()
+    @StateObject var categoriesViewModel = CategoriesViewModel()
+    @StateObject var ingredientsViewModel = IngredientsViewModel()
 
     @State private var isActive = false
     @State private var scale = CGSize(width: 0.8, height: 0.8)
@@ -29,7 +29,7 @@ struct SplashScreenView: View {
         //            }
         if isActive {
             if hasLaunchedBefore {
-                RatatouilleTabView()
+                RatatouilleTabView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel()))
             } else {
                 OnboardingView()
             }
@@ -80,7 +80,7 @@ struct SplashScreenView: View {
                                     fetchDataAndSave()
                                     coreDataLoaded = true
                                 }
-                                hasLaunchedBefore = true
+                                hasLaunchedBefore = false
                             }
                         }
                 }
@@ -90,17 +90,9 @@ struct SplashScreenView: View {
     
     
     func fetchDataAndSave() {
-        areasViewModel.fetchAreas()
+        areasViewModel.fetchAreasFromAPIAndSaveToCoreData()
         categoriesViewModel.fetchCategoriesFromAPIAndSaveToCoreData()
-        ingredientsViewModel.fetchIngredients()
-        
-        categoriesViewModel.onFetchCompleted = {
-            self.categoriesViewModel.saveCategoriesToCoreData()
-        }
-        
-        ingredientsViewModel.onFetchCompleted = {
-            self.ingredientsViewModel.saveIngredientsToCoreData()
-        }
+        ingredientsViewModel.fetchIngredientsFromAPIAndSaveToCoreData()
     }
 }
 

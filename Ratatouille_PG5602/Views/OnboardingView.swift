@@ -24,7 +24,7 @@ struct OnboardingView: View {
                                 Spacer()
                                 
                                 if page == pages.last {
-                                    NavigationLink(destination: RatatouilleTabView().navigationBarBackButtonHidden(true)) {
+                                    NavigationLink(destination: RatatouilleTabView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel())).navigationBarBackButtonHidden(true)) {
                                         Text("La oss lage mat!")
                                             .padding(20)
                                             .background(Color.brandPrimary)

@@ -1,6 +1,7 @@
 import Foundation
 import CoreData
 
+@MainActor
 class AreasViewModel: ObservableObject {
     @Published var areas: [AreaModel] = []
     @Published var meals: [MealListItemModel] = []
@@ -40,21 +41,61 @@ class AreasViewModel: ObservableObject {
     var onFetchCompleted: (() -> Void)?
     
     init() {
-        getAreasFromCoreDataIfNeeded()
+        self.fetchAreasFromAPIAndSaveToCoreData()
     }
     
-    func getAreasFromCoreDataIfNeeded() {
-        if areas.isEmpty {
-            getAreasFromCoreData()
+    func getAreas() -> [AreaModel] {
+        if !self.areas.isEmpty {
+            return self.areas
+        } else {
+            return getAreasFromCoreData()
         }
     }
     
-    func fetchAreas() {
+    
+    func getAreasFromCoreData() -> [AreaModel] {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
+        
+        do {
+            let areaEntities = try context.fetch(fetchRequest)
+            if areaEntities.isEmpty {
+                return []
+            } else {
+                let areasMapped = areaEntities.map {
+                    AreaModel(strArea: $0.strArea ?? "")
+                }
+                return areasMapped;
+            }
+        } catch {
+            print("Error fetching areas from Core Data: \(error)")
+            return []
+        }
+    }
+    
+    
+    func fetchAreasFromAPIAndSaveToCoreData() {
+        print("Fetching areas from API and saves to coredata")
+        self.areas.removeAll()
         let urlString = "https://www.themealdb.com/api/json/v1/1/list.php?a=list"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.parseAreaData(data)
+                self?.areas.removeAll()
+                do {
+                    let areaResponse = try JSONDecoder().decode(
+                        AreasResponse.self,
+                        from: data
+                    )
+                    DispatchQueue.main.async {
+                        self?.areas = areaResponse.meals
+                        self?.saveAreasToCoreData()
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        self?.onErrorHandling?(error)
+                    }
+                }
             case .failure(let error):
                 self?.onErrorHandling?(error)
             }
@@ -62,6 +103,14 @@ class AreasViewModel: ObservableObject {
     }
     
     func fetchMeals(forArea area: String) {
+        if let fetchedMeals = getMealsFromCoreData(forArea: area), !fetchedMeals.isEmpty {
+            self.meals = fetchedMeals.map { MealListItemModel(from: $0) }
+        } else {
+            fetchMealsFromAPI(forArea: area)
+        }
+    }
+    
+    func fetchMealsFromAPI(forArea area: String) {
         let urlString = "https://www.themealdb.com/api/json/v1/1/filter.php?a=\(area)"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
@@ -72,40 +121,12 @@ class AreasViewModel: ObservableObject {
             }
         }
     }
-
+    
     private func parseMealData(_ data: Data) {
         do {
             let mealResponse = try JSONDecoder().decode(MealListItemResponse.self, from: data)
-                    DispatchQueue.main.async {
-                        self.meals = mealResponse.meals
-                        self.onFetchCompleted?()
-                    }
-        } catch {
             DispatchQueue.main.async {
-                self.onErrorHandling?(error)
-            }
-        }
-    }
-    
-    
-    func getAreasFromCoreData() {
-            let context = CoreDataManager.shared.context
-            let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
-
-            do {
-                let areasEntities = try context.fetch(fetchRequest)
-                self.areas = areasEntities.map { AreaModel(strArea: $0.strArea ?? "") }
-            } catch {
-                print("Error fetching areas from Core Data: \(error)")
-            }
-        }
-    // flagURL: $0.flagURL ?? "", 
-    
-    private func parseAreaData(_ data: Data) {
-        do {
-            let areaResponse = try JSONDecoder().decode(AreasResponse.self, from: data)
-            DispatchQueue.main.async {
-                self.areas = areaResponse.meals
+                self.meals = mealResponse.meals
                 self.onFetchCompleted?()
             }
         } catch {
@@ -115,17 +136,21 @@ class AreasViewModel: ObservableObject {
         }
     }
     
-    var numberOfAreas: Int {
-        return areas.count
-    }
     
-    func area(at index: Int) -> AreaModel? {
-        guard index >= 0 && index < areas.count else {
+    func getMealsFromCoreData(forArea area: String) -> [MealEntity]? {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "strArea == %@", areas )
+        
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+            print("Error fetching meals from area: \(area) from Core Data: \(error)")
             return nil
         }
-        return areas[index]
     }
 }
+    // flagURL: $0.flagURL ?? "",
 
 extension AreasViewModel {
     func saveAreasToCoreData() {
@@ -147,8 +172,6 @@ extension AreasViewModel {
         } catch {
             print("Error")
         }
-        
-      //  CoreDataManager.shared.saveContext()
     }
 
 
@@ -159,7 +182,7 @@ extension AreasViewModel {
         do {
             try context.execute(deleteRequest)
         } catch let error as NSError {
-            print("Error deleting existing records: \(error), \(error.userInfo)")
+            print("Error deleting existing areas: \(error), \(error.userInfo)")
         }
     }
 }
