@@ -13,6 +13,7 @@ struct IngredientFilterView: View {
                         ForEach(viewModel.ingredients, id: \.idIngredient) { ingredient in
                             Button(action: {
                                 self.selectedOption = ingredient.strIngredient
+                                viewModel.fetchMealsFromAPI(forIngredient: selectedOption)
                             }) {
                                 
                                 Text(ingredient.strIngredient)

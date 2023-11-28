@@ -77,7 +77,7 @@ class CategoriesViewModel: ObservableObject {
     }
     
     
-    private func fetchMealsFromAPI(forCategory category: String) {
+    func fetchMealsFromAPI(forCategory category: String) {
         let urlString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=\(category)"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {

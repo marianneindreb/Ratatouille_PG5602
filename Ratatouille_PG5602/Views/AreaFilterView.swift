@@ -16,6 +16,7 @@ struct AreaFilterView: View {
                     ForEach(viewModel.areas, id: \.strArea) { area in
                         Button(action: {
                             self.selectedOption = area.strArea
+                            viewModel.fetchMealsFromAPI(forArea: selectedOption)
                         }) {
                             Text(area.strArea)
                                 .foregroundColor(.gray)

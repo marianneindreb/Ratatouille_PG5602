@@ -14,6 +14,7 @@ struct CategoryFilterView: View {
                         ForEach(viewModel.categories, id: \.strCategory) { category in
                             Button(action: {
                                 self.selectedOption = category.strCategory
+                                viewModel.fetchMealsFromAPI(forCategory: selectedOption)
                             }) {
                                 Text(category.strCategory)
                                     .foregroundColor(.gray)
