@@ -42,7 +42,7 @@ class CategoriesViewModel: ObservableObject {
     }
     
     func fetchCategoriesFromAPIAndSaveToCoreData() {
-        print("Fetching categories from API")
+        print("Fetching categories from API and saves to coredata")
         self.categories.removeAll()
         let urlString = "https://www.themealdb.com/api/json/v1/1/list.php?c=list"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in

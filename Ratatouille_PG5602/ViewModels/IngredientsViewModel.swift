@@ -110,6 +110,7 @@ class IngredientsViewModel: ObservableObject {
 
 extension IngredientsViewModel {
     func saveIngredientsToCoreData() {
+        print("ingredients saved to core data")
         guard ingredients.count > 0 else {
             return
         }
