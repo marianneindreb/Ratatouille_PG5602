@@ -26,6 +26,7 @@ struct CategoryFilterView: View {
                 
                 Spacer()
                 Image(systemName: "arrowtriangle.down")
+                    .foregroundColor(.gray)
             }
             .padding()
             .padding(.horizontal, 10)

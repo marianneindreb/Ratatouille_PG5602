@@ -29,11 +29,18 @@ struct SplashScreenView: View {
         //            }
         if isActive {
             if hasLaunchedBefore {
-                RatatouilleTabView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel()), searchViewModel: .constant(SearchViewModel()))
+                RatatouilleTabView(
+                    areasViewModel: .constant(
+                        AreasViewModel()
+                    ),
+                    categoriesViewModel: .constant(CategoriesViewModel()),
+                    ingredientsViewModel: .constant(IngredientsViewModel()),
+                    searchViewModel: .constant(SearchViewModel())
+                )
             } else {
                 OnboardingView()
             }
-            } else {
+        } else {
                 ZStack {
                     Color(.black).ignoresSafeArea()
                     
@@ -80,7 +87,7 @@ struct SplashScreenView: View {
                                     fetchDataAndSave()
                                     coreDataLoaded = true
                                 }
-                                hasLaunchedBefore = false
+                                hasLaunchedBefore = true
                             }
                         }
                 }

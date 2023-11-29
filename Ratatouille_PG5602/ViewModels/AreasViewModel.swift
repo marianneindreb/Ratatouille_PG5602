@@ -1,8 +1,9 @@
 import Foundation
 import CoreData
+import SwiftUI
 
-@MainActor
-class AreasViewModel: ObservableObject {
+//@Observable
+final class AreasViewModel: ObservableObject {
     @Published var areas: [AreaModel] = []
     @Published var meals: [MealListItemModel] = []
     
@@ -81,7 +82,6 @@ class AreasViewModel: ObservableObject {
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.areas.removeAll()
                 do {
                     let areaResponse = try JSONDecoder().decode(
                         AreasResponse.self,

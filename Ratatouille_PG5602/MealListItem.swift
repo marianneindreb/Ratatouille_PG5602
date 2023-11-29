@@ -3,70 +3,70 @@ import SwiftUI
 
 struct MealListItem: View {
     let meal: MealListItemModel
-   // var onArchive: () -> Void
+    // var onArchive: () -> Void
+    @State private var isDetailViewActive = false
     
     var body: some View {
-            NavigationLink(destination: MealDetailView(meal: convertToMealModel(meal))) {
-                ZStack(alignment: .topTrailing) {
-                    HStack {
-                        if let imageUrl = meal.strMealThumb, let url = URL(string: imageUrl) {
-                            AsyncImage(url: url) { phase in
-                                switch phase {
-                                case .empty:
-                                    ProgressView()
-                                case .success(let image):
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 120)
-                                        .cornerRadius(8)
-                                case .failure:
-                                    Image("ratatouille")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 120)
-                                        .cornerRadius(8)
-                                @unknown default:
-                                    fatalError("Unhandled AsyncImage")
-                                }
-                            }
-                        } else {
+        ZStack {
+            HStack {
+                if let imageUrl = meal.strMealThumb, let url = URL(string: imageUrl) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                        case .success(let image):
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 120)
+                                .cornerRadius(8)
+                        case .failure:
                             Image("ratatouille")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 120)
                                 .cornerRadius(8)
+                        @unknown default:
+                            fatalError("Unhandled AsyncImage")
                         }
-                        
-                        
-                        HStack {
-                            Text(meal.strMeal )
-                                .font(.title2)
-                                .fontWeight(.medium)
-                            
-                        }
-                        .padding(.leading)
-                        
-                        Spacer()
                     }
-                    
-                    
-                    //                if meal.isFavorited == true {
-                    //                    Image("favorite")
-                    //                        .resizable()
-                    //                        .scaledToFit()
-                    //                        .frame(width: 20, height: 20)
-                    //                        .padding([.top, .trailing])
-                    //                }
+                } else {
+                    Image("ratatouille")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 120)
+                        .cornerRadius(8)
                 }
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    Button("Archive") {
-                        //  onArchive()
-                    }
-                    .tint(.brandBg)
+                
+                
+                HStack {
+                    Text(meal.strMeal )
+                        .font(.title2)
+                        .fontWeight(.medium)
+                    
                 }
-            } .buttonStyle(PlainButtonStyle())
+                .padding(.leading)
+                
+                Spacer()
+            }
+//            NavigationLink("", destination: EmptyView(), isActive: $isDetailViewActive)
+//                            .opacity(0)
+//                            .buttonStyle(PlainButtonStyle())
+            
         }
+        
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button("Archive") {
+                //  onArchive()
+            }
+            .tint(.brandBg)
+        }
+    }
+//        .onTapGesture {
+//            isDetailViewActive = true
+//        }
+
+        
     
     private func convertToMealModel( _ mealListItem: MealListItemModel) -> MealModel {
         return MealModel(

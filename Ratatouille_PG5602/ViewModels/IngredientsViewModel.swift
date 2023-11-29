@@ -48,7 +48,6 @@ class IngredientsViewModel: ObservableObject {
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
                 case .success(let data):
-                    self?.ingredients.removeAll()
                 do {
                     let ingredientResponse = try JSONDecoder().decode(
                         IngredientsResponse.self,

@@ -47,7 +47,6 @@ class CategoriesViewModel: ObservableObject {
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
                 case .success(let data):
-                    self?.categories.removeAll()
                 do {
                     let categoryResponse = try JSONDecoder().decode(
                         CategoriesResponse.self,

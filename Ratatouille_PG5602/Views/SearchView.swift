@@ -50,7 +50,7 @@ struct ChosenFilterView: View {
     var body: some View {
         switch selectedFilter {
         case .area:
-            AreaFilterView(viewModel: $areasViewModel)
+            AreaFilterView(viewModel: areasViewModel)
         case .category:
             CategoryFilterView(viewModel: $categoriesViewModel)
         case .ingredient:

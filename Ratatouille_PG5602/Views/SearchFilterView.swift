@@ -17,13 +17,15 @@ struct SearchFilterView: View {
                 .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.gray, lineWidth: 1)
+                        .stroke(Color.white, lineWidth: 1)
+                       
                 )
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.gray)
                 .padding(.trailing, 15)
         }
         .frame(width: 370)
+        .padding()
         
         NavigationView {
             List(viewModel.meals, id: \.idMeal) { meal in

@@ -2,11 +2,12 @@ import SwiftUI
 import Kingfisher
 
 struct IngredientFilterView: View {
- @Binding var viewModel: IngredientsViewModel
-@State private var selectedOption = "Velg hovedingrediens"
+    @Binding var viewModel: IngredientsViewModel
+    @State private var selectedOption = "Velg hovedingrediens"
     
-        
-        var body: some View {
+    
+    var body: some View {
+        NavigationView {
             VStack {
                 HStack {
                     Menu {
@@ -20,8 +21,8 @@ struct IngredientFilterView: View {
                                     .foregroundColor(.gray)
                             }
                         }
-                    
-                
+                        
+                        
             } label: {
                 Text("\(selectedOption)")
                     .fontWeight(.regular)
@@ -29,6 +30,7 @@ struct IngredientFilterView: View {
                 
                 Spacer()
                 Image(systemName: "arrowtriangle.down")
+                    .foregroundColor(.gray)
             }
             .padding()
             .padding(.horizontal, 10)
@@ -41,7 +43,7 @@ struct IngredientFilterView: View {
                 } .padding()
               
         
-        NavigationView {
+        
             List(viewModel.meals , id: \.idMeal) { meal in
                 MealListItem(meal: meal)
             }

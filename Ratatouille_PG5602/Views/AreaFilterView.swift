@@ -3,10 +3,10 @@ import SwiftUI
 import Kingfisher
 
 struct AreaFilterView: View {
-    @Binding var viewModel: AreasViewModel
+    @StateObject var viewModel: AreasViewModel
     
     @State private var selectedOption = "Velg land"
- //   @State private var meals: [MealModel] = []
+    //   @State private var meals: [MealModel] = []
     // optionsArray should include areas and flag
     
     var body: some View {
@@ -36,37 +36,39 @@ struct AreaFilterView: View {
                             //                        }
                         }
                     }
-                
+                    
+                    
+                } label: {
+                    Text("\(selectedOption)")
+                        .fontWeight(.regular)
+                    
+                    Spacer()
+                    Image(systemName: "arrowtriangle.down")
+                        .foregroundColor(.gray)
+                }
+                .padding()
+                .padding(.horizontal, 10)
+                .frame(width: 370)
+                .background(Color.white)
+                .foregroundColor(.black)
+                .font(.headline)
+                .cornerRadius(10)
+                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
+            } 
+            .padding()
             
-        } label: {
-            Text("\(selectedOption)")
-                .fontWeight(.regular)
             
-            Spacer()
-            Image(systemName: "arrowtriangle.down")
+            NavigationView {
+                List(viewModel.meals, id: \.idMeal) { meal in
+                    MealListItem(meal: meal)
+                }
+            }
         }
-        .padding()
-        .padding(.horizontal, 10)
-        .frame(width: 370)
-        .background(Color.white)
-        .foregroundColor(.black)
-        .font(.headline)
-        .cornerRadius(10)
-        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-            } .padding()
-          
-    
-    NavigationView {
-        List(viewModel.meals, id: \.idMeal) { meal in
-            MealListItem(meal: meal)
-        }
+        .navigationTitle("Velg landområde")
     }
-}
-    .navigationTitle("Velg landområde")
-}
 }
 
 #Preview {
-    AreaFilterView(viewModel: .constant(AreasViewModel()))
+    AreaFilterView(viewModel: AreasViewModel())
 }
 
