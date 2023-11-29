@@ -18,7 +18,7 @@ final class MealDetailViewModel {
             switch result {
             case .success(let data):
                 self?.parseMealData(data)
-            case .failure(let error):
+            case .failure(_):
                 break
 //                self?.onErrorHandling?(error)
             }

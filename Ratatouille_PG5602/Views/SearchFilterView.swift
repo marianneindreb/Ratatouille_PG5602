@@ -4,6 +4,11 @@ import Kingfisher
 struct SearchFilterView: View {
     @Binding var viewModel: SearchViewModel
     @State var text = ""
+    @State var meal: [MealModel] = []
+    
+    var filteredMeals: [MealModel] {
+        return meal.filter(meal).localizedCaseInsensitiveContains()
+    }
     
     var body: some View {
         ZStack(alignment: .trailing) {
@@ -34,6 +39,7 @@ struct SearchFilterView: View {
         }
     
         .navigationTitle("Velg kategori")
+        .searchable(text: $text, prompt: "Søk oppskirfter..")
     
 }
 }

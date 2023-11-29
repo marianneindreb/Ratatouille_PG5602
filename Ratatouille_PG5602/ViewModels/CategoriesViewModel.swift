@@ -1,7 +1,9 @@
 import Foundation
 import CoreData
+import SwiftUI
 
-class CategoriesViewModel: ObservableObject {
+//@Observable
+final class CategoriesViewModel: ObservableObject {
     @Published var categories: [CategoryModel] = []
     @Published var meals: [MealListItemModel] = []
     

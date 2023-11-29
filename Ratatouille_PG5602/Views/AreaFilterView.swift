@@ -6,8 +6,7 @@ struct AreaFilterView: View {
     @StateObject var viewModel: AreasViewModel
     
     @State private var selectedOption = "Velg land"
-    //   @State private var meals: [MealModel] = []
-    // optionsArray should include areas and flag
+    // optionsArray could include areas and flag
     
     var body: some View {
         VStack {
@@ -58,8 +57,10 @@ struct AreaFilterView: View {
             .padding()
             
             
-            NavigationView {
-                List(viewModel.meals, id: \.idMeal) { meal in
+            List(viewModel.meals, id: \.idMeal) { meal in
+                NavigationLink {
+                    MealDetailView(id: meal.idMeal)
+                } label: {
                     MealListItem(meal: meal)
                 }
             }

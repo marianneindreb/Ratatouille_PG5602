@@ -1,7 +1,8 @@
 import Foundation
 import CoreData
 
-class IngredientsViewModel: ObservableObject {
+// @Observable
+final class IngredientsViewModel: ObservableObject {
      @Published var ingredients: [IngredientModel] = []
      @Published var meals: [MealListItemModel] = []
    

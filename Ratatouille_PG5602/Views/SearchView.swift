@@ -52,9 +52,9 @@ struct ChosenFilterView: View {
         case .area:
             AreaFilterView(viewModel: areasViewModel)
         case .category:
-            CategoryFilterView(viewModel: $categoriesViewModel)
+            CategoryFilterView(viewModel: categoriesViewModel)
         case .ingredient:
-            IngredientFilterView(viewModel: $ingredientsViewModel)
+            IngredientFilterView(viewModel: ingredientsViewModel)
         
         case .search:
             SearchFilterView(viewModel: $searchViewModel)

@@ -2,7 +2,7 @@ import SwiftUI
 import Kingfisher
 
 struct CategoryFilterView: View {
- @Binding var viewModel: CategoriesViewModel
+ @StateObject var viewModel: CategoriesViewModel
  @State private var selectedOption = "Velg kategori"
     
         
@@ -54,5 +54,5 @@ struct CategoryFilterView: View {
 }
 
 #Preview {
-    CategoryFilterView(viewModel: .constant(CategoriesViewModel()))
+    CategoryFilterView(viewModel: CategoriesViewModel())
 }
