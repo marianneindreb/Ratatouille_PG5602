@@ -3,7 +3,6 @@ import Kingfisher
 
 struct CategoryFilterView: View {
  @Binding var viewModel: CategoriesViewModel
- //@State var options: [CategoryModel] = []
  @State private var selectedOption = "Velg kategori"
     
         

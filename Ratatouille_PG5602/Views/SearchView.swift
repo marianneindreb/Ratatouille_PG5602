@@ -6,6 +6,7 @@ struct SearchView: View {
     @Binding var areasViewModel: AreasViewModel
     @Binding var categoriesViewModel: CategoriesViewModel
     @Binding var ingredientsViewModel: IngredientsViewModel
+    @Binding var searchViewModel: SearchViewModel
     
   
     
@@ -21,7 +22,9 @@ struct SearchView: View {
                 
                 Spacer()
                 
-                ChosenFilterView(areasViewModel: $areasViewModel, categoriesViewModel: $categoriesViewModel, ingredientsViewModel: $ingredientsViewModel, selectedFilter: selectedFilter)
+                
+                ChosenFilterView(areasViewModel: $areasViewModel, categoriesViewModel: $categoriesViewModel, ingredientsViewModel: $ingredientsViewModel, searchViewModel: $searchViewModel, selectedFilter: selectedFilter)
+                
                 }
                 .navigationTitle("Søk")
             }
@@ -41,6 +44,7 @@ struct ChosenFilterView: View {
     @Binding var areasViewModel: AreasViewModel
     @Binding var categoriesViewModel: CategoriesViewModel
     @Binding var ingredientsViewModel: IngredientsViewModel
+    @Binding var searchViewModel: SearchViewModel
     var selectedFilter: Filters
     
     var body: some View {
@@ -53,13 +57,15 @@ struct ChosenFilterView: View {
             IngredientFilterView(viewModel: $ingredientsViewModel)
         
         case .search:
-            Text("Søk")
+            SearchFilterView(viewModel: $searchViewModel)
         }
     }
     
 }
     
     #Preview {
-        SearchView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel()))
+        SearchView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel()),
+                   searchViewModel: .constant(SearchViewModel())
+        )
     }
 

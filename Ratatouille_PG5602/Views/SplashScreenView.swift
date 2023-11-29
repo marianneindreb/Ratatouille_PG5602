@@ -29,7 +29,7 @@ struct SplashScreenView: View {
         //            }
         if isActive {
             if hasLaunchedBefore {
-                RatatouilleTabView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel()))
+                RatatouilleTabView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel()), searchViewModel: .constant(SearchViewModel()))
             } else {
                 OnboardingView()
             }

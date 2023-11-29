@@ -9,12 +9,13 @@ struct MealDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 10) {
-                // Meal Image
                 if let imageUrl = meal.strMealThumb, let url = URL(string: imageUrl) {
                     KFImage(url)
                         .resizable()
-                        .scaledToFit()
+                        .scaledToFill()
                         .frame(height: 300)
+                        .ignoresSafeArea(edges: .top)
+                        .clipped()
                 }
 
                 Text(meal.strMeal)
@@ -23,8 +24,8 @@ struct MealDetailView: View {
 
 
                 Picker("Options", selection: $selectedTab) {
-                    Text("Instructions").tag("Instructions")
-                    Text("Ingredients").tag("Ingredients")
+                    Text("Instruksjoner").tag("Instructions")
+                    Text("Ingredenser").tag("Ingredients")
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 .padding()
@@ -49,6 +50,7 @@ struct MealDetailView: View {
                 Spacer()
                 
                 Button {
+                    // TODO:
                 //  saveRecipe(meal)
                 } label: {
                     Text("Lagre oppskrift")
@@ -62,10 +64,9 @@ struct MealDetailView: View {
                         .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                 }
             }
-            .padding()
+            .padding([.horizontal, .bottom])
         }
-        .ignoresSafeArea(.container, edges: .top)
-        .navigationBarTitle(meal.strMeal, displayMode: .inline)
+        .navigationBarTitle(meal.strMeal, displayMode: .large)
     }
 
     private func saveRecipe( _ meal: MealModel) {
