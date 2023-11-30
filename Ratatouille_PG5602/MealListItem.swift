@@ -5,6 +5,11 @@ struct MealListItem: View {
     let meal: MealListItemModel
     // var onArchive: () -> Void
     @State private var isDetailViewActive = false
+    @StateObject var saveMealsViewModel = SavedMealsViewModel()
+    
+    var mealModel: MealModel {
+        return convertToMealModel(meal)
+    }
     
     var body: some View {
         ZStack {
@@ -53,11 +58,12 @@ struct MealListItem: View {
         
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button("Lagre") {
-                //  onSave()
+                saveMealsViewModel.saveMeal(meal)
             }
             .tint(.brandBg)
         }
     }
+
     
     private func convertToMealModel( _ mealListItem: MealListItemModel) -> MealModel {
         return MealModel(

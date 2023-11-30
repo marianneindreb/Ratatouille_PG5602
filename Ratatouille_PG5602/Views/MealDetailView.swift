@@ -3,6 +3,9 @@ import Kingfisher
 
 struct MealDetailView: View {
     @State private var viewModel: MealDetailViewModel
+    @StateObject var saveMealsViewModel = SavedMealsViewModel()
+    
+   // let meal: MealListItemModel
     
     init(id: String) {
         viewModel = MealDetailViewModel(id: id)
@@ -18,14 +21,16 @@ struct MealDetailView: View {
         ScrollView {
             if let meal = viewModel.meal {
                 VStack(alignment: .leading, spacing: 10) {
+                    Spacer()
                     if let imageUrl = meal.strMealThumb, let url = URL(string: imageUrl) {
                         KFImage(url)
                             .resizable()
-                            .scaledToFill()
-                            .frame(height: 300)
+                            .scaledToFit()
                             .ignoresSafeArea(edges: .top)
                             .clipped()
                     }
+                }
+                VStack {
                     Picker("Options", selection: $selectedTab) {
                         Text("Instruksjoner").tag("Instructions")
                         Text("Ingredenser").tag("Ingredients")
@@ -53,8 +58,7 @@ struct MealDetailView: View {
                     Spacer()
                     
                     Button {
-                        // TODO:
-                        //  saveRecipe(meal)
+                      //  saveMealsViewModel.saveMeal(self.meal)
                     } label: {
                         Text("Lagre oppskrift")
                             .padding(20)
@@ -68,17 +72,13 @@ struct MealDetailView: View {
                     }
                 }
                 .navigationBarTitle(meal.strMeal, displayMode: .automatic)
-                .padding([.horizontal, .bottom])
+                  .padding([.horizontal, .bottom])
             } else {
                 ProgressView()
             }
         }
     }
-    
-    private func saveRecipe( _ meal: MealModel) {
-        // TODO:
-        // Lagre oppskrift
-    }
+}
     
     private func getIngredientList(meal: MealModel) -> [String] {
         let ingredients = [
@@ -96,7 +96,7 @@ struct MealDetailView: View {
         }
         return ingredientList
     }
-}
+
 
 
 #Preview {

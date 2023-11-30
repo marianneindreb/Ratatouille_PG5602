@@ -157,6 +157,7 @@
 		D95FE59B2B0CF86C00FC7091 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				D9BE1D582B125CEF009FFAA2 /* SavedMealsViewModel.swift */,
 				D95FE5882B08BA5E00FC7091 /* MealViewModel.swift */,
 				D9819B5D2B17B60E00D0ED5C /* MealDetailViewModel.swift */,
 				D95FE59C2B0CF88300FC7091 /* CategoriesViewModel.swift */,
@@ -201,7 +202,6 @@
 				D95FE5842B08A60500FC7091 /* NetworkManager.swift */,
 				D95FE5942B0CE04900FC7091 /* ViewModifiers */,
 				D95FE5A22B0D375500FC7091 /* CoreDataManager.swift */,
-				D9BE1D582B125CEF009FFAA2 /* SavedMealsViewModel.swift */,
 				D9819B4D2B135FD100D0ED5C /* LoadingView.swift */,
 			);
 			path = Ratatouille_PG5602;
