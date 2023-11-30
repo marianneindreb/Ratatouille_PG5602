@@ -6,6 +6,7 @@ struct MealListItem: View {
     // var onArchive: () -> Void
     @State private var isDetailViewActive = false
     @StateObject var saveMealsViewModel = SavedMealsViewModel()
+    @State private var isFavorited = false
     
     var mealModel: MealModel {
         return convertToMealModel(meal)
@@ -53,17 +54,33 @@ struct MealListItem: View {
                 .padding(.leading)
                 
                 Spacer()
+                if isFavorited {
+                    Image("favorite")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 25)
+                        .onTapGesture {
+                            isFavorited.toggle()
+                        }
+                }
             }
+        }
+        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+            Button {
+                isFavorited = true
+            } label: {
+                Image("favorite")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 25)
+                    .shadow(radius: 10)
+                
+            }
+            .tint(.white)
         }
         
-        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button("Lagre") {
-                saveMealsViewModel.saveMeal(meal)
-            }
-            .tint(.brandBg)
-        }
     }
-
+    
     
     private func convertToMealModel( _ mealListItem: MealListItemModel) -> MealModel {
         return MealModel(
@@ -71,7 +88,7 @@ struct MealListItem: View {
         )
     }
 }
-                
+
 
 
 #Preview {

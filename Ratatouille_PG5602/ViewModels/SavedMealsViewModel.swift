@@ -35,7 +35,7 @@ class SavedMealsViewModel: ObservableObject {
         }
     }
     
-    func archiveMeal(_ mealId: String) {
+    func archiveMeal() {
        // TODO: 
         // logic, updating to core data entities
     }

@@ -4,6 +4,8 @@ import Kingfisher
 
 struct AreaFilterView: View {
     @StateObject var viewModel: AreasViewModel
+    @StateObject var savedMealsViewModel = SavedMealsViewModel()
+    
     
     @State private var selectedOption = "Velg land"
     // optionsArray could include areas and flag
@@ -64,15 +66,21 @@ struct AreaFilterView: View {
                 } label: {
                     MealListItem(meal: meal)
                 }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button("Lagre") {
+                        savedMealsViewModel.saveMeal(meal)
+                    }
+                    .tint(.brandSecondary)
+                    
+                }
                 
             }
             .listStyle(PlainListStyle())
+            .navigationTitle("Velg landområde")
         }
-        .navigationTitle("Velg landområde")
     }
 }
-
-#Preview {
-    AreaFilterView(viewModel: AreasViewModel())
-}
-
+    #Preview {
+        AreaFilterView(viewModel: AreasViewModel())
+    }
+    

@@ -7,12 +7,13 @@ struct RecipeListView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Image("logo")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 200, height: 120)
-                .shadow(radius: 10)
-                .padding(.top, -10)
+                Image("logo")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 300, height: 120)
+                    .shadow(radius: 10)
+                    .padding(.top, -10)
+
             
             NavigationView {
                 ZStack {
@@ -27,11 +28,28 @@ struct RecipeListView: View {
                     } else {
                         List(viewModel.savedMeals, id: \.idMeal) { meal in
                             MealListItem(meal: meal)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button("Arkiver") {
+                                        viewModel.archiveMeal()
+                                    }
+                                    .tint(.brandSecondary)
+                                    
+                                    Button {
+                                       // isFavorited = true
+                                    } label: {
+                                        Image(systemName: "square.and.pencil")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 25)
+                                            .shadow(radius: 10)
+                                        
+                                    }
+                                }
                         }
+                        .listStyle(PlainListStyle())
+                      
                     }
                 }
-                
-                 .navigationTitle("Mine oppskrifter")
             }
             .onAppear {
                 viewModel.getSavedMeals()
