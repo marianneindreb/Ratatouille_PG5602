@@ -36,7 +36,8 @@ struct CategoryFilterView: View {
             .font(.headline)
             .cornerRadius(10)
             .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-                } .padding()
+                } 
+            .padding()
               
         
             List(viewModel.meals, id: \.idMeal) { meal in
@@ -47,8 +48,8 @@ struct CategoryFilterView: View {
                 }
 
             }
+            .listStyle(PlainListStyle())
         }
-    
         .navigationTitle("Velg kategori")
     }
 }

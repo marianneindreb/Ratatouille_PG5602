@@ -26,12 +26,6 @@ struct MealDetailView: View {
                             .ignoresSafeArea(edges: .top)
                             .clipped()
                     }
-                    
-                    Text(meal.strMeal)
-                        .font(.title)
-                        .fontWeight(.bold)
-                    
-                    
                     Picker("Options", selection: $selectedTab) {
                         Text("Instruksjoner").tag("Instructions")
                         Text("Ingredenser").tag("Ingredients")
@@ -73,7 +67,7 @@ struct MealDetailView: View {
                             .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                     }
                 }
-                .navigationBarTitle(meal.strMeal, displayMode: .large)
+                .navigationBarTitle(meal.strMeal, displayMode: .automatic)
                 .padding([.horizontal, .bottom])
             } else {
                 ProgressView()
@@ -97,7 +91,7 @@ struct MealDetailView: View {
         var ingredientList = [String]()
         for (ingredient, measure) in zip(ingredients, measures) {
             if let ing = ingredient, !ing.isEmpty {
-                ingredientList.append("\(ing) - \(measure ?? "")")
+                ingredientList.append("\(ing)     -     \(measure ?? "")")
             }
         }
         return ingredientList

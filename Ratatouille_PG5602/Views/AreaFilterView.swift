@@ -53,8 +53,9 @@ struct AreaFilterView: View {
                 .font(.headline)
                 .cornerRadius(10)
                 .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-            } 
-            .padding()
+                .padding()
+            }
+            
             
             
             List(viewModel.meals, id: \.idMeal) { meal in
@@ -63,7 +64,9 @@ struct AreaFilterView: View {
                 } label: {
                     MealListItem(meal: meal)
                 }
+                
             }
+            .listStyle(PlainListStyle())
         }
         .navigationTitle("Velg landområde")
     }

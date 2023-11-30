@@ -25,7 +25,6 @@
 		D9819B522B13994200D0ED5C /* MealDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9819B512B13994200D0ED5C /* MealDetailView.swift */; };
 		D9819B562B13C4F300D0ED5C /* CategoryFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9819B552B13C4F300D0ED5C /* CategoryFilterView.swift */; };
 		D9819B582B13DB4000D0ED5C /* IngredientFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9819B572B13DB4000D0ED5C /* IngredientFilterView.swift */; };
-		D9819B5A2B17810600D0ED5C /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9819B592B17810600D0ED5C /* SearchViewModel.swift */; };
 		D9819B5C2B1781CA00D0ED5C /* SearchFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9819B5B2B1781CA00D0ED5C /* SearchFilterView.swift */; };
 		D9819B5E2B17B60E00D0ED5C /* MealDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9819B5D2B17B60E00D0ED5C /* MealDetailViewModel.swift */; };
 		D99218792B06B38300715C04 /* Ratatouille_PG5602App.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99218782B06B38300715C04 /* Ratatouille_PG5602App.swift */; };
@@ -84,7 +83,6 @@
 		D9819B512B13994200D0ED5C /* MealDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetailView.swift; sourceTree = "<group>"; };
 		D9819B552B13C4F300D0ED5C /* CategoryFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryFilterView.swift; sourceTree = "<group>"; };
 		D9819B572B13DB4000D0ED5C /* IngredientFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientFilterView.swift; sourceTree = "<group>"; };
-		D9819B592B17810600D0ED5C /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		D9819B5B2B1781CA00D0ED5C /* SearchFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFilterView.swift; sourceTree = "<group>"; };
 		D9819B5D2B17B60E00D0ED5C /* MealDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealDetailViewModel.swift; sourceTree = "<group>"; };
 		D99218752B06B38300715C04 /* Ratatouille_PG5602.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Ratatouille_PG5602.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,7 +162,6 @@
 				D95FE59C2B0CF88300FC7091 /* CategoriesViewModel.swift */,
 				D95FE5A02B0D2F6000FC7091 /* AreasViewModel.swift */,
 				D9BE1D532B0FC440009FFAA2 /* IngredientsViewModel.swift */,
-				D9819B592B17810600D0ED5C /* SearchViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -416,7 +413,6 @@
 				D95FE5852B08A60500FC7091 /* NetworkManager.swift in Sources */,
 				D9BE1D542B0FC440009FFAA2 /* IngredientsViewModel.swift in Sources */,
 				D95FE5A32B0D375500FC7091 /* CoreDataManager.swift in Sources */,
-				D9819B5A2B17810600D0ED5C /* SearchViewModel.swift in Sources */,
 				D95FE5982B0CEE4B00FC7091 /* IngredientModel.swift in Sources */,
 				D95FE58F2B0CC3F400FC7091 /* CategoryModel.swift in Sources */,
 				D95FE5832B08A4BE00FC7091 /* MealListItem.swift in Sources */,

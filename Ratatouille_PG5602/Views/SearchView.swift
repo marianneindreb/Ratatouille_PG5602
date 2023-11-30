@@ -1,14 +1,14 @@
 import SwiftUI
 
 struct SearchView: View {
-  //  @StateObject var viewModel = MealListViewModel()
+    //  @StateObject var viewModel = MealListViewModel()
     @State private var selectedFilter: Filters = .area
     @Binding var areasViewModel: AreasViewModel
     @Binding var categoriesViewModel: CategoriesViewModel
     @Binding var ingredientsViewModel: IngredientsViewModel
-    @Binding var searchViewModel: SearchViewModel
+    @Binding var mealViewModel: MealViewModel
     
-  
+    
     
     var body: some View {
         NavigationView {
@@ -20,17 +20,14 @@ struct SearchView: View {
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 
-                Spacer()
+                ChosenFilterView(areasViewModel: $areasViewModel, categoriesViewModel: $categoriesViewModel, ingredientsViewModel: $ingredientsViewModel, mealViewModel: $mealViewModel, selectedFilter: selectedFilter)
                 
-                
-                ChosenFilterView(areasViewModel: $areasViewModel, categoriesViewModel: $categoriesViewModel, ingredientsViewModel: $ingredientsViewModel, searchViewModel: $searchViewModel, selectedFilter: selectedFilter)
-                
-                }
-                .navigationTitle("Søk")
             }
-        
+            .navigationTitle("Søk")
         }
+        
     }
+}
 
 enum Filters: String, CaseIterable {
     case area = "Landområde"
@@ -44,7 +41,7 @@ struct ChosenFilterView: View {
     @Binding var areasViewModel: AreasViewModel
     @Binding var categoriesViewModel: CategoriesViewModel
     @Binding var ingredientsViewModel: IngredientsViewModel
-    @Binding var searchViewModel: SearchViewModel
+    @Binding var mealViewModel: MealViewModel
     var selectedFilter: Filters
     
     var body: some View {
@@ -55,17 +52,20 @@ struct ChosenFilterView: View {
             CategoryFilterView(viewModel: categoriesViewModel)
         case .ingredient:
             IngredientFilterView(viewModel: ingredientsViewModel)
-        
+            
         case .search:
-            SearchFilterView(viewModel: $searchViewModel)
+            SearchFilterView(viewModel: mealViewModel)
         }
     }
     
 }
-    
-    #Preview {
-        SearchView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel()),
-                   searchViewModel: .constant(SearchViewModel())
-        )
-    }
+
+#Preview {
+    SearchView(
+        areasViewModel: .constant(AreasViewModel()),
+        categoriesViewModel: .constant(CategoriesViewModel()),
+        ingredientsViewModel: .constant(IngredientsViewModel()),
+        mealViewModel: .constant(MealViewModel())
+    )
+}
 

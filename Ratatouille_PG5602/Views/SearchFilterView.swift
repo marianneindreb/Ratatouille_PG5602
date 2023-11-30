@@ -2,17 +2,18 @@ import SwiftUI
 import Kingfisher
 
 struct SearchFilterView: View {
-    @Binding var viewModel: SearchViewModel
-    @State var text = ""
-    @State var meal: [MealModel] = []
+    @State var searchText = ""
+    @State private var meals: [MealListItemModel] = []
+    @StateObject var viewModel: MealViewModel
     
-    var filteredMeals: [MealModel] {
-        return meal.filter(meal).localizedCaseInsensitiveContains()
-    }
+    //    var filteredMeals: [MealModel] {
+    //        guard !text.isEmpty else {return meal}
+    //        return meal.filter { $0.strMeal.localizedCaseInsensitiveContains(text) }
+    //    }
     
     var body: some View {
         ZStack(alignment: .trailing) {
-            TextField("Søk..", text: $text)
+            TextField("Søk..", text: $searchText)
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
                 .background(Color.white)
@@ -23,7 +24,7 @@ struct SearchFilterView: View {
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.white, lineWidth: 1)
-                       
+                    
                 )
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.gray)
@@ -31,23 +32,31 @@ struct SearchFilterView: View {
         }
         .frame(width: 370)
         .padding()
+//        .onChange(of: searchText ) { textSearch in
+//            fetchMeals()
+//        }
         
-        NavigationView {
-            List(viewModel.meals, id: \.idMeal) { meal in
-                MealListItem(meal: meal)
+//        List(meals, id: \.idMeal) { meal in
+//            MealListItem(meal: meal)
+//        }
+        List(viewModel.meals) { meal in
+            Text(meal.strMeal)
+        }
+        .listStyle(PlainListStyle())
+
+        .task {
+            do {
+                try await viewModel.fetchMeals()
+            } catch {
+                print(error)
             }
         }
+    }
     
-        .navigationTitle("Velg kategori")
-        .searchable(text: $text, prompt: "Søk oppskirfter..")
     
 }
-}
-
-        
-
 
 
 #Preview {
-    SearchFilterView(viewModel: .constant(SearchViewModel()))
+    SearchFilterView(viewModel: MealViewModel())
 }

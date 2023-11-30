@@ -4,7 +4,7 @@ struct RatatouilleTabView: View {
     @Binding var areasViewModel: AreasViewModel
     @Binding var categoriesViewModel: CategoriesViewModel
     @Binding var ingredientsViewModel: IngredientsViewModel
-    @Binding var searchViewModel: SearchViewModel
+    @Binding var mealViewModel: MealViewModel
     
     var body: some View {
         TabView {
@@ -13,7 +13,7 @@ struct RatatouilleTabView: View {
                     Image(systemName: "fork.knife")
                     Text("Mine Oppskrifter")
                 }
-            SearchView(areasViewModel: $areasViewModel, categoriesViewModel: $categoriesViewModel, ingredientsViewModel: $ingredientsViewModel, searchViewModel: $searchViewModel)
+            SearchView(areasViewModel: $areasViewModel, categoriesViewModel: $categoriesViewModel, ingredientsViewModel: $ingredientsViewModel, mealViewModel: $mealViewModel)
                 .tabItem {
                     Image(systemName: "magnifyingglass")
                     Text("Søk")
@@ -30,6 +30,6 @@ struct RatatouilleTabView: View {
 
 #Preview {
     RatatouilleTabView(areasViewModel: .constant(AreasViewModel()), categoriesViewModel: .constant(CategoriesViewModel()), ingredientsViewModel: .constant(IngredientsViewModel()),
-                       searchViewModel: .constant(SearchViewModel())
+                       mealViewModel: .constant(MealViewModel())
     )
 }

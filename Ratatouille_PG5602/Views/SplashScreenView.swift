@@ -35,7 +35,7 @@ struct SplashScreenView: View {
                     ),
                     categoriesViewModel: .constant(CategoriesViewModel()),
                     ingredientsViewModel: .constant(IngredientsViewModel()),
-                    searchViewModel: .constant(SearchViewModel())
+                    mealViewModel: .constant(MealViewModel())
                 )
             } else {
                 OnboardingView()

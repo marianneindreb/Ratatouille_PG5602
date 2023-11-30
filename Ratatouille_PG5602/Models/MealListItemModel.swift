@@ -1,6 +1,8 @@
 import Foundation
 
-struct MealListItemModel: Decodable, Hashable {
+struct MealListItemModel: Decodable, Hashable, Identifiable {
+    var id: String {idMeal}
+    
     let strMeal : String
     let strMealThumb: String?
     let idMeal: String

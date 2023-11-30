@@ -50,6 +50,8 @@ struct IngredientFilterView: View {
                     MealListItem(meal: meal)
                 }
             }
+            .listStyle(PlainListStyle())
+
         }
         .navigationTitle("Velg Ingrediens")
     }
