@@ -71,16 +71,14 @@ struct AreaFilterView: View {
                         savedMealsViewModel.saveMeal(meal)
                     }
                     .tint(.brandSecondary)
-                    
                 }
-                
             }
             .listStyle(PlainListStyle())
             .navigationTitle("Velg landområde")
         }
     }
 }
-    #Preview {
-        AreaFilterView(viewModel: AreasViewModel())
-    }
-    
+#Preview {
+    AreaFilterView(viewModel: AreasViewModel())
+}
+

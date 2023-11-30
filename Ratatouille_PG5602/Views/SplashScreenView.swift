@@ -8,25 +8,15 @@ struct SplashScreenView: View {
     @ObservedObject var areasViewModel = AreasViewModel()
     @StateObject var categoriesViewModel = CategoriesViewModel()
     @StateObject var ingredientsViewModel = IngredientsViewModel()
-
+    
     @State private var isActive = false
     @State private var scale = CGSize(width: 0.8, height: 0.8)
     @State private var opacity = 0.0
-    @State private var ledLogoOpacity = 0.0
+    @State private var rotation = 0.0
+    @State private var backgroundColor = Color.black
+    
     
     var body: some View {
-        
-        //        if isActive {
-        //            if hasLaunchedBefore {
-        //                RatatouilleTabView()
-        //            } else {
-        //                // fetch data from api
-        //                OnboardingView()
-        //                    .onAppear {
-        //                        fetchDataAndSave()
-        //                        hasLaunchedBefore = true
-        //                    }
-        //            }
         if isActive {
             if hasLaunchedBefore {
                 RatatouilleTabView(
@@ -41,59 +31,78 @@ struct SplashScreenView: View {
                 OnboardingView()
             }
         } else {
+            ZStack {
+                backgroundColor
+                    .ignoresSafeArea()
+                
                 ZStack {
-                    Color(.black).ignoresSafeArea()
                     
-                    ZStack {
-                        Image("bg")
+                    
+                    VStack {
+                        Image("1")
                             .resizable()
-                            .ignoresSafeArea()
-                        
-                        ZStack {
-                            Image("logo")
-                                .resizable()
-                                .scaledToFit()
-                                .opacity(opacity)
-                            
-                            Image("ledLogo")
-                                .resizable()
-                                .scaledToFit()
-                                .opacity(ledLogoOpacity)
-                        }
-                        .scaleEffect(scale)
-                        
-                    }.opacity(opacity)
-                        .onAppear() {
-                            withAnimation(.easeIn(duration: 1.0)) {
-                                self.opacity = 1
-                            }
-                            
-                            for i in 1..<9{
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 1.8 + Double(i) * 0.2) {
-                                    if ledLogoOpacity == 0.0 {
-                                        ledLogoOpacity = 1.0
-                                    } else {
-                                        ledLogoOpacity = 0.0
+                            .scaledToFit()
+                            .opacity(opacity)
+                            .rotationEffect(.degrees(rotation))
+                            .onAppear() {
+                                let rotationAnimation = Animation.linear(duration: 2.0).repeatForever(autoreverses: false)
+                                withAnimation(rotationAnimation) {
+                                    self.rotation = 360.0
+                                }
+                                
+                                withAnimation(.easeIn(duration: 0.5)) {
+                                    self.opacity = 1
+                                }
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                                    withAnimation(.easeInOut(duration: 0.5)) {
+                                        self.scale = CGSize(width: 50, height: 50)
+                                        self.opacity = 0.0
+                                        self.backgroundColor = .white
                                     }
                                 }
-                            }
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-                                withAnimation {
-                                    self.isActive = true
-                                   // coreDataLoaded = true
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                                    withAnimation {
+                                        self.isActive = true
+                                        coreDataLoaded = true
+                                    }
+                                    if !coreDataLoaded {
+                                        fetchDataAndSave()
+                                        coreDataLoaded = true
+                                    }
+                                    hasLaunchedBefore = true
                                 }
-                                if !coreDataLoaded {
-                                    fetchDataAndSave()
-                                    coreDataLoaded = true
-                                }
-                                hasLaunchedBefore = true
                             }
+                        Image("logotext.white")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 400) // Adjust the frame size as needed
+                            .opacity(opacity)
+                    }
+                    .scaleEffect(scale)
+                    
+                    .opacity(opacity)
+                    .onAppear() {
+                        withAnimation(.easeIn(duration: 1.0)) {
+                            self.opacity = 1
                         }
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                            withAnimation {
+                                self.isActive = true
+                                coreDataLoaded = true
+                            }
+                            if !coreDataLoaded {
+                                fetchDataAndSave()
+                                coreDataLoaded = true
+                            }
+                            hasLaunchedBefore = true
+                        }
+                    }
                 }
             }
         }
-    
+    }
     
     
     func fetchDataAndSave() {
