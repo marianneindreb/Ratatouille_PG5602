@@ -5,22 +5,6 @@ import CoreData
 class SavedMealsViewModel: ObservableObject {
     @Published var savedMeals: [MealListItemModel] = []
     @Published var isLoading = false
-
-    func saveMeal(_ meal: MealListItemModel) {
-    let context = CoreDataManager.shared.context
-       let savedMealEntity = MealEntity(context: context)
-
-       savedMealEntity.idMeal = meal.idMeal
-       savedMealEntity.strMeal = meal.strMeal
-        savedMealEntity.strMealThumb = meal.strMealThumb
-
-       do {
-           try context.save()
-           savedMeals.append(meal)
-       } catch {
-           print("Error saving meal: \(error)")
-       }
-   }
     
     func getSavedMeals() {
         isLoading = true
@@ -29,7 +13,10 @@ class SavedMealsViewModel: ObservableObject {
 
         do {
             let mealsEntities = try context.fetch(fetchRequest)
-            self.savedMeals = mealsEntities.map { MealListItemModel(from: $0) }
+            //TODO: Filter out archived.
+            self.savedMeals = mealsEntities.map {
+                MealListItemModel(from: $0)
+            }
             isLoading = false
         } catch {
             print("Error fetching saved meals: \(error)")
