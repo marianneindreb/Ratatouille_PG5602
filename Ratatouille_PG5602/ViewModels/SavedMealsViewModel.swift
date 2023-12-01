@@ -12,6 +12,7 @@ class SavedMealsViewModel: ObservableObject {
 
        savedMealEntity.idMeal = meal.idMeal
        savedMealEntity.strMeal = meal.strMeal
+        savedMealEntity.strMealThumb = meal.strMealThumb
 
        do {
            try context.save()

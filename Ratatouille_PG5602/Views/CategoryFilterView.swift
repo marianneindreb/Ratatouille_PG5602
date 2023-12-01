@@ -4,6 +4,7 @@ import Kingfisher
 struct CategoryFilterView: View {
     @StateObject var viewModel: CategoriesViewModel
     @State private var selectedOption = "Velg kategori"
+    @StateObject var savedMealsViewModel = SavedMealsViewModel()
     
     
     var body: some View {
@@ -45,14 +46,19 @@ struct CategoryFilterView: View {
                 } label: {
                     MealListItem(meal: meal)
                 }
-                
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button("Lagre") {
+                        savedMealsViewModel.saveMeal(meal)
+                    }
+                    .tint(.brandSecondary)
+                }
             }
             .listStyle(PlainListStyle())
+            .navigationTitle("Velg kategori")
         }
-        .navigationTitle("Velg kategori")
     }
 }
-
-#Preview {
-    CategoryFilterView(viewModel: CategoriesViewModel())
-}
+    
+    #Preview {
+        CategoryFilterView(viewModel: CategoriesViewModel())
+    }

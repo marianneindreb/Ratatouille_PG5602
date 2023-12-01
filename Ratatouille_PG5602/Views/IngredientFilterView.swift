@@ -4,6 +4,7 @@ import Kingfisher
 struct IngredientFilterView: View {
     @StateObject var viewModel: IngredientsViewModel
     @State private var selectedOption = "Velg hovedingrediens"
+    @StateObject var savedMealsViewModel = SavedMealsViewModel()
     
     
     var body: some View {
@@ -47,11 +48,16 @@ struct IngredientFilterView: View {
                 } label: {
                     MealListItem(meal: meal)
                 }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button("Lagre") {
+                        savedMealsViewModel.saveMeal(meal)
+                    }
+                    .tint(.brandSecondary)
+                }
             }
             .listStyle(PlainListStyle())
-            
+            .navigationTitle("Velg Ingrediens")
         }
-        .navigationTitle("Velg Ingrediens")
     }
 }
 

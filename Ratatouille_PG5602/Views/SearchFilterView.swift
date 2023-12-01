@@ -3,60 +3,67 @@ import Kingfisher
 
 struct SearchFilterView: View {
     @State var searchText = ""
+    // @State private var meals: [MealModel] = []
     @State private var meals: [MealListItemModel] = []
-    @StateObject var viewModel: MealViewModel
+    @StateObject var viewModel: SearchViewModel
+    @StateObject var savedMealsViewModel = SavedMealsViewModel()
     
-    //    var filteredMeals: [MealModel] {
-    //        guard !text.isEmpty else {return meal}
-    //        return meal.filter { $0.strMeal.localizedCaseInsensitiveContains(text) }
-    //    }
+    
     
     var body: some View {
         ZStack(alignment: .trailing) {
-            TextField("Søk..", text: $searchText)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
-                .background(Color.white)
-                .foregroundColor(.black)
-                .font(.headline)
-                .cornerRadius(10)
-                .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 2)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.white, lineWidth: 1)
-                    
-                )
-            Image(systemName: "magnifyingglass")
-                .foregroundColor(.gray)
-                .padding(.trailing, 15)
-        }
-        .frame(width: 370)
-        .padding()
-//        .onChange(of: searchText ) { textSearch in
-//            fetchMeals()
-//        }
-        
-//        List(meals, id: \.idMeal) { meal in
-//            MealListItem(meal: meal)
-//        }
-        List(viewModel.meals) { meal in
-            Text(meal.strMeal)
-        }
-        .listStyle(PlainListStyle())
-
-        .task {
-            do {
-                try await viewModel.fetchMeals()
-            } catch {
-                print(error)
+            List(viewModel.meals, id: \.idMeal) { meal in
+                NavigationLink {
+                    MealDetailView(id: meal.idMeal)
+                } label: {
+                    MealListItem(meal: MealListItemModel.init(strMeal: meal.strMeal, strMealThumb: meal.strMealThumb, idMeal: meal.idMeal))
+                }
+                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                    Button("Lagre") {
+                        savedMealsViewModel.saveMeal(MealListItemModel(strMeal: meal.strMeal, strMealThumb: meal.strMealThumb, idMeal: meal.idMeal))
+                    }
+                    .tint(.brandSecondary)
+                }
             }
+            .listStyle(PlainListStyle())
         }
+        .searchable(text: $searchText, prompt: "Pie")
+        .onSubmit(of: .search ) {
+            print("blablabla")
+            viewModel.fetchSearchResult(searchText)
+        }
+        
+        
     }
-    
-    
 }
 
 
 #Preview {
-    SearchFilterView(viewModel: MealViewModel())
+    SearchFilterView(viewModel: SearchViewModel())
 }
+//
+//var body: some View {
+//    ZStack(alignment: .trailing) {
+//    }
+//     .searchable(text: $searchText, prompt: "Pie")
+//            .onChange(of: searchText ) { textSearch in
+//                print("blablabla")
+//                viewModel.fetchSearchResult(textSearch)
+//            }
+//
+//    List(viewModel.meals, id: \.idMeal) { meal in
+//        NavigationLink {
+//            MealDetailView(id: meal.idMeal)
+//        } label: {
+//            MealListItem(meal: meal)
+//        }
+//        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+//            Button("Lagre") {
+//                savedMealsViewModel.saveMeal(meal)
+//            }
+//            .tint(.brandSecondary)
+//        }
+//    }
+//    .listStyle(PlainListStyle())
+//}
+//}
