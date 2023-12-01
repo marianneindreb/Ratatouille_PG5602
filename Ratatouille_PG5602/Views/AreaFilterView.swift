@@ -58,8 +58,6 @@ struct AreaFilterView: View {
                 .padding()
             }
             
-            
-            
             List(viewModel.meals, id: \.idMeal) { meal in
                 NavigationLink {
                     MealDetailView(id: meal.idMeal)

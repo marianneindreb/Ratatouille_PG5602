@@ -31,7 +31,6 @@ struct RecipeListView: View {
                                 .frame(width: 150, height: 150)
                             Text("Du har ikke lagret noen oppskrifter")
                                 .font(.headline)
-                            
                         }
                     } else {
                         List(viewModel.savedMeals, id: \.idMeal) { meal in
@@ -54,20 +53,13 @@ struct RecipeListView: View {
                                         .scaledToFit()
                                         .frame(width: 25)
                                         .shadow(radius: 10)
-                                    
                                 }
                             }
                         }
                         .listStyle(PlainListStyle())
-                        
                     }
-                    
-                   
                 }
-                
                 .navigationTitle("Mine Oppskrifter")
-               
-                
             }
             .onAppear {
                 viewModel.getSavedMeals()
@@ -76,7 +68,6 @@ struct RecipeListView: View {
             if viewModel.isLoading {
                 LoadingView()
             }
-            
             Spacer(minLength: 0)
         }
     }

@@ -1,8 +1,6 @@
 import SwiftUI
 
 
-
-
 struct SettingsView: View {
 
     @AppStorage("isdarkMode") var isDarkMode: Bool = false

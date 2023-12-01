@@ -20,8 +20,6 @@ struct IngredientFilterView: View {
                                 .foregroundColor(.gray)
                         }
                     }
-                    
-                    
                 } label: {
                     Text("\(selectedOption)")
                         .fontWeight(.regular)
@@ -51,7 +49,7 @@ struct IngredientFilterView: View {
                 }
             }
             .listStyle(PlainListStyle())
-
+            
         }
         .navigationTitle("Velg Ingrediens")
     }

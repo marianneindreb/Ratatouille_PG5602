@@ -9,7 +9,6 @@ struct SearchView: View {
     @Binding var mealViewModel: MealViewModel
     
     
-    
     var body: some View {
         NavigationView {
             VStack {
@@ -25,7 +24,6 @@ struct SearchView: View {
             }
             .navigationTitle("Søk")
         }
-        
     }
 }
 
@@ -37,7 +35,6 @@ enum Filters: String, CaseIterable {
 }
 
 struct ChosenFilterView: View {
-    
     @Binding var areasViewModel: AreasViewModel
     @Binding var categoriesViewModel: CategoriesViewModel
     @Binding var ingredientsViewModel: IngredientsViewModel
@@ -57,7 +54,6 @@ struct ChosenFilterView: View {
             SearchFilterView(viewModel: mealViewModel)
         }
     }
-    
 }
 
 #Preview {

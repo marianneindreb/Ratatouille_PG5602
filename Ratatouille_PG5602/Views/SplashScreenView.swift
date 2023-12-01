@@ -45,7 +45,7 @@ struct SplashScreenView: View {
                             .opacity(opacity)
                             .rotationEffect(.degrees(rotation))
                             .onAppear() {
-                                let rotationAnimation = Animation.linear(duration: 2.0).repeatForever(autoreverses: false)
+                                let rotationAnimation = Animation.linear(duration: 5.0).repeatForever(autoreverses: false)
                                 withAnimation(rotationAnimation) {
                                     self.rotation = 360.0
                                 }
@@ -55,7 +55,7 @@ struct SplashScreenView: View {
                                 }
                                 
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                                    withAnimation(.easeInOut(duration: 0.5)) {
+                                    withAnimation(.easeInOut(duration: 1.0)) {
                                         self.scale = CGSize(width: 50, height: 50)
                                         self.opacity = 0.0
                                         self.backgroundColor = .white
@@ -76,7 +76,7 @@ struct SplashScreenView: View {
                         Image("logotext.white")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 400) // Adjust the frame size as needed
+                            .frame(width: 400)
                             .opacity(opacity)
                     }
                     .scaleEffect(scale)

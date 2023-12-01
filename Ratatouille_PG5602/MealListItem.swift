@@ -43,16 +43,12 @@ struct MealListItem: View {
                         .frame(width: 120)
                         .cornerRadius(8)
                 }
-                
-                
                 HStack {
                     Text(meal.strMeal )
                         .font(.title2)
                         .fontWeight(.medium)
-                    
                 }
                 .padding(.leading)
-                
                 Spacer()
                 if isFavorited {
                     Image("favorite")
@@ -74,7 +70,6 @@ struct MealListItem: View {
                     .scaledToFit()
                     .frame(width: 25)
                     .shadow(radius: 10)
-                
             }
             .tint(.white)
         }
