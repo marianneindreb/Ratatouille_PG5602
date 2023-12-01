@@ -20,7 +20,7 @@ struct SearchFilterView: View {
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button("Lagre") {
-                        savedMealsViewModel.saveMeal(MealListItemModel(strMeal: meal.strMeal, strMealThumb: meal.strMealThumb, idMeal: meal.idMeal))
+                        MealDetailViewModel().fetchAndSaveMeal(id: meal.idMeal)
                     }
                     .tint(.brandSecondary)
                 }

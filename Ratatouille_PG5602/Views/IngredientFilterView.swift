@@ -50,7 +50,7 @@ struct IngredientFilterView: View {
                 }
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button("Lagre") {
-                        savedMealsViewModel.saveMeal(meal)
+                        MealDetailViewModel().fetchAndSaveMeal(id: meal.idMeal)
                     }
                     .tint(.brandSecondary)
                 }

@@ -58,7 +58,7 @@ struct MealDetailView: View {
                     Spacer()
                     
                     Button {
-                        //  saveMealsViewModel.saveMeal(self.meal)
+                        viewModel.saveMeal()
                     } label: {
                         Text("Lagre oppskrift")
                             .padding(20)
