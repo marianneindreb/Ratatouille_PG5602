@@ -22,7 +22,7 @@ struct RecipeListView: View {
                     } else {
                         List(viewModel.savedMeals, id: \.idMeal) { meal in
                             NavigationLink {
-                                MealDetailView(meal: meal)
+                                MealDetailView(meal: meal, saveMealsModel: viewModel)
                             } label: {
                                 MealListItem(meal: MealListItemModel(strMeal: meal.strMeal, strMealThumb: meal.strMealThumb, idMeal: meal.idMeal))
                             }

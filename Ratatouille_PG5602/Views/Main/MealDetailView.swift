@@ -8,7 +8,7 @@ struct MealDetailView: View {
     }
     
     @State private var viewModel: MealDetailViewModel
-    @StateObject var saveMealsViewModel = SavedMealsViewModel()
+    @ObservedObject var saveMealsViewModel: SavedMealsViewModel
     @State private var viewSource: ViewSource
     @State private var selectedTab: String = "Instructions"
     @State var didSave: Bool = false
@@ -17,11 +17,13 @@ struct MealDetailView: View {
     init(id: String) {
         viewModel = MealDetailViewModel(id: id)
         viewSource = .fromSearch
+        self.saveMealsViewModel = SavedMealsViewModel()
     }
     
-    init(meal: MealModel) {
+    init(meal: MealModel, saveMealsModel: SavedMealsViewModel) {
         viewModel = MealDetailViewModel(meal: meal)
         viewSource = .fromSaved
+        self.saveMealsViewModel = saveMealsModel
     }
     
     var body: some View {
@@ -134,6 +136,7 @@ struct MealDetailView: View {
                 if !didArchive {
                     saveMealsViewModel.archiveMeal(id: meal.idMeal)
                     didArchive = true
+                    saveMealsViewModel.getSavedMeals()
                 }
                 
             } label: {
@@ -183,5 +186,5 @@ private func getIngredientList(meal: MealModel) -> [String] {
 }
 
 #Preview {
-    MealDetailView(meal: MealModel.sampleMeal)
+    MealDetailView(meal: MealModel.sampleMeal, saveMealsModel: SavedMealsViewModel())
 }
