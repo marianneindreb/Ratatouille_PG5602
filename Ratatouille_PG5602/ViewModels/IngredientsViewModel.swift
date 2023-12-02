@@ -24,7 +24,6 @@ final class IngredientsViewModel: ObservableObject {
         } else {
             self.loadIngredientsFromCoreData()
         }
-        
     }
     
     func loadIngredientsFromCoreData(){
@@ -50,7 +49,7 @@ final class IngredientsViewModel: ObservableObject {
                 return []
             } else {
                 let ingredientsMapped = ingredientEntities.map {
-                    IngredientModel(idIngredient: $0.idIngredient ?? "", strIngredient: $0.strIngredient ?? "")
+                    IngredientModel(idIngredient: $0.idIngredient ?? "", strIngredient: $0.strIngredient ?? "", isArchived: $0.isArchived)
                 }
             return ingredientsMapped;
         }
@@ -96,6 +95,7 @@ final class IngredientsViewModel: ObservableObject {
     }
     
     func fetchMealsFromAPI(forIngredient ingredient: String) {
+        
         let urlString = "https://www.themealdb.com/api/json/v1/1/filter.php?i=\(ingredient)"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
@@ -167,6 +167,26 @@ final class IngredientsViewModel: ObservableObject {
             }
         } catch {
             print("Error restoring ingredient with id \(idIngredient): \(error)")
+        }
+    }
+    
+    func updateIngredient(idIngredient: String, newName: String){
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
+        let predicate = NSPredicate(format: "idIngredient == %@", idIngredient)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let ingredientEntity = try context.fetch(fetchRequest).first {
+                let oldName = ingredientEntity.strIngredient
+                ingredientEntity.strIngredient = newName
+               
+                try context.save()
+                print("Updated ingredient name from \(String(describing: oldName)) to \(newName)")
+                self.loadIngredientsFromCoreData()
+            }
+        } catch {
+            print("Error updating ingredient name \(idIngredient) to \(newName): \(error)")
         }
     }
     

@@ -3,7 +3,7 @@ import SwiftUI
 
 struct ArchiveView: View {
     
-    @ObservedObject var archivedMealsVM = ArchiveViewModel()
+    @ObservedObject var archivedMealsVM = ArchivedMealsViewModel()
     
     @State var hasArchivedAreas: Bool = false
     @State var hasArchivedCategories: Bool = false

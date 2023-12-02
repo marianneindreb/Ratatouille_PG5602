@@ -17,13 +17,13 @@ struct MealDetailView: View {
     init(id: String) {
         viewModel = MealDetailViewModel(id: id)
         viewSource = .fromSearch
-        self.saveMealsViewModel = SavedMealsViewModel()
+        saveMealsViewModel = SavedMealsViewModel()
     }
     
     init(meal: MealModel, saveMealsModel: SavedMealsViewModel) {
         viewModel = MealDetailViewModel(meal: meal)
         viewSource = .fromSaved
-        self.saveMealsViewModel = saveMealsModel
+        saveMealsViewModel = saveMealsModel
     }
     
     var body: some View {
@@ -82,7 +82,6 @@ struct MealDetailView: View {
     
     @ViewBuilder
     private func saveButton(meal: MealModel) -> some View {
-        
         Button {
             if !didSave {
                 viewModel.saveMeal()
@@ -116,7 +115,6 @@ struct MealDetailView: View {
     
     @ViewBuilder
     private func actionButtonsForSavedMeal(meal: MealModel) -> some View {
-        
         VStack {
             Button {
                 // TODO: edit functionality, including disabled after click.
@@ -161,7 +159,6 @@ struct MealDetailView: View {
                         .cornerRadius(15)
                         .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
                 }
-               
             }
             .disabled(didArchive)
         }

@@ -63,7 +63,7 @@ final class AreasViewModel: ObservableObject {
     }
     
     func loadAreasFromCoreData() {
-        areas = getAreasFromCoreData()
+        self.areas = getAreasFromCoreData()
     }
     
     func getAreasFromCoreData() -> [AreaModel] {
@@ -77,7 +77,7 @@ final class AreasViewModel: ObservableObject {
                 return []
             } else {
                 let areasMapped = areaEntities.map {
-                    AreaModel(strArea: $0.strArea ?? "")
+                    AreaModel(strArea: $0.strArea ?? "", isArchived: $0.isArchived)
                 }
                 return areasMapped
             }
@@ -158,7 +158,6 @@ final class AreasViewModel: ObservableObject {
         let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
         let predicate = NSPredicate(format: "strArea == %@", strArea)
         fetchRequest.predicate = predicate
-
         do {
             if let areaEntity = try context.fetch(fetchRequest).first {
                 areaEntity.isArchived = true
@@ -180,12 +179,32 @@ final class AreasViewModel: ObservableObject {
         do {
             if let areaEntity = try context.fetch(fetchRequest).first {
                 areaEntity.isArchived = false
+               
                 try context.save()
                 print("Restored area \(strArea)")
                 loadAreasFromCoreData()
             }
         } catch {
             print("Error restoring area \(strArea): \(error)")
+        }
+    }
+    
+    func updateArea(strArea: String, newName: String){
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
+        let predicate = NSPredicate(format: "strArea == %@", strArea)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let areaEntity = try context.fetch(fetchRequest).first {
+                areaEntity.strArea = newName
+               
+                try context.save()
+                print("Updated area from \(strArea) to \(newName)")
+                self.loadAreasFromCoreData()
+            }
+        } catch {
+            print("Error updating area name \(strArea) to \(newName): \(error)")
         }
     }
 }

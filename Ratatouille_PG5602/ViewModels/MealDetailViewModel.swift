@@ -9,12 +9,12 @@ final class MealDetailViewModel {
     }
     
     init(id: String) {
-        fetchMeal(mealId: id)
+        self.fetchMeal(mealId: id)
     }
     
-    init(){}
+    init() {}
     
-    func fetchAndSaveMeal(id: String){
+    func fetchAndSaveMeal(id: String) {
         self.fetchMeal(mealId: id, onCompletion: self.saveMeal)
     }
     
@@ -26,21 +26,20 @@ final class MealDetailViewModel {
             case .success(let data):
                 self?.parseMealDataAndSetVariable(data)
                 onCompletion?()
-            case .failure(_):
+            case .failure:
                 print("Something went wrong fetching meal with mealId \(mealId)")
-                break
             }
         }
     }
     
-    func saveMeal(){
+    func saveMeal() {
         if let meal = self.meal {
-           let context = CoreDataManager.shared.context
-           let savedMealEntity = MealEntity(context: context)
-           //TODO: ikke lagre måltid om identisk (ikke endret av bruker) allerede eksisterer i databasen.
-           savedMealEntity.idMeal = meal.idMeal
-           savedMealEntity.strMeal = meal.strMeal
-           savedMealEntity.strMealThumb = meal.strMealThumb
+            let context = CoreDataManager.shared.context
+            let savedMealEntity = MealEntity(context: context)
+            // TODO: ikke lagre måltid om identisk (ikke endret av bruker) allerede eksisterer i databasen.
+            savedMealEntity.idMeal = meal.idMeal
+            savedMealEntity.strMeal = meal.strMeal
+            savedMealEntity.strMealThumb = meal.strMealThumb
             savedMealEntity.isArchived = false
             savedMealEntity.strDrinkAlternate = meal.strDrinkAlternate
             savedMealEntity.strCategory = meal.strCategory
@@ -93,11 +92,11 @@ final class MealDetailViewModel {
             savedMealEntity.strCreativeCommonsConfirmed = meal.strCreativeCommonsConfirmed
             savedMealEntity.dateModified = meal.dateModified
             
-           do {
-               try context.save()
-           } catch {
-               print("Error saving meal: \(error)")
-           }
+            do {
+                try context.save()
+            } catch {
+                print("Error saving meal: \(error)")
+            }
         }
     }
     

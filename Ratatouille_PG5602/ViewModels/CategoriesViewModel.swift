@@ -48,7 +48,7 @@ final class CategoriesViewModel: ObservableObject {
                 return []
             } else {
                let categoriesMapped = categoryEntities.map {
-                    CategoryModel(strCategory: $0.strCategory ?? "")
+                   CategoryModel(strCategory: $0.strCategory ?? "", isArchived: $0.isArchived)
                 }
                 return categoriesMapped;
             }
@@ -166,6 +166,25 @@ final class CategoriesViewModel: ObservableObject {
             }
         } catch {
             print("Error restoring category \(strCategory): \(error)")
+        }
+    }
+    
+    func updateCategory(strCategory: String, newName: String){
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+        let predicate = NSPredicate(format: "strCategory == %@", strCategory)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let categoryEntity = try context.fetch(fetchRequest).first {
+                categoryEntity.strCategory = newName
+               
+                try context.save()
+                print("Updated category from \(strCategory) to \(newName)")
+                self.loadCategoriesFromCoreData()
+            }
+        } catch {
+            print("Error updating category name \(strCategory) to \(newName): \(error)")
         }
     }
 }

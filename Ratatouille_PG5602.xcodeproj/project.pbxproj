@@ -7,12 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D945FC402B1BC3FD0067D3A3 /* EditAreaDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D945FC3F2B1BC3FD0067D3A3 /* EditAreaDetailsView.swift */; };
+		D945FC422B1BCF190067D3A3 /* EditIngredientDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D945FC412B1BCF190067D3A3 /* EditIngredientDetailsView.swift */; };
+		D945FC442B1BD8AD0067D3A3 /* EditCategoryDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D945FC432B1BD8AD0067D3A3 /* EditCategoryDetailsView.swift */; };
 		D95D0F382B1A41C8007537AF /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D0F372B1A41C8007537AF /* SearchViewModel.swift */; };
 		D95D0F3A2B1B36D7007537AF /* ArchiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D0F392B1B36D7007537AF /* ArchiveView.swift */; };
 		D95D0F3C2B1B3B45007537AF /* EditAreasSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D0F3B2B1B3B45007537AF /* EditAreasSettingsView.swift */; };
 		D95D0F3E2B1B3B62007537AF /* EditCategoriesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D0F3D2B1B3B62007537AF /* EditCategoriesSettingsView.swift */; };
 		D95D0F402B1B3B7E007537AF /* EditIngredientsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D0F3F2B1B3B7E007537AF /* EditIngredientsSettingsView.swift */; };
-		D95D0F452B1B3EF2007537AF /* ArchiveViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D0F442B1B3EF2007537AF /* ArchiveViewModel.swift */; };
+		D95D0F452B1B3EF2007537AF /* ArchivedMealsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95D0F442B1B3EF2007537AF /* ArchivedMealsViewModel.swift */; };
 		D95FE5812B089EFF00FC7091 /* MealModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5802B089EFF00FC7091 /* MealModel.swift */; };
 		D95FE5832B08A4BE00FC7091 /* MealListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5822B08A4BE00FC7091 /* MealListItem.swift */; };
 		D95FE5852B08A60500FC7091 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D95FE5842B08A60500FC7091 /* NetworkManager.swift */; };
@@ -70,12 +73,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D945FC3F2B1BC3FD0067D3A3 /* EditAreaDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAreaDetailsView.swift; sourceTree = "<group>"; };
+		D945FC412B1BCF190067D3A3 /* EditIngredientDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditIngredientDetailsView.swift; sourceTree = "<group>"; };
+		D945FC432B1BD8AD0067D3A3 /* EditCategoryDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoryDetailsView.swift; sourceTree = "<group>"; };
 		D95D0F372B1A41C8007537AF /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		D95D0F392B1B36D7007537AF /* ArchiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveView.swift; sourceTree = "<group>"; };
 		D95D0F3B2B1B3B45007537AF /* EditAreasSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditAreasSettingsView.swift; sourceTree = "<group>"; };
 		D95D0F3D2B1B3B62007537AF /* EditCategoriesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoriesSettingsView.swift; sourceTree = "<group>"; };
 		D95D0F3F2B1B3B7E007537AF /* EditIngredientsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditIngredientsSettingsView.swift; sourceTree = "<group>"; };
-		D95D0F442B1B3EF2007537AF /* ArchiveViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchiveViewModel.swift; sourceTree = "<group>"; };
+		D95D0F442B1B3EF2007537AF /* ArchivedMealsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedMealsViewModel.swift; sourceTree = "<group>"; };
 		D95FE5802B089EFF00FC7091 /* MealModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealModel.swift; sourceTree = "<group>"; };
 		D95FE5822B08A4BE00FC7091 /* MealListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealListItem.swift; sourceTree = "<group>"; };
 		D95FE5842B08A60500FC7091 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -151,6 +157,9 @@
 				D95D0F3F2B1B3B7E007537AF /* EditIngredientsSettingsView.swift */,
 				D95D0F3B2B1B3B45007537AF /* EditAreasSettingsView.swift */,
 				D99218A92B06B64700715C04 /* SettingsView.swift */,
+				D945FC3F2B1BC3FD0067D3A3 /* EditAreaDetailsView.swift */,
+				D945FC412B1BCF190067D3A3 /* EditIngredientDetailsView.swift */,
+				D945FC432B1BD8AD0067D3A3 /* EditCategoryDetailsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -212,7 +221,7 @@
 				D95FE5A02B0D2F6000FC7091 /* AreasViewModel.swift */,
 				D9BE1D532B0FC440009FFAA2 /* IngredientsViewModel.swift */,
 				D95D0F372B1A41C8007537AF /* SearchViewModel.swift */,
-				D95D0F442B1B3EF2007537AF /* ArchiveViewModel.swift */,
+				D95D0F442B1B3EF2007537AF /* ArchivedMealsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -426,6 +435,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D945FC402B1BC3FD0067D3A3 /* EditAreaDetailsView.swift in Sources */,
 				D95D0F382B1A41C8007537AF /* SearchViewModel.swift in Sources */,
 				D95FE58B2B08BD6C00FC7091 /* Alert.swift in Sources */,
 				D9BE1D322B0EAD45009FFAA2 /* MealModel.xcdatamodeld in Sources */,
@@ -438,10 +448,12 @@
 				D9819B5C2B1781CA00D0ED5C /* SearchFilterView.swift in Sources */,
 				D99218B52B0740F700715C04 /* OnboardingModel.swift in Sources */,
 				D99218B32B06B95000715C04 /* OnboardingView.swift in Sources */,
+				D945FC442B1BD8AD0067D3A3 /* EditCategoryDetailsView.swift in Sources */,
+				D945FC422B1BCF190067D3A3 /* EditIngredientDetailsView.swift in Sources */,
 				D99218AE2B06B66100715C04 /* RatatouilleTabView.swift in Sources */,
 				D9819B5E2B17B60E00D0ED5C /* MealDetailViewModel.swift in Sources */,
 				D9819B582B13DB4000D0ED5C /* IngredientFilterView.swift in Sources */,
-				D95D0F452B1B3EF2007537AF /* ArchiveViewModel.swift in Sources */,
+				D95D0F452B1B3EF2007537AF /* ArchivedMealsViewModel.swift in Sources */,
 				D99218B72B07436100715C04 /* OnboardingPageView.swift in Sources */,
 				D99218A82B06B63700715C04 /* RecipeListView.swift in Sources */,
 				D9819B4E2B135FD100D0ED5C /* LoadingView.swift in Sources */,
