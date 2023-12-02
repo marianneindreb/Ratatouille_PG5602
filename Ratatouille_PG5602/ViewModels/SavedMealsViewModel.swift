@@ -33,6 +33,7 @@ class SavedMealsViewModel: ObservableObject {
             if let mealEntity = try context.fetch(fetchRequest).first {
                 mealEntity.isArchived = true
                 try context.save()
+                print("Archived meal \(id)")
                 self.getSavedMeals()
             }
         } catch {

@@ -1,22 +1,28 @@
-import SwiftUI
 import Kingfisher
+import SwiftUI
 
 struct MealDetailView: View {
-    @State var didSave: Bool = false;
+    enum ViewSource {
+        case fromSearch
+        case fromSaved
+    }
+    
     @State private var viewModel: MealDetailViewModel
     @StateObject var saveMealsViewModel = SavedMealsViewModel()
-    
-    // let meal: MealListItemModel
+    @State private var viewSource: ViewSource
+    @State private var selectedTab: String = "Instructions"
+    @State var didSave: Bool = false
+    @State var didArchive: Bool = false
     
     init(id: String) {
         viewModel = MealDetailViewModel(id: id)
+        viewSource = .fromSearch
     }
     
     init(meal: MealModel) {
         viewModel = MealDetailViewModel(meal: meal)
+        viewSource = .fromSaved
     }
-    
-    @State private var selectedTab: String = "Instructions"
     
     var body: some View {
         ScrollView {
@@ -58,43 +64,103 @@ struct MealDetailView: View {
                     }
                     Spacer()
                     
-                    Button {
-                        if (!didSave){
-                            viewModel.saveMeal()
-                            self.didSave = true
-                        }
-                    } label: {
-                        if (!didSave){
-                            Text("Lagre oppskrift")
-                                .padding(20)
-                                .frame(maxWidth: .infinity)
-                                .background(Color.brandPrimary)
-                                .foregroundColor(.black)
-                                .fontWeight(.bold)
-                                .textCase(.uppercase)
-                                .cornerRadius(15)
-                                .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
-                        } else {
-                            Text("Lagret!")
-                                .padding(20)
-                                .frame(maxWidth: .infinity)
-                                .background(Color.gray)
-                                .foregroundColor(.black)
-                                .fontWeight(.bold)
-                                .textCase(.uppercase)
-                                .cornerRadius(15)
-                                .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
-                            
-                        }
-                      
+                    if viewSource == .fromSearch {
+                        saveButton(meal: meal)
+                    } else {
+                        actionButtonsForSavedMeal(meal: meal)
                     }
-                    .disabled(didSave)
                 }
                 .navigationBarTitle(meal.strMeal, displayMode: .automatic)
                 .padding([.horizontal, .bottom])
             } else {
                 ProgressView()
             }
+        }
+    }
+    
+    @ViewBuilder
+    private func saveButton(meal: MealModel) -> some View {
+        
+        Button {
+            if !didSave {
+                viewModel.saveMeal()
+                didSave = true
+            }
+        } label: {
+            if !didSave {
+                Text("Lagre oppskrift")
+                    .padding(20)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.brandPrimary)
+                    .foregroundColor(.black)
+                    .fontWeight(.bold)
+                    .textCase(.uppercase)
+                    .cornerRadius(15)
+                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+            } else {
+                Text("Lagret!")
+                    .padding(20)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.gray)
+                    .foregroundColor(.black)
+                    .fontWeight(.bold)
+                    .textCase(.uppercase)
+                    .cornerRadius(15)
+                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+            }
+        }
+        .disabled(didSave)
+    }
+    
+    @ViewBuilder
+    private func actionButtonsForSavedMeal(meal: MealModel) -> some View {
+        
+        VStack {
+            Button {
+                // TODO: edit functionality, including disabled after click.
+            } label: {
+                Text("Rediger oppskrift")
+                    .padding(20)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.brandPrimary)
+                    .foregroundColor(.black)
+                    .fontWeight(.bold)
+                    .textCase(.uppercase)
+                    .cornerRadius(15)
+                    .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+            }
+
+            Button {
+                if !didArchive {
+                    saveMealsViewModel.archiveMeal(id: meal.idMeal)
+                    didArchive = true
+                }
+                
+            } label: {
+                if !didArchive {
+                    Text("Arkiver oppskrift")
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.brandSecondary)
+                        .foregroundColor(.white)
+                        .fontWeight(.bold)
+                        .textCase(.uppercase)
+                        .cornerRadius(15)
+                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                } else {
+                    Text("Arkivert!")
+                        .padding(20)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray)
+                        .foregroundColor(.black)
+                        .fontWeight(.bold)
+                        .textCase(.uppercase)
+                        .cornerRadius(15)
+                        .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                }
+               
+            }
+            .disabled(didArchive)
         }
     }
 }
@@ -116,11 +182,6 @@ private func getIngredientList(meal: MealModel) -> [String] {
     return ingredientList
 }
 
-
-
 #Preview {
     MealDetailView(meal: MealModel.sampleMeal)
 }
-
-
-
