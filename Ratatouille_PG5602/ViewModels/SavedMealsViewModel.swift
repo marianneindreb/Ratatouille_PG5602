@@ -16,6 +16,8 @@ class SavedMealsViewModel: ObservableObject {
             //TODO: Filter out archived.
             self.savedMeals = mealsEntities.map {
                 MealModel(from: $0)
+            }.filter {
+                !$0.isArchived
             }
             isLoading = false
         } catch {
@@ -23,8 +25,21 @@ class SavedMealsViewModel: ObservableObject {
         }
     }
     
-    func archiveMeal() {
-       // TODO: 
-        // logic, updating to core data entities
+    func archiveMeal(id: String) {
+       let context = CoreDataManager.shared.context
+       let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
+       let predicate = NSPredicate(format: "idMeal == %@", id)
+       fetchRequest.predicate = predicate
+       
+       do {
+           if let mealEntity = try context.fetch(fetchRequest).first {
+               mealEntity.isArchived = true
+               try context.save()
+               self.savedMeals = self.savedMeals.filter { $0.idMeal != id}
+           }
+       } catch {
+           print("Error archiving meal: \(error)")
+       }
+      
     }
 }

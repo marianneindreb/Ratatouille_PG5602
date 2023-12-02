@@ -41,6 +41,7 @@ final class MealDetailViewModel {
            savedMealEntity.idMeal = meal.idMeal
            savedMealEntity.strMeal = meal.strMeal
            savedMealEntity.strMealThumb = meal.strMealThumb
+            savedMealEntity.isArchived = false
             savedMealEntity.strDrinkAlternate = meal.strDrinkAlternate
             savedMealEntity.strCategory = meal.strCategory
             savedMealEntity.strInstructions = meal.strInstructions

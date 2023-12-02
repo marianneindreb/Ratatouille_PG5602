@@ -41,7 +41,7 @@ struct RecipeListView: View {
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button("Arkiver") {
-                                    viewModel.archiveMeal()
+                                    viewModel.archiveMeal(id: meal.idMeal)
                                 }
                                 .tint(.brandSecondary)
                                 
