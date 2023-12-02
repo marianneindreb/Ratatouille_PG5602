@@ -25,22 +25,4 @@ class ArchiveViewModel: ObservableObject {
             print("Error fetching archived meals: \(error)")
         }
     }
-    
-    func saveMeal(id: String) {
-       let context = CoreDataManager.shared.context
-       let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
-       let predicate = NSPredicate(format: "idMeal == %@", id)
-       fetchRequest.predicate = predicate
-       
-       do {
-           if let mealEntity = try context.fetch(fetchRequest).first {
-               mealEntity.isArchived = false
-               try context.save()
-               self.archivedMeals = self.archivedMeals.filter { $0.idMeal != id}
-           }
-       } catch {
-           print("Error saving meal: \(error)")
-       }
-      
-    }
 }

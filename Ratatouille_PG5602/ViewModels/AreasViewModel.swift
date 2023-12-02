@@ -1,62 +1,75 @@
-import Foundation
 import CoreData
+import Foundation
 import SwiftUI
 
-//@Observable
+// @Observable
 final class AreasViewModel: ObservableObject {
     @Published var areas: [AreaModel] = []
     @Published var meals: [MealListItemModel] = []
     
-    private var countryCodes: Dictionary<String, String> = [
+    enum LoadFrom {
+        case API
+        case coreData
+    }
+    
+    private var countryCodes: [String: String] = [
         "American": "US",
-        "British" : "GB",
-        "Canadian" : "CA",
-        "Chinese" : "CN",
-        "Croatian" : "HR",
-        "Dutch" : "AN",
-        "Egyptian" : "EG",
-        "Filipino" : "PH",
-        "French" : "FR",
-        "Greek" : "GR",
-        "Indian" : "IN",
-        "Irish" : "IE",
-        "Italian" : "IT",
-        "Jamaican" : "JM",
-        "Japanese" : "JP",
-        "Kenyan" : "KE",
-        "Malaysian" : "MY",
-        "Mexican" : "MX",
-        "Moroccan" : "MA",
-        "Polish" : "PL",
-        "Portuguese" : "PT",
-        "Russian" : "RU",
-        "Spanish" : "ES",
-        "Thai" : "TH",
-        "Tunisian" : "TN",
-        "Turkish" : "TR",
-        //TODO: placeholder image
-        "Unknown" : "",
-        "Vietnamese" : "VN",
+        "British": "GB",
+        "Canadian": "CA",
+        "Chinese": "CN",
+        "Croatian": "HR",
+        "Dutch": "AN",
+        "Egyptian": "EG",
+        "Filipino": "PH",
+        "French": "FR",
+        "Greek": "GR",
+        "Indian": "IN",
+        "Irish": "IE",
+        "Italian": "IT",
+        "Jamaican": "JM",
+        "Japanese": "JP",
+        "Kenyan": "KE",
+        "Malaysian": "MY",
+        "Mexican": "MX",
+        "Moroccan": "MA",
+        "Polish": "PL",
+        "Portuguese": "PT",
+        "Russian": "RU",
+        "Spanish": "ES",
+        "Thai": "TH",
+        "Tunisian": "TN",
+        "Turkish": "TR",
+        // TODO: placeholder image
+        "Unknown": "",
+        "Vietnamese": "VN",
     ]
     var onErrorHandling: ((Error) -> Void)?
     var onFetchCompleted: (() -> Void)?
     
-    init() {
-        self.fetchAreasFromAPIAndSaveToCoreData()
+    init(loadFrom: LoadFrom? = .API) {
+        if loadFrom == LoadFrom.API {
+            fetchAreasFromAPIAndSaveToCoreData()
+        } else {
+            loadAreasFromCoreData()
+        }
     }
     
     func getAreas() -> [AreaModel] {
-        if !self.areas.isEmpty {
-            return self.areas
+        if !areas.isEmpty {
+            return areas
         } else {
             return getAreasFromCoreData()
         }
     }
     
+    func loadAreasFromCoreData() {
+        areas = getAreasFromCoreData()
+    }
     
     func getAreasFromCoreData() -> [AreaModel] {
         let context = CoreDataManager.shared.context
         let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "isArchived == %@", NSNumber(value: false))
         
         do {
             let areaEntities = try context.fetch(fetchRequest)
@@ -66,7 +79,7 @@ final class AreasViewModel: ObservableObject {
                 let areasMapped = areaEntities.map {
                     AreaModel(strArea: $0.strArea ?? "")
                 }
-                return areasMapped;
+                return areasMapped
             }
         } catch {
             print("Error fetching areas from Core Data: \(error)")
@@ -74,10 +87,9 @@ final class AreasViewModel: ObservableObject {
         }
     }
     
-    
     func fetchAreasFromAPIAndSaveToCoreData() {
         print("Fetching areas from API and saving to coredata")
-        self.areas.removeAll()
+        areas.removeAll()
         let urlString = "https://www.themealdb.com/api/json/v1/1/list.php?a=list"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
@@ -99,14 +111,6 @@ final class AreasViewModel: ObservableObject {
             case .failure(let error):
                 self?.onErrorHandling?(error)
             }
-        }
-    }
-    
-    func fetchMeals(forArea area: String) {
-        if let fetchedMeals = getMealsFromCoreData(forArea: area), !fetchedMeals.isEmpty {
-            self.meals = fetchedMeals.map { MealListItemModel(from: $0) }
-        } else {
-            fetchMealsFromAPI(forArea: area)
         }
     }
     
@@ -136,11 +140,10 @@ final class AreasViewModel: ObservableObject {
         }
     }
     
-    
     func getMealsFromCoreData(forArea area: String) -> [MealEntity]? {
         let context = CoreDataManager.shared.context
         let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "strArea == %@", areas )
+        fetchRequest.predicate = NSPredicate(format: "strArea == %@", areas)
         
         do {
             return try context.fetch(fetchRequest)
@@ -149,8 +152,45 @@ final class AreasViewModel: ObservableObject {
             return nil
         }
     }
+    
+    func archiveArea(strArea: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
+        let predicate = NSPredicate(format: "strArea == %@", strArea)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let areaEntity = try context.fetch(fetchRequest).first {
+                areaEntity.isArchived = true
+                try context.save()
+                print("Archived area \(strArea)")
+                loadAreasFromCoreData()
+            }
+        } catch {
+            print("Error archiving area \(strArea): \(error)")
+        }
+    }
+    
+    func restoreArea(strArea: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
+        let predicate = NSPredicate(format: "strArea == %@", strArea)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let areaEntity = try context.fetch(fetchRequest).first {
+                areaEntity.isArchived = false
+                try context.save()
+                print("Restored area \(strArea)")
+                loadAreasFromCoreData()
+            }
+        } catch {
+            print("Error restoring area \(strArea): \(error)")
+        }
+    }
 }
-    // flagURL: $0.flagURL ?? "",
+
+// flagURL: $0.flagURL ?? "",
 
 extension AreasViewModel {
     func saveAreasToCoreData() {
@@ -162,10 +202,9 @@ extension AreasViewModel {
         for area in areas {
             let areaEntity = AreaEntity(context: context)
             areaEntity.strArea = area.strArea
-            
-            
-            //            let countryCode = countryCodes[area.strArea] ?? "";
-            //            areaEntity.flagURL = (countryCode.isEmpty) ? "" : //"https://flagsapi.com/\(countryCode)/shiny/64.png"
+            areaEntity.isArchived = false
+            let countryCode = countryCodes[area.strArea] ?? ""
+            areaEntity.flagURL = (countryCode.isEmpty) ? "" : "https://flagsapi.com/\(countryCode)/shiny/64.png"
         }
         do {
             try context.save()
@@ -173,7 +212,6 @@ extension AreasViewModel {
             print("Error")
         }
     }
-
 
     private func deleteAllAreas(in context: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = AreaEntity.fetchRequest()
@@ -186,7 +224,3 @@ extension AreasViewModel {
         }
     }
 }
-
-
-
-

@@ -6,12 +6,29 @@ final class IngredientsViewModel: ObservableObject {
      @Published var ingredients: [IngredientModel] = []
      @Published var meals: [MealListItemModel] = []
    
+    enum LoadFrom {
+        case API
+        case coreData
+    }
     
     var onErrorHandling: ((Error) -> Void)?
     var onFetchCompleted: (() -> Void)?
     
     init() {
         self.fetchIngredientsFromAPIAndSaveToCoreData()
+    }
+    
+    init(loadFrom: LoadFrom? = .API) {
+        if loadFrom == LoadFrom.API {
+            self.fetchIngredientsFromAPIAndSaveToCoreData()
+        } else {
+            self.loadIngredientsFromCoreData()
+        }
+        
+    }
+    
+    func loadIngredientsFromCoreData(){
+        self.ingredients = getIngredientsFromCoreData()
     }
     
     func getIngredients() -> [IngredientModel] {
@@ -25,6 +42,7 @@ final class IngredientsViewModel: ObservableObject {
     func getIngredientsFromCoreData() -> [IngredientModel] {
         let context = CoreDataManager.shared.context
         let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "isArchived == %@", NSNumber(value: false))
         
         do {
             let ingredientEntities = try context.fetch(fetchRequest)
@@ -115,6 +133,43 @@ final class IngredientsViewModel: ObservableObject {
             return nil
         }
     }
+    
+    func archiveIngredient(idIngredient: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
+        let predicate = NSPredicate(format: "idIngredient == %@", idIngredient)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let ingredientEntity = try context.fetch(fetchRequest).first {
+                ingredientEntity.isArchived = true
+                try context.save()
+                print("Archived ingredient \(idIngredient)")
+                self.loadIngredientsFromCoreData()
+            }
+        } catch {
+            print("Error archiving ingredient with id \(idIngredient): \(error)")
+        }
+    }
+    
+    func restoreIngredient(idIngredient: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
+        let predicate = NSPredicate(format: "idIngredient == %@", idIngredient)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let ingredientEntity = try context.fetch(fetchRequest).first {
+                ingredientEntity.isArchived = false
+                try context.save()
+                print("Restored ingredient with id \(idIngredient)")
+                self.loadIngredientsFromCoreData()
+            }
+        } catch {
+            print("Error restoring ingredient with id \(idIngredient): \(error)")
+        }
+    }
+    
 }
 
 extension IngredientsViewModel {
@@ -127,6 +182,7 @@ extension IngredientsViewModel {
         for ingredient in ingredients {
             let ingredientEntity = IngredientEntity(context: context)
             ingredientEntity.strIngredient = ingredient.strIngredient
+            ingredientEntity.isArchived = false
         }
         do {
             try context.save()

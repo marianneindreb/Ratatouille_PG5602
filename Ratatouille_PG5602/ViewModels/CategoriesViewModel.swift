@@ -7,11 +7,26 @@ final class CategoriesViewModel: ObservableObject {
     @Published var categories: [CategoryModel] = []
     @Published var meals: [MealListItemModel] = []
     
+    enum LoadFrom {
+        case API
+        case coreData
+    }
+    
     var onErrorHandling: ((Error) -> Void)?
     var onFetchCompleted: (() -> Void)?
     
-    init() {
-        self.fetchCategoriesFromAPIAndSaveToCoreData()
+   
+    init(loadFrom: LoadFrom? = .API) {
+        if loadFrom == LoadFrom.API {
+            self.fetchCategoriesFromAPIAndSaveToCoreData()
+        } else {
+            self.loadCategoriesFromCoreData()
+        }
+        
+    }
+    
+    func loadCategoriesFromCoreData(){
+        self.categories = getCategoriesFromCoreData()
     }
     
     func getCategories() -> [CategoryModel] {
@@ -25,7 +40,8 @@ final class CategoriesViewModel: ObservableObject {
     func getCategoriesFromCoreData() -> [CategoryModel] {
         let context = CoreDataManager.shared.context
         let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
-
+        fetchRequest.predicate = NSPredicate(format: "isArchived == %@", NSNumber(value: false))
+        
         do {
             let categoryEntities = try context.fetch(fetchRequest)
             if categoryEntities.isEmpty {
@@ -116,6 +132,42 @@ final class CategoriesViewModel: ObservableObject {
             return nil
         }
     }
+    
+    func archiveCategory(strCategory: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+        let predicate = NSPredicate(format: "strCategory == %@", strCategory)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let categoryEntity = try context.fetch(fetchRequest).first {
+                categoryEntity.isArchived = true
+                try context.save()
+                print("Archived category \(strCategory)")
+                self.loadCategoriesFromCoreData()
+            }
+        } catch {
+            print("Error archiving category \(strCategory): \(error)")
+        }
+    }
+    
+    func restoreCategory(strCategory: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+        let predicate = NSPredicate(format: "strCategory == %@", strCategory)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let categoryEntity = try context.fetch(fetchRequest).first {
+                categoryEntity.isArchived = false
+                try context.save()
+                print("Restored category \(strCategory)")
+                self.loadCategoriesFromCoreData()
+            }
+        } catch {
+            print("Error restoring category \(strCategory): \(error)")
+        }
+    }
 }
     
     extension CategoriesViewModel {
@@ -128,6 +180,7 @@ final class CategoriesViewModel: ObservableObject {
             for category in categories {
                 let categoryEntity = CategoryEntity(context: context)
                 categoryEntity.strCategory = category.strCategory
+                categoryEntity.isArchived = false
             }
             do {
                 try context.save()

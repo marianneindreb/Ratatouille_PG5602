@@ -8,8 +8,29 @@
 import SwiftUI
 
 struct EditAreasSettingsView: View {
+    @ObservedObject var viewModel = AreasViewModel(loadFrom: .coreData)
+
+    //TODO: Add categories. Fetch from core data which are
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack() {
+            if viewModel.areas.isEmpty {
+                VStack {
+                    Text("Du har arkivert alle områder. Gå til 'Administrer arkiv' for å hente noen tilbake")
+                        .font(.headline)
+                }
+            } else {
+                List(viewModel.areas, id: \.strArea) { area in
+                    Text(area.strArea)
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button("Arkiver") {
+                            viewModel.archiveArea(strArea: area.strArea)
+                        }
+                        .tint(.brandSecondary)
+                    }
+                }
+                .listStyle(PlainListStyle())
+            }
+        }
     }
 }
 
