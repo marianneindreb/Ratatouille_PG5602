@@ -4,8 +4,6 @@ import Kingfisher
 
 struct AreaFilterView: View {
     @StateObject var viewModel: AreasViewModel
-    @StateObject var savedMealsViewModel = SavedMealsViewModel()
-    
     
     @State private var selectedOption = "Velg land"
     // optionsArray could include areas and flag

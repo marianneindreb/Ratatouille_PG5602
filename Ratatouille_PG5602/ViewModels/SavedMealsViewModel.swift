@@ -3,7 +3,7 @@ import CoreData
 
 
 class SavedMealsViewModel: ObservableObject {
-    @Published var savedMeals: [MealListItemModel] = []
+    @Published var savedMeals: [MealModel] = []
     @Published var isLoading = false
     
     func getSavedMeals() {
@@ -15,7 +15,7 @@ class SavedMealsViewModel: ObservableObject {
             let mealsEntities = try context.fetch(fetchRequest)
             //TODO: Filter out archived.
             self.savedMeals = mealsEntities.map {
-                MealListItemModel(from: $0)
+                MealModel(from: $0)
             }
             isLoading = false
         } catch {

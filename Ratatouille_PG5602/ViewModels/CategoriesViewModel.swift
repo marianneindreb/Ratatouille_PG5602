@@ -43,7 +43,7 @@ final class CategoriesViewModel: ObservableObject {
     }
     
     func fetchCategoriesFromAPIAndSaveToCoreData() {
-        print("Fetching categories from API and saves to coredata")
+        print("Fetching categories from API and saving to coredata")
         self.categories.removeAll()
         let urlString = "https://www.themealdb.com/api/json/v1/1/list.php?c=list"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
@@ -83,14 +83,14 @@ final class CategoriesViewModel: ObservableObject {
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.parseMealData(data)
+                self?.parseMealDataAndSetVariable(data)
             case .failure(let error):
                 self?.onErrorHandling?(error)
             }
         }
     }
     
-    private func parseMealData(_ data: Data) {
+    private func parseMealDataAndSetVariable(_ data: Data) {
         do {
             let mealResponse = try JSONDecoder().decode(MealListItemResponse.self, from: data)
             DispatchQueue.main.async {

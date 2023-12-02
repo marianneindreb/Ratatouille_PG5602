@@ -4,8 +4,6 @@ import Kingfisher
 struct CategoryFilterView: View {
     @StateObject var viewModel: CategoriesViewModel
     @State private var selectedOption = "Velg kategori"
-    @StateObject var savedMealsViewModel = SavedMealsViewModel()
-    
     
     var body: some View {
         VStack {

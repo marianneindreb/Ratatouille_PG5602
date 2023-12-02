@@ -2,6 +2,7 @@ import SwiftUI
 import Kingfisher
 
 struct MealDetailView: View {
+    @State var didSave: Bool = false;
     @State private var viewModel: MealDetailViewModel
     @StateObject var saveMealsViewModel = SavedMealsViewModel()
     
@@ -58,18 +59,36 @@ struct MealDetailView: View {
                     Spacer()
                     
                     Button {
-                        viewModel.saveMeal()
+                        if (!didSave){
+                            viewModel.saveMeal()
+                            self.didSave = true
+                        }
                     } label: {
-                        Text("Lagre oppskrift")
-                            .padding(20)
-                            .frame(maxWidth: .infinity)
-                            .background(Color.brandPrimary)
-                            .foregroundColor(.black)
-                            .fontWeight(.bold)
-                            .textCase(.uppercase)
-                            .cornerRadius(15)
-                            .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                        if (!didSave){
+                            Text("Lagre oppskrift")
+                                .padding(20)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.brandPrimary)
+                                .foregroundColor(.black)
+                                .fontWeight(.bold)
+                                .textCase(.uppercase)
+                                .cornerRadius(15)
+                                .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                        } else {
+                            Text("Lagret!")
+                                .padding(20)
+                                .frame(maxWidth: .infinity)
+                                .background(Color.gray)
+                                .foregroundColor(.black)
+                                .fontWeight(.bold)
+                                .textCase(.uppercase)
+                                .cornerRadius(15)
+                                .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                            
+                        }
+                      
                     }
+                    .disabled(didSave)
                 }
                 .navigationBarTitle(meal.strMeal, displayMode: .automatic)
                 .padding([.horizontal, .bottom])

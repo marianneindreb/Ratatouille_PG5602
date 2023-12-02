@@ -35,9 +35,9 @@ struct RecipeListView: View {
                     } else {
                         List(viewModel.savedMeals, id: \.idMeal) { meal in
                             NavigationLink {
-                                MealDetailView(id: meal.idMeal)
+                                MealDetailView(meal: meal)
                             } label: {
-                                MealListItem(meal: meal)
+                                MealListItem(meal: MealListItemModel(strMeal: meal.strMeal, strMealThumb: meal.strMealThumb, idMeal: meal.idMeal))
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button("Arkiver") {
@@ -59,7 +59,7 @@ struct RecipeListView: View {
                         .listStyle(PlainListStyle())
                     }
                 }
-                .navigationTitle("Mine Oppskrifter")
+                .navigationTitle("Mine lagrede oppskrifter")
             }
             .onAppear {
                 viewModel.getSavedMeals()

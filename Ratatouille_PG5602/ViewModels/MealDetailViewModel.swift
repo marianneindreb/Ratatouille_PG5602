@@ -19,15 +19,16 @@ final class MealDetailViewModel {
     }
     
     func fetchMeal(mealId: String, onCompletion: (() -> Void)? = nil) {
+        print("Fetching meal \(mealId)")
         let urlString = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(mealId)"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
             case .success(let data):
-                self?.parseMealData(data)
+                self?.parseMealDataAndSetVariable(data)
                 onCompletion?()
             case .failure(_):
+                print("Something went wrong fetching meal with mealId \(mealId)")
                 break
-//                self?.onErrorHandling?(error)
             }
         }
     }
@@ -99,7 +100,7 @@ final class MealDetailViewModel {
         }
     }
     
-    private func parseMealData(_ data: Data) {
+    private func parseMealDataAndSetVariable(_ data: Data) {
         do {
             let mealResponse = try JSONDecoder().decode(MealResponse.self, from: data)
             if let firstMeal = mealResponse.meals.first {
