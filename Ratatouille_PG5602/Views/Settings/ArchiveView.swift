@@ -20,7 +20,7 @@ struct ArchiveView: View {
                     }
                 }
                 Section(header: Text("Kategorier")) {
-                    if hasArchivedCategories == true {
+                    if hasArchivedCategories == true     {
                         // vis arkiverte kategorier
                     } else {
                         Text("Ingen arkiverte kategorier")
@@ -38,24 +38,30 @@ struct ArchiveView: View {
                         Text("Ingen arkiverte oppskrifter")
                         // Vise liste over arkiverte oppskrifter
                     } else {
-                        List(viewModel.meals, id: \.idMeal) { meal in
+                        ForEach(viewModel.archivedMeals, id: \.idMeal) { meal in
                             HStack {
                                 Text(meal.strMeal)
                                 // TODO: show flag
                             }
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button("Gjennopprett") {
-                                    viewModel.restoreMeal(id: meal.strArea)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button {
+                                    viewModel.deleteMeal(id: meal.idMeal)
+                                } label: {
+                                    Image(systemName: "trash")
+                                       
                                 }
-                                .tint(.brandPrimary)
-                                Button("Slett") {
-                                    viewModel.deleteMeal(id: viewModel.mealId)
+                                .tint(.red)
+                                
+                                Button {
+                                    viewModel.restoreMeal(id: meal.idMeal)
+                                } label: {
+                                    Image(systemName: "plus.app.fill")
                                 }
-                                .tint(.brandSecondary)
+                                .tint(.green)
                             }
                         }
-                        .listStyle(PlainListStyle())
                     }
+                    
                 }
             }
             .navigationTitle("Arkiv")
