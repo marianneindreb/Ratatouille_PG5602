@@ -9,44 +9,63 @@ import SwiftUI
 
 struct EditCategoriesSettingsView: View {
     @StateObject var viewModel = CategoriesViewModel(loadFrom: .coreData)
+    @State var showingAddCategoryModal = false
 
     var body: some View {
-        VStack {
-            if viewModel.categories.isEmpty {
-                VStack {
-                    Text("Du har arkivert alle kategorier. Gå til 'Administrer arkiv' for å hente noen tilbake")
-                        .font(.headline)
-                        .padding(20)
-                }
-            } else {
-                List(viewModel.categories, id: \.strCategory) { category in
-                    HStack {
-                        NavigationLink {
-                            EditCategoryDetailsView(category: category, categoriesViewModel: viewModel)
-                        } label: {
-                            Text(category.strCategory)
+        ZStack {
+            VStack {
+                if viewModel.categories.isEmpty {
+                    VStack {
+                        Text("Du har arkivert alle kategorier. Gå til 'Administrer arkiv' for å hente noen tilbake")
+                            .font(.headline)
+                            .padding(20)
+                    }
+                } else {
+                    List(viewModel.categories, id: \.strCategory) { category in
+                        HStack {
+                            NavigationLink {
+                                EditCategoryDetailsView(category: category, categoriesViewModel: viewModel)
+                            } label: {
+                                Text(category.strCategory)
+                            }
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button("Arkiver") {
+                                viewModel.archiveCategory(strCategory: category.strCategory)
+                            }
+                            .tint(.brandSecondary)
                         }
                     }
-                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                        Button("Arkiver") {
-                            viewModel.archiveCategory(strCategory: category.strCategory)
-                        }
-                        .tint(.brandSecondary)
-                    }
+                    .listStyle(PlainListStyle())
                 }
-                .listStyle(PlainListStyle())
+            }
+            .navigationBarTitle("Kategorier", displayMode: .inline)
+            .navigationBarItems(trailing: addButton)
+
+            // Custom modal presentation
+            if showingAddCategoryModal {
+                // Overlay for dimming the background
+                Color.black.opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
+                        showingAddCategoryModal = false
+                    }
+
+                // Modal content
+                AddCategoryModal(isPresented: $showingAddCategoryModal, viewModel: viewModel)
+                    .frame(width: 300, height: 300)
+                    .background(Color.white)
+                    .cornerRadius(15)
+                    .shadow(radius: 10)
             }
         }
-        .navigationBarTitle("Kategorier", displayMode: .inline)
-        .navigationBarItems(trailing:
+    }
+    private var addButton: some View {
         Button(action: {
-            // Legg til ingrediens
+            showingAddCategoryModal = true
         }) {
-            Image(systemName: "plus.circle.fill")
-                .foregroundStyle(.brandPrimary)
-                .padding()
+            Image(systemName: "plus")
         }
-        )
     }
 }
 

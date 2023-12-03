@@ -11,8 +11,7 @@ struct ArchiveView: View {
     @State var hasArchivedMeals: Bool = false
 
     var body: some View {
-        NavigationView {
-            Form {
+                    Form {
                 Section(header: Text("Landområder")) {
                     if hasArchivedAreas == true {
                         // vis arkiverte landområder
@@ -88,7 +87,7 @@ struct ArchiveView: View {
             }
         }
     }
-}
+
 
 #Preview {
     ArchiveView()

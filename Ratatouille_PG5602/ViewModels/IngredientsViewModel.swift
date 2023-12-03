@@ -5,6 +5,7 @@ import CoreData
 final class IngredientsViewModel: ObservableObject {
     @Published var ingredients: [IngredientModel] = []
     @Published var meals: [MealListItemModel] = []
+    @Published var searchText = ""
     
     enum LoadFrom {
         case API
@@ -25,6 +26,15 @@ final class IngredientsViewModel: ObservableObject {
             self.loadIngredientsFromCoreData()
         }
     }
+    
+    //test
+    var filteredIngredients: [IngredientModel] {
+            if searchText.isEmpty {
+                return ingredients
+            } else {
+                return ingredients.filter { $0.strIngredient.lowercased().contains(searchText.lowercased()) }
+            }
+        }
     
     func loadIngredientsFromCoreData(){
         self.ingredients = getIngredientsFromCoreData()

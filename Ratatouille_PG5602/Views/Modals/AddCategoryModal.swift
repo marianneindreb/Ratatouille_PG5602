@@ -1,48 +1,45 @@
 import SwiftUI
 
-struct AddIngredientSheetView: View {
+struct AddCategoryModal: View {
     @Binding var isPresented: Bool
-    @ObservedObject var viewModel: IngredientsViewModel
-    @State private var newIngredientName: String = ""
+    @ObservedObject var viewModel: CategoriesViewModel
+    @State private var newCategoryName: String = ""
 
     var body: some View {
         NavigationView {
             VStack(spacing: 20) {
-                TextField("Ny ingrediens", text: $newIngredientName)
+                Text("Legg til ny kategori")
+                    .font(.title3)
+                TextField("Ny kategori", text: $newCategoryName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
                 
                 HStack {
+                    Spacer()
                     Button("Avbryt") {
                         isPresented = false
                     }
                     .padding()
-                    .frame(maxWidth: .infinity)
+                    .frame(width: 120)
                     .background(Color.gray)
                     .foregroundColor(.white)
                     .cornerRadius(10)
                     
+                    Spacer()
+                    
                     Button("Lagre") {
-                        viewModel.createNewIngredient(named: newIngredientName)
+                        viewModel.createNewCategory(named: newCategoryName)
                         isPresented = false
                     }
                     .padding()
-                    .frame(maxWidth: .infinity)
+                    .frame(width: 120)
                     .background(Color.green)
                     .foregroundColor(.white)
                     .cornerRadius(10)
+                    Spacer()
                 }
             }
             .padding()
-            .navigationTitle("Legg til ny ingrediens")
         }
-    }
-}
-
-
-struct AddIngredientSheetView_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = IngredientsViewModel()
-        AddIngredientSheetView(isPresented: .constant(true), viewModel: viewModel)
     }
 }
