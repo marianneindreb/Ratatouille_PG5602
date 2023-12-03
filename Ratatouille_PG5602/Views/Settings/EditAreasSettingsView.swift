@@ -41,7 +41,7 @@ struct EditAreasSettingsView: View {
                                 }
                                 .buttonStyle(BorderlessButtonStyle())
                             } else {
-                                Text(area.strArea)
+                                
                                 
                                 if let flagURL = area.flagURL, let url = URL(string: flagURL) {
                                     AsyncImage(url: url) { image in
@@ -53,6 +53,7 @@ struct EditAreasSettingsView: View {
                                     .frame(width: 30, height: 20)
                                     .clipShape(RoundedRectangle(cornerRadius: 5))
                                 }
+                                Text(area.strArea)
                                 Spacer()
                                 Image(systemName: "ellipsis")
                                     .foregroundColor(.gray)

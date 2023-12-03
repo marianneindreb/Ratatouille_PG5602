@@ -12,13 +12,20 @@ struct RecipeListView: View {
                 VStack() {
                     if viewModel.savedMeals.isEmpty {
                         VStack {
-                            Image("rat1")
+                            Text("Du har ikke lagret noen oppskrifter.")
+                                .font(.title3)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Text("Gå til søkesiden for å utforske nye og spennende retter! ")
+                                .font(.subheadline)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            
+                            Image("chefshead")
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 150, height: 150)
-                            Text("Du har ikke lagret noen oppskrifter")
-                                .font(.headline)
+                                .frame(width: 600, height: 400)
+                            
                         }
+                        .padding()
                     } else {
                         List(viewModel.savedMeals, id: \.idMeal) { meal in
                             NavigationLink {
@@ -30,7 +37,7 @@ struct RecipeListView: View {
                                 Button("Arkiver", systemImage: "archivebox") {
                                     viewModel.archiveMeal(id: meal.idMeal)
                                 }
-                                .tint(.brandSecondary)
+                                .tint(.brandPrimary)
                             }
                         }
                         .listStyle(PlainListStyle())
@@ -52,7 +59,6 @@ struct RecipeListView: View {
             if viewModel.isLoading {
                 LoadingView()
             }
-            Spacer(minLength: 0)
         }
     }
 }

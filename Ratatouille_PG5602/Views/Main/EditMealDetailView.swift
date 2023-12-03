@@ -15,9 +15,9 @@ struct EditMealDetailView: View {
     @State private var ingredients: [String] = []
     @Binding var modalPresented: Bool
     
-    init(meal: MealModel, modalPresented: Binding<Bool>) {
+    init(meal: MealModel, modalPresented: Binding<Bool>, viewModel: MealDetailViewModel) {
         _modalPresented = modalPresented
-        viewModel = MealDetailViewModel(meal: meal)
+        self.viewModel = viewModel
         _title = State(initialValue: meal.strMeal)
         _description = State(initialValue: meal.strInstructions)
         _imageUrl = State(initialValue: meal.strMealThumb ?? "")
@@ -25,57 +25,58 @@ struct EditMealDetailView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Oppskrift")
-                    .font(.subheadline)
-                    .foregroundStyle(.gray)
-                TextField("Oppskrift", text: $title)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                Text("Bilde-URL")
-                    .font(.subheadline)
-                    .foregroundStyle(.gray)
-                    .padding(.top)
-                TextField("Legg inn nytt bilde med URL", text: $imageUrl)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                
-                Text("Beskrivelse")
-                    .font(.subheadline)
-                    .foregroundStyle(.gray)
-                    .padding(.top)
-                TextEditor(text: $description)
-                    .frame(minHeight: 150)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 5)
-                            .stroke(Color.gray, lineWidth: 1)
-                    )
-                
-                Text("Ingredienser og mengde")
-                    .font(.subheadline)
-                    .foregroundStyle(.gray)
-                    .padding(.top)
-                ForEach($ingredients.indices, id: \.self) { index in
-                    TextField("Ingrediens", text: $ingredients[index])
+        if let meal = viewModel.meal {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Oppskrift")
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                    TextField("Oppskrift", text: $title)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                }
                 
-                Button("Lagre endringer") {
-                    viewModel.updateMeal(title: title, description: description, imageUrl: imageUrl, ingredients: ingredients)
-                    modalPresented = false
+                    Text("Bilde-URL")
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                        .padding(.top)
+                    TextField("Legg inn nytt bilde med URL", text: $imageUrl)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                
+                    Text("Beskrivelse")
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                        .padding(.top)
+                    TextEditor(text: $description)
+                        .frame(minHeight: 150)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 5)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                
+                    Text("Ingredienser og mengde")
+                        .font(.subheadline)
+                        .foregroundStyle(.gray)
+                        .padding(.top)
+                    ForEach($ingredients.indices, id: \.self) { index in
+                        TextField("Ingrediens", text: $ingredients[index])
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                    }
+                
+                    Button("Lagre endringer") {
+                        viewModel.updateMeal(mealId: meal.idMeal, title: title, description: description, imageUrl: imageUrl, ingredients: ingredients)
+                        modalPresented = false
+                        viewModel.loadMealFromCoreData(id: meal.idMeal)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(Color.green)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
                 }
                 .padding()
-                .frame(maxWidth: .infinity)
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(10)
             }
-            .padding()
         }
     }
 }
-
-
 
 private func getIngredientList(meal: MealModel) -> [String] {
     var ingredientList = [String]()
@@ -95,9 +96,8 @@ private func getIngredientList(meal: MealModel) -> [String] {
     }
     
     return ingredientList
-    
 }
 
-//#Preview {
+// #Preview {
 //    EditMealDetailView(meal: MealModel.sampleMeal, modalPresented: )
-//}
+// }

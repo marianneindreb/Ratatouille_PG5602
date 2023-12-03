@@ -119,7 +119,6 @@ struct MealDetailView: View {
         VStack {
             Button {
                 showingEditSheet = true
-                // TODO: edit functionality, including disabled after click.
             } label: {
                 Text("Rediger oppskrift")
                     .padding(20)
@@ -130,9 +129,10 @@ struct MealDetailView: View {
                     .textCase(.uppercase)
                     .cornerRadius(15)
                     .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+            }
                     .sheet(isPresented: $showingEditSheet) {
-                        EditMealDetailView(meal: meal, modalPresented: $showingEditSheet)
-                    }
+                        EditMealDetailView(meal: meal, modalPresented: $showingEditSheet, viewModel: viewModel)
+                    
             }
 
             Button {

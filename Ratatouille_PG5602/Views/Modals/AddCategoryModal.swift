@@ -33,7 +33,7 @@ struct AddCategoryModal: View {
                     }
                     .padding()
                     .frame(width: 120)
-                    .background(Color.green)
+                    .background(Color.brandPrimary)
                     .foregroundColor(.white)
                     .cornerRadius(10)
                     Spacer()

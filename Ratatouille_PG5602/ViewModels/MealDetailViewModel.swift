@@ -1,9 +1,9 @@
 import SwiftUI
 import CoreData
 
-@Observable
+//@Observable
 final class MealDetailViewModel: ObservableObject {
-    var meal: MealModel?
+   @Published var meal: MealModel?
     
     init(meal: MealModel) {
         self.meal = meal
@@ -19,16 +19,7 @@ final class MealDetailViewModel: ObservableObject {
         self.fetchMeal(mealId: id, onCompletion: self.saveMeal)
     }
     
-    func updateMeal(title: String, description: String, imageUrl: String, ingredients: [String]) {
-        guard let mealId = self.meal?.idMeal else {
-            print("Meal ID not found")
-            return
-        }
-        self.meal?.strMeal = title
-        self.meal?.strInstructions = description
-        self.meal?.strMealThumb = imageUrl
-                
-
+    func updateMeal(mealId: String, title: String, description: String, imageUrl: String, ingredients: [String]) {
         let context = CoreDataManager.shared.context
         let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "idMeal == %@", mealId)
@@ -83,7 +74,31 @@ final class MealDetailViewModel: ObservableObject {
             }
         }
     }
+    func loadMealFromCoreData(id: String){
+        self.meal = getMealFromCoreData(id: id)
+    }
     
+    func getMealFromCoreData(id: String) -> MealModel? {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "isArchived == %@", NSNumber(value: false))
+        
+        do {
+            let mealEntity = try context.fetch(fetchRequest)
+            if mealEntity.isEmpty {
+                print("Meal with mealId \(id) not found in Core Data")
+            } else {
+                let mealMapped = mealEntity.first.map {
+                    MealModel(from: $0)
+                }
+                return mealMapped!
+            }
+        } catch {
+            print("Error getting meal with id \(id) from Core Data: \(error)")
+            return nil
+        }
+        return nil
+    }
 
     
     func saveMeal() {
