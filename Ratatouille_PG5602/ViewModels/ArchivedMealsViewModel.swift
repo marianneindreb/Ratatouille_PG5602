@@ -24,4 +24,40 @@ class ArchivedMealsViewModel: ObservableObject {
             print("Error fetching saved meals: \(error)")
         }
     }
+    
+    func restoreMeal(id: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
+        let predicate = NSPredicate(format: "idMeal == %@", id)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let areaEntity = try context.fetch(fetchRequest).first {
+                areaEntity.isArchived = false
+                try context.save()
+                print("Restored meal \(id)")
+                getArchivedMeals()
+            }
+        } catch {
+            print("Error restoring meal \(id): \(error)")
+        }
+    }
+    
+    func deleteMeal(id: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
+        let predicate = NSPredicate(format: "idMeal == %@", id)
+        fetchRequest.predicate = predicate
+
+        do {
+            if let areaEntity = try context.fetch(fetchRequest).first {
+                //TODO: Code for deleteing here
+                try context.save()
+                print("Deleted meal \(id)")
+                getArchivedMeals()
+            }
+        } catch {
+            print("Error deleteing meal \(id): \(error)")
+        }
+    }
 }

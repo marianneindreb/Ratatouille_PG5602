@@ -1,9 +1,8 @@
+import Foundation
 import SwiftUI
 
-
 struct ArchiveView: View {
-    
-    @ObservedObject var archivedMealsVM = ArchivedMealsViewModel()
+    @ObservedObject var viewModel = ArchivedMealsViewModel()
     
     @State var hasArchivedAreas: Bool = false
     @State var hasArchivedCategories: Bool = false
@@ -35,27 +34,37 @@ struct ArchiveView: View {
                     }
                 }
                 Section(header: Text("Oppskrifter")) {
-                   if archivedMealsVM.archivedMeals.isEmpty {
+                    if viewModel.archivedMeals.isEmpty {
                         Text("Ingen arkiverte oppskrifter")
                         // Vise liste over arkiverte oppskrifter
                     } else {
-                        //List med strMeal Tittel bare. Kan swipe fra venstre for å slette eller legge til igjen
-                    /*    List(archivedMealsVM.archivedMeals, id: \.id) { meal in
-                            Text("meal")
-                        } */
+                        List(viewModel.meals, id: \.idMeal) { meal in
+                            HStack {
+                                Text(meal.strMeal)
+                                // TODO: show flag
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button("Gjennopprett") {
+                                    viewModel.restoreMeal(id: meal.strArea)
+                                }
+                                .tint(.brandPrimary)
+                                Button("Slett") {
+                                    viewModel.deleteMeal(id: viewModel.mealId)
+                                }
+                                .tint(.brandSecondary)
+                            }
+                        }
+                        .listStyle(PlainListStyle())
                     }
                 }
-                
-               
             }
             .navigationTitle("Arkiv")
         }
-        .onAppear{
-            archivedMealsVM.getArchivedMeals()
+        .onAppear {
+            viewModel.getArchivedMeals()
         }
     }
 }
-
 
 #Preview {
     ArchiveView()
