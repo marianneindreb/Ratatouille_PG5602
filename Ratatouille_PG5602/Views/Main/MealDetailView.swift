@@ -13,6 +13,7 @@ struct MealDetailView: View {
     @State private var selectedTab: String = "Instructions"
     @State var didSave: Bool = false
     @State var didArchive: Bool = false
+    @State private var showingEditSheet = false
     
     init(id: String) {
         viewModel = MealDetailViewModel(id: id)
@@ -117,6 +118,7 @@ struct MealDetailView: View {
     private func actionButtonsForSavedMeal(meal: MealModel) -> some View {
         VStack {
             Button {
+                showingEditSheet = true
                 // TODO: edit functionality, including disabled after click.
             } label: {
                 Text("Rediger oppskrift")
@@ -128,6 +130,9 @@ struct MealDetailView: View {
                     .textCase(.uppercase)
                     .cornerRadius(15)
                     .shadow(color: Color.black.opacity(0.3), radius: 5, x: 0, y: 2)
+                    .sheet(isPresented: $showingEditSheet) {
+                        EditMealDetailView(meal: meal)
+                    }
             }
 
             Button {

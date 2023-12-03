@@ -7,6 +7,7 @@ final class CategoriesViewModel: ObservableObject {
     @Published var categories: [CategoryModel] = []
     @Published var meals: [MealListItemModel] = []
     @Published var searchText = ""
+    @Published var editingCategory: String? = nil
     
     enum LoadFrom {
         case API
@@ -21,6 +22,25 @@ final class CategoriesViewModel: ObservableObject {
             self.fetchCategoriesFromAPIAndSaveToCoreData()
         } else {
             self.loadCategoriesFromCoreData()
+        }
+    }
+    
+    func saveEditedCategory(originalName: String, newName: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "strCategory == %@", originalName)
+        
+        do {
+            if let categoryEntity = try context.fetch(fetchRequest).first {
+                categoryEntity.strCategory = newName
+                
+                try context.save()
+                print("Category name updated from \(originalName) to \(newName)")
+                
+                self.loadCategoriesFromCoreData()
+            }
+        } catch {
+            print("Error updating ingredient: \(error)")
         }
     }
     

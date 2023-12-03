@@ -6,6 +6,7 @@ final class IngredientsViewModel: ObservableObject {
     @Published var ingredients: [IngredientModel] = []
     @Published var meals: [MealListItemModel] = []
     @Published var searchText = ""
+    @Published var editingIngredient: String? = nil
     
     enum LoadFrom {
         case API
@@ -26,6 +27,26 @@ final class IngredientsViewModel: ObservableObject {
             self.loadIngredientsFromCoreData()
         }
     }
+    
+    func saveEditedIngredient(originalName: String, newName: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "strIngredient == %@", originalName)
+        
+        do {
+            if let ingredientEntity = try context.fetch(fetchRequest).first {
+                ingredientEntity.strIngredient = newName
+                
+                try context.save()
+                print("Ingredient name updated from \(originalName) to \(newName)")
+                
+                self.loadIngredientsFromCoreData()
+            }
+        } catch {
+            print("Error updating ingredient: \(error)")
+        }
+    }
+    
     
     //søke etter ingredienser i settings -> Rediger ingredienser
     var filteredIngredients: [IngredientModel] {

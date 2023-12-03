@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable
-final class MealDetailViewModel {
+final class MealDetailViewModel: ObservableObject {
     var meal: MealModel?
     
     init(meal: MealModel) {
@@ -30,6 +30,10 @@ final class MealDetailViewModel {
                 print("Something went wrong fetching meal with mealId \(mealId)")
             }
         }
+    }
+    
+    func updateMeal(title: String, description: String, imageUrl: String, ingredients: [String]) {
+        // TODO: Implement code to update meal
     }
     
     func saveMeal() {

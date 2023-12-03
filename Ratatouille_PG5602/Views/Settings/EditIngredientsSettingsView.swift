@@ -3,14 +3,10 @@ import SwiftUI
 struct EditIngredientsSettingsView: View {
     @StateObject var viewModel = IngredientsViewModel(loadFrom: .coreData)
     @State private var showingAddIngredientModal = false
-    //TODO: Search
-    // Arkivere landområder, redigere dem og legge til nye
-    // I vinduet for innstillinger skal du kunne importere landområder, kategorier og ingredienser fra API til databasen.
-    // Du skal ha muligheten til å opprette, redigere og arkivere landområder, kategorier og ingredienser, som illustrert i eksemplene nedenfor.
+    @State private var editedIngredientName: String = ""
       
       var body: some View {
           ZStack {
-              // Main content
               VStack {
                   if viewModel.ingredients.isEmpty {
                       VStack {
@@ -24,10 +20,19 @@ struct EditIngredientsSettingsView: View {
                   } else {
                       List(viewModel.filteredIngredients, id: \.idIngredient) { ingredient in
                           HStack {
-                              NavigationLink {
-                                  EditIngredientDetailsView(ingredient: ingredient, ingredientsViewModel: viewModel)
-                              } label: {
+                              if viewModel.editingIngredient == ingredient.strIngredient {
+                                  TextField("Nytt navn", text: $editedIngredientName)
+                                      .textFieldStyle(RoundedBorderTextFieldStyle())
+                                  Button("Lagre") {
+                                      viewModel.saveEditedIngredient(originalName: ingredient.strIngredient, newName: editedIngredientName)
+                                      viewModel.editingIngredient = nil
+                                  }
+                                  .buttonStyle(BorderlessButtonStyle())
+                              } else {
                                   Text(ingredient.strIngredient)
+                                  Spacer()
+                                  Image(systemName: "ellipsis")
+                                      .foregroundColor(.gray)
                               }
                           }
                           .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -35,6 +40,13 @@ struct EditIngredientsSettingsView: View {
                                   viewModel.archiveIngredient(idIngredient: ingredient.idIngredient)
                               }
                               .tint(.brandSecondary)
+                              Button {
+                                  editedIngredientName = ingredient.strIngredient
+                                  viewModel.editingIngredient = ingredient.strIngredient
+                              } label: {
+                                  Text("Rediger")
+                              }
+                              .tint(.blue)
                           }
                       }
                       .listStyle(PlainListStyle())
@@ -44,16 +56,14 @@ struct EditIngredientsSettingsView: View {
               .navigationBarTitle("Ingredienser", displayMode: .inline)
               .navigationBarItems(trailing: addButton)
 
-              // Custom modal presentation
+             
               if showingAddIngredientModal {
-                  // Overlay for dimming the background
                   Color.black.opacity(0.4)
                       .edgesIgnoringSafeArea(.all)
                       .onTapGesture {
                           showingAddIngredientModal = false
                       }
 
-                  // Modal content
                   AddIngredientModal(isPresented: $showingAddIngredientModal, viewModel: viewModel)
                       .frame(width: 300, height: 300)
                       .background(Color.white)

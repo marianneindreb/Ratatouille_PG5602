@@ -27,20 +27,23 @@ struct RecipeListView: View {
                                 MealListItem(meal: MealListItemModel(strMeal: meal.strMeal, strMealThumb: meal.strMealThumb, idMeal: meal.idMeal))
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                Button("Arkiver") {
+                                Button("Arkiver", systemImage: "archivebox") {
                                     viewModel.archiveMeal(id: meal.idMeal)
                                 }
                                 .tint(.brandSecondary)
                                 
-                                Button {
-                                    // edit meal
+                                NavigationLink {
+                                    EditMealDetailView(meal: meal)
                                 } label: {
                                     Image(systemName: "square.and.pencil")
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 25)
-                                        .shadow(radius: 10)
+                                    Text("Rediger")
                                 }
+                                .buttonStyle(PlainButtonStyle())
+//                                NavigationLink(destination: EditMealDetailView(meal: meal)) {
+//                                    Label("Rediger", systemImage: "square.and.pencil")
+//                                }
+                                
+                                .tint(.blue)
                             }
                         }
                         .listStyle(PlainListStyle())
@@ -59,7 +62,6 @@ struct RecipeListView: View {
             .onAppear {
                 viewModel.getSavedMeals()
             }
-            
             if viewModel.isLoading {
                 LoadingView()
             }
