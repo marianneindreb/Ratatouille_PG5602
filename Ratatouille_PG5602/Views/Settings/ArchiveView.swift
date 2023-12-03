@@ -2,13 +2,14 @@ import Foundation
 import SwiftUI
 
 struct ArchiveView: View {
-    @ObservedObject var viewModel = ArchivedMealsViewModel()
-    
+    @ObservedObject var archivedMealsVM = ArchivedMealsViewModel()
+    @ObservedObject var archivedAreasVM = ArchivedAreasViewModel()
+
     @State var hasArchivedAreas: Bool = false
     @State var hasArchivedCategories: Bool = false
     @State var hasArchivedIngredients: Bool = false
     @State var hasArchivedMeals: Bool = false
-    
+
     var body: some View {
         NavigationView {
             Form {
@@ -16,11 +17,30 @@ struct ArchiveView: View {
                     if hasArchivedAreas == true {
                         // vis arkiverte landområder
                     } else {
-                        Text("Ingen arkiverte landområder")
+                        ForEach(archivedAreasVM.archivedAreas, id: \.strArea) { area in
+                            HStack {
+                                Text(area.strArea)
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                Button {
+                                    archivedAreasVM.deleteArea(strArea: area.strArea)
+                                } label: {
+                                    Image(systemName: "trash")
+                                }
+                                .tint(.red)
+
+                                Button {
+                                    archivedAreasVM.restoreArea(strArea: area.strArea)
+                                } label: {
+                                    Image(systemName: "plus.app.fill")
+                                }
+                                .tint(.green)
+                            }
+                        }
                     }
                 }
                 Section(header: Text("Kategorier")) {
-                    if hasArchivedCategories == true     {
+                    if hasArchivedCategories == true {
                         // vis arkiverte kategorier
                     } else {
                         Text("Ingen arkiverte kategorier")
@@ -34,26 +54,24 @@ struct ArchiveView: View {
                     }
                 }
                 Section(header: Text("Oppskrifter")) {
-                    if viewModel.archivedMeals.isEmpty {
+                    if archivedMealsVM.archivedMeals.isEmpty {
                         Text("Ingen arkiverte oppskrifter")
                         // Vise liste over arkiverte oppskrifter
                     } else {
-                        ForEach(viewModel.archivedMeals, id: \.idMeal) { meal in
+                        ForEach(archivedMealsVM.archivedMeals, id: \.idMeal) { meal in
                             HStack {
                                 Text(meal.strMeal)
-                                // TODO: show flag
                             }
                             .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                                 Button {
-                                    viewModel.deleteMeal(id: meal.idMeal)
+                                    archivedMealsVM.deleteMeal(id: meal.idMeal)
                                 } label: {
                                     Image(systemName: "trash")
-                                       
                                 }
                                 .tint(.red)
-                                
+
                                 Button {
-                                    viewModel.restoreMeal(id: meal.idMeal)
+                                    archivedMealsVM.restoreMeal(id: meal.idMeal)
                                 } label: {
                                     Image(systemName: "plus.app.fill")
                                 }
@@ -61,13 +79,13 @@ struct ArchiveView: View {
                             }
                         }
                     }
-                    
                 }
+                .navigationTitle("Arkiv")
             }
-            .navigationTitle("Arkiv")
-        }
-        .onAppear {
-            viewModel.getArchivedMeals()
+            .onAppear {
+                archivedMealsVM.getArchivedMeals()
+                archivedAreasVM.getArchivedAreas()
+            }
         }
     }
 }

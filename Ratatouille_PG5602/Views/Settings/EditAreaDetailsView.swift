@@ -88,5 +88,5 @@ struct EditAreasDetailsView: View {
 }
 
 #Preview {
-    EditAreasDetailsView(area: AreaModel(strArea: "Canadian"), areasViewModel: AreasViewModel(loadFrom: .API))
+    EditAreasDetailsView(area: AreaModel(flagURL: "", strArea: "Canadian"), areasViewModel: AreasViewModel(loadFrom: .API))
 }

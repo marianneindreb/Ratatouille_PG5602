@@ -9,31 +9,21 @@ import SwiftUI
 
 @main
 struct Ratatouille_PG5602App: App {
-//    @AppStorage("hasLaunchedBefore") var hasLaunchedBefore: Bool = false
-    
-//    private var areasViewModel = AreasViewModel()
-//    private var categoriesViewModel = CategoriesViewModel()
-//    private var ingredientsViewModel = IngredientsViewModel()
-//    
-//    func fetchDataAndSave() {
-//            areasViewModel.fetchAreas()
-//            categoriesViewModel.fetchCategoriesFromAPIAndSaveToCoreData()
-//            ingredientsViewModel.fetchIngredients()
-//            
-//            categoriesViewModel.onFetchCompleted = {
-//                self.categoriesViewModel.saveCategoriesToCoreData()
-//           }
-//
-//            ingredientsViewModel.onFetchCompleted = {
-//                self.ingredientsViewModel.saveIngredientsToCoreData()
-//            }
-//    }
-  // let persistenceController = PersistenceController.shared
+
+    init() {
+        printDocumentsDirectory()
+    }
 
     var body: some Scene {
         WindowGroup {
             SplashScreenView()
-            }
         }
+    }
+
+    func printDocumentsDirectory() {
+        if let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last {
+            print("Documents Directory: \(url)")
+        }
+    }
     }
 

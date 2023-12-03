@@ -63,7 +63,7 @@ final class AreasViewModel: ObservableObject {
     }
     
     func loadAreasFromCoreData() {
-        self.areas = getAreasFromCoreData()
+        areas = getAreasFromCoreData()
     }
     
     func getAreasFromCoreData() -> [AreaModel] {
@@ -77,7 +77,7 @@ final class AreasViewModel: ObservableObject {
                 return []
             } else {
                 let areasMapped = areaEntities.map {
-                    AreaModel(strArea: $0.strArea ?? "", isArchived: $0.isArchived)
+                    AreaModel(flagURL: $0.flagURL ?? "", strArea: $0.strArea ?? "", isArchived: $0.isArchived)
                 }
                 return areasMapped
             }
@@ -189,7 +189,7 @@ final class AreasViewModel: ObservableObject {
         }
     }
     
-    func updateArea(strArea: String, newName: String){
+    func updateArea(strArea: String, newName: String) {
         let context = CoreDataManager.shared.context
         let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
         let predicate = NSPredicate(format: "strArea == %@", strArea)
@@ -201,22 +201,37 @@ final class AreasViewModel: ObservableObject {
                
                 try context.save()
                 print("Updated area from \(strArea) to \(newName)")
-                self.loadAreasFromCoreData()
+                loadAreasFromCoreData()
             }
         } catch {
             print("Error updating area name \(strArea) to \(newName): \(error)")
         }
     }
+    
+    func createNewArea(named name: String) {
+        let context = CoreDataManager.shared.context
+    
+        let newArea = AreaEntity(context: context)
+        newArea.strArea = name
+        newArea.isArchived = false
+        newArea.flagURL = ""
+        
+        do {
+            try context.save()
+            print("New area '\(name)' created successfully.")
+            loadAreasFromCoreData()
+        } catch {
+            print("Error creating new area \(name): \(error)")
+        }
+    }
 }
-
-// flagURL: $0.flagURL ?? "",
 
 extension AreasViewModel {
     func saveAreasToCoreData() {
         guard areas.count > 0 else {
             return
         }
-        
+
         let context = CoreDataManager.shared.context
         for area in areas {
             let areaEntity = AreaEntity(context: context)
@@ -225,10 +240,11 @@ extension AreasViewModel {
             let countryCode = countryCodes[area.strArea] ?? ""
             areaEntity.flagURL = (countryCode.isEmpty) ? "" : "https://flagsapi.com/\(countryCode)/shiny/64.png"
         }
+
         do {
             try context.save()
         } catch {
-            print("Error")
+            print("Error saving areas to Core Data: \(error)")
         }
     }
 

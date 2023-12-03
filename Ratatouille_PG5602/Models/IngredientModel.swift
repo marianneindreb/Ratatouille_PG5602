@@ -1,6 +1,6 @@
 import Foundation
 
-struct IngredientModel: Decodable {
+struct IngredientModel: Decodable, Hashable {
     let idIngredient: String
     let strIngredient: String
     var isArchived: Bool? = false

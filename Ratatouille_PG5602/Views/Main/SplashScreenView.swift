@@ -111,6 +111,7 @@ struct SplashScreenView: View {
         categoriesViewModel.fetchCategoriesFromAPIAndSaveToCoreData()
         ingredientsViewModel.fetchIngredientsFromAPIAndSaveToCoreData()
     }
+   
 }
 
 #Preview {

@@ -37,6 +37,16 @@ struct EditCategoriesSettingsView: View {
                 .listStyle(PlainListStyle())
             }
         }
+        .navigationBarTitle("Kategorier", displayMode: .inline)
+        .navigationBarItems(trailing:
+        Button(action: {
+            // Legg til ingrediens
+        }) {
+            Image(systemName: "plus.circle.fill")
+                .foregroundStyle(.brandPrimary)
+                .padding()
+        }
+        )
     }
 }
 

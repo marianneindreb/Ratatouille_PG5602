@@ -24,7 +24,7 @@ struct EditIngredientDetailsView: View {
     var body: some View {
         VStack {
             if isEditing {
-                TextField("Ingrediens", text: $editableIngredientName)
+                TextField("Legg til ny ingrediens", text: $editableIngredientName)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
             } else {
                 Text(editableIngredientName.count > 0 ? editableIngredientName : ingredient.strIngredient)

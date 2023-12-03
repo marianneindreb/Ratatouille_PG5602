@@ -5,7 +5,6 @@ import CoreData
 class ArchivedMealsViewModel: ObservableObject {
     @Published var archivedMeals: [MealModel] = []
     @Published var isLoading = false
-    //var meal: MealModel?
     
     func getArchivedMeals() {
         self.isLoading = true
@@ -15,13 +14,12 @@ class ArchivedMealsViewModel: ObservableObject {
 
         do {
             let mealsEntities = try context.fetch(fetchRequest)
-            // TODO: Filter out archived.
             self.archivedMeals = mealsEntities.map {
                 MealModel(from: $0)
             }
             self.isLoading = false
         } catch {
-            print("Error fetching saved meals: \(error)")
+            print("Error fetching archived meals: \(error)")
         }
     }
     
@@ -32,8 +30,8 @@ class ArchivedMealsViewModel: ObservableObject {
         fetchRequest.predicate = predicate
 
         do {
-            if let areaEntity = try context.fetch(fetchRequest).first {
-                areaEntity.isArchived = false
+            if let mealEntity = try context.fetch(fetchRequest).first {
+                mealEntity.isArchived = false
                 try context.save()
                 print("Restored meal \(id)")
                 getArchivedMeals()
@@ -50,14 +48,14 @@ class ArchivedMealsViewModel: ObservableObject {
         fetchRequest.predicate = predicate
 
         do {
-            if let areaEntity = try context.fetch(fetchRequest).first {
-                //TODO: Code for deleteing here
+            if let mealEntity = try context.fetch(fetchRequest).first {
+                context.delete(mealEntity)
                 try context.save()
                 print("Deleted meal \(id)")
                 getArchivedMeals()
             }
         } catch {
-            print("Error deleteing meal \(id): \(error)")
+            print("Error deleting meal \(id): \(error)")
         }
     }
 }

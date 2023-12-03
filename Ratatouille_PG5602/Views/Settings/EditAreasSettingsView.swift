@@ -30,7 +30,7 @@ struct EditAreasSettingsView: View {
                         } label: {
                             Text(area.strArea)
                         }
-                      //TODO: flag
+                      //TODO: flag, area.flagURL. Liten og rund.
                         
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: true) {
@@ -43,6 +43,16 @@ struct EditAreasSettingsView: View {
                 .listStyle(PlainListStyle())
             }
         }
+        .navigationBarTitle("Landområder", displayMode: .inline)
+        .navigationBarItems(trailing:
+        Button(action: {
+            // Legg til area
+        }) {
+            Image(systemName: "plus.circle.fill")
+                .foregroundStyle(.brandPrimary)
+                .padding()
+        }
+        )
     }
 }
 

@@ -1,8 +1,8 @@
-import Foundation
 import CoreData
+import Foundation
 import SwiftUI
 
-//@Observable
+// @Observable
 final class CategoriesViewModel: ObservableObject {
     @Published var categories: [CategoryModel] = []
     @Published var meals: [MealListItemModel] = []
@@ -15,25 +15,23 @@ final class CategoriesViewModel: ObservableObject {
     var onErrorHandling: ((Error) -> Void)?
     var onFetchCompleted: (() -> Void)?
     
-   
     init(loadFrom: LoadFrom? = .API) {
         if loadFrom == LoadFrom.API {
             self.fetchCategoriesFromAPIAndSaveToCoreData()
         } else {
             self.loadCategoriesFromCoreData()
         }
-        
     }
     
-    func loadCategoriesFromCoreData(){
-        self.categories = getCategoriesFromCoreData()
+    func loadCategoriesFromCoreData() {
+        self.categories = self.getCategoriesFromCoreData()
     }
     
     func getCategories() -> [CategoryModel] {
         if !self.categories.isEmpty {
             return self.categories
         } else {
-            return getCategoriesFromCoreData()
+            return self.getCategoriesFromCoreData()
         }
     }
     
@@ -47,10 +45,10 @@ final class CategoriesViewModel: ObservableObject {
             if categoryEntities.isEmpty {
                 return []
             } else {
-               let categoriesMapped = categoryEntities.map {
-                   CategoryModel(strCategory: $0.strCategory ?? "", isArchived: $0.isArchived)
+                let categoriesMapped = categoryEntities.map {
+                    CategoryModel(strCategory: $0.strCategory ?? "", isArchived: $0.isArchived)
                 }
-                return categoriesMapped;
+                return categoriesMapped
             }
         } catch {
             print("Error fetching categories from Core Data: \(error)")
@@ -64,7 +62,7 @@ final class CategoriesViewModel: ObservableObject {
         let urlString = "https://www.themealdb.com/api/json/v1/1/list.php?c=list"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
-                case .success(let data):
+            case .success(let data):
                 do {
                     let categoryResponse = try JSONDecoder().decode(
                         CategoriesResponse.self,
@@ -89,10 +87,9 @@ final class CategoriesViewModel: ObservableObject {
         if let fetchedMeals = getMealsFromCoreData(forCategory: category), !fetchedMeals.isEmpty {
             self.meals = fetchedMeals.map { MealListItemModel(from: $0) }
         } else {
-            fetchMealsFromAPI(forCategory: category)
+            self.fetchMealsFromAPI(forCategory: category)
         }
     }
-    
     
     func fetchMealsFromAPI(forCategory category: String) {
         let urlString = "https://www.themealdb.com/api/json/v1/1/filter.php?c=\(category)"
@@ -169,7 +166,7 @@ final class CategoriesViewModel: ObservableObject {
         }
     }
     
-    func updateCategory(strCategory: String, newName: String){
+    func updateCategory(strCategory: String, newName: String) {
         let context = CoreDataManager.shared.context
         let fetchRequest: NSFetchRequest<CategoryEntity> = CategoryEntity.fetchRequest()
         let predicate = NSPredicate(format: "strCategory == %@", strCategory)
@@ -189,11 +186,11 @@ final class CategoriesViewModel: ObservableObject {
     }
 }
     
-    extension CategoriesViewModel {
-        func saveCategoriesToCoreData() {
-            guard categories.count > 0 else {
-                return
-            }
+extension CategoriesViewModel {
+    func saveCategoriesToCoreData() {
+        guard self.categories.count > 0 else {
+            return
+        }
             
             let context = CoreDataManager.shared.context
             for category in categories {
@@ -208,8 +205,6 @@ final class CategoriesViewModel: ObservableObject {
             }
         }
     
-    
-
     private func deleteAllCategories(in context: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = CategoryEntity.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
@@ -221,10 +216,19 @@ final class CategoriesViewModel: ObservableObject {
         }
     }
     
+    func createNewCategory(named name: String) {
+        let context = CoreDataManager.shared.context
+    
+        let newCategory = CategoryEntity(context: context)
+        newCategory.strCategory = name
+        newCategory.isArchived = false
+        
+        do {
+            try context.save()
+            print("New category '\(name)' created successfully.")
+            self.loadCategoriesFromCoreData()
+        } catch {
+            print("Error creating new category \(name): \(error)")
+        }
+    }
 }
-
-
-
-
-
-

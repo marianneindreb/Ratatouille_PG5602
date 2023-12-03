@@ -3,9 +3,9 @@ import CoreData
 
 // @Observable
 final class IngredientsViewModel: ObservableObject {
-     @Published var ingredients: [IngredientModel] = []
-     @Published var meals: [MealListItemModel] = []
-   
+    @Published var ingredients: [IngredientModel] = []
+    @Published var meals: [MealListItemModel] = []
+    
     enum LoadFrom {
         case API
         case coreData
@@ -51,29 +51,30 @@ final class IngredientsViewModel: ObservableObject {
                 let ingredientsMapped = ingredientEntities.map {
                     IngredientModel(idIngredient: $0.idIngredient ?? "", strIngredient: $0.strIngredient ?? "", isArchived: $0.isArchived)
                 }
-            return ingredientsMapped;
-        }
+                return ingredientsMapped;
+            }
         } catch {
             print("Error fetching ingredients from Core Data: \(error)")
             return []
         }
     }
-     
+    
     func fetchIngredientsFromAPIAndSaveToCoreData() {
         print("Fetching ingredients from API and saving to coredata")
         self.ingredients.removeAll()
         let urlString = "https://www.themealdb.com/api/json/v1/1/list.php?i=list"
         NetworkManager.shared.fetchData(from: urlString) { [weak self] result in
             switch result {
-                case .success(let data):
+            case .success(let data):
                 do {
                     let ingredientResponse = try JSONDecoder().decode(
                         IngredientsResponse.self,
                         from: data
                     )
                     DispatchQueue.main.async {
-                        self?.ingredients = ingredientResponse.meals
-                        self?.saveIngredientsToCoreData()
+                        let uniqueIngredients = ingredientResponse.meals.removingDuplicates()
+                               self?.ingredients = uniqueIngredients
+                               self?.saveIngredientsToCoreData()
                     }
                 } catch {
                     DispatchQueue.main.async {
@@ -106,7 +107,7 @@ final class IngredientsViewModel: ObservableObject {
             }
         }
     }
-
+    
     private func parseMealDataAndSetVariable(_ data: Data) {
         do {
             let mealResponse = try JSONDecoder().decode(MealListItemResponse.self, from: data)
@@ -139,7 +140,7 @@ final class IngredientsViewModel: ObservableObject {
         let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
         let predicate = NSPredicate(format: "idIngredient == %@", idIngredient)
         fetchRequest.predicate = predicate
-
+        
         do {
             if let ingredientEntity = try context.fetch(fetchRequest).first {
                 ingredientEntity.isArchived = true
@@ -157,7 +158,7 @@ final class IngredientsViewModel: ObservableObject {
         let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
         let predicate = NSPredicate(format: "idIngredient == %@", idIngredient)
         fetchRequest.predicate = predicate
-
+        
         do {
             if let ingredientEntity = try context.fetch(fetchRequest).first {
                 ingredientEntity.isArchived = false
@@ -175,12 +176,12 @@ final class IngredientsViewModel: ObservableObject {
         let fetchRequest: NSFetchRequest<IngredientEntity> = IngredientEntity.fetchRequest()
         let predicate = NSPredicate(format: "idIngredient == %@", idIngredient)
         fetchRequest.predicate = predicate
-
+        
         do {
             if let ingredientEntity = try context.fetch(fetchRequest).first {
                 let oldName = ingredientEntity.strIngredient
                 ingredientEntity.strIngredient = newName
-               
+                
                 try context.save()
                 print("Updated ingredient name from \(String(describing: oldName)) to \(newName)")
                 self.loadIngredientsFromCoreData()
@@ -201,6 +202,7 @@ extension IngredientsViewModel {
         let context = CoreDataManager.shared.context
         for ingredient in ingredients {
             let ingredientEntity = IngredientEntity(context: context)
+            ingredientEntity.idIngredient = ingredient.idIngredient
             ingredientEntity.strIngredient = ingredient.strIngredient
             ingredientEntity.isArchived = false
         }
@@ -210,18 +212,36 @@ extension IngredientsViewModel {
             print("Error saving ingredients to Core Data: \(error)")
         }
     }
-
+    
     private func deleteAllIngredients(in context: NSManagedObjectContext) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = IngredientEntity.fetchRequest()
         let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-
+        
         do {
             try context.execute(deleteRequest)
         } catch let error as NSError {
             print("Error deleting existing records: \(error), \(error.userInfo)")
         }
     }
+    
+    func createNewIngredient(named name: String) {
+        let context = CoreDataManager.shared.context
+    
+        let newIngredient = IngredientEntity(context: context)
+        newIngredient.strIngredient = name
+        newIngredient.idIngredient = UUID().uuidString
+        newIngredient.isArchived = false
+        
+        do {
+            try context.save()
+            print("New ingredient '\(name)' created successfully.")
+            loadIngredientsFromCoreData()
+        } catch {
+            print("Error creating new ingredient \(name): \(error)")
+        }
+    }
 }
+
 
 
 

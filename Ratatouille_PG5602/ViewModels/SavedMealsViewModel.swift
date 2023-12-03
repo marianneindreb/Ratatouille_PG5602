@@ -13,7 +13,6 @@ class SavedMealsViewModel: ObservableObject {
 
         do {
             let mealsEntities = try context.fetch(fetchRequest)
-            // TODO: Filter out archived.
             self.savedMeals = mealsEntities.map {
                 MealModel(from: $0)
             }
