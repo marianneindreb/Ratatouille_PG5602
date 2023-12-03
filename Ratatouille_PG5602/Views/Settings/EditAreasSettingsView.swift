@@ -25,7 +25,7 @@ struct EditAreasSettingsView: View {
                             .padding(20)
                     }
                 } else {
-                    List(viewModel.areas, id: \.strArea) { area in
+                    List(viewModel.filteredAreas, id: \.strArea) { area in
                         HStack {
                             NavigationLink {
                                 EditAreasDetailsView(area: area, areasViewModel: viewModel)
@@ -36,8 +36,10 @@ struct EditAreasSettingsView: View {
                             
                         }
                         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button("Arkiver") {
+                            Button {
                                 viewModel.archiveArea(strArea: area.strArea)
+                            } label: {
+                                Image(systemName: "archivebox")
                             }
                             .tint(.brandSecondary)
                         }
@@ -45,6 +47,7 @@ struct EditAreasSettingsView: View {
                     .listStyle(PlainListStyle())
                 }
             }
+            .searchable(text: $viewModel.searchText, prompt: "Søk etter landområder")
             .navigationBarTitle("Landområder", displayMode: .inline)
             .navigationBarItems(trailing: addButton)
 

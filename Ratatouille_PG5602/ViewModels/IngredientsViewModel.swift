@@ -27,7 +27,7 @@ final class IngredientsViewModel: ObservableObject {
         }
     }
     
-    //test
+    //søke etter ingredienser i settings -> Rediger ingredienser
     var filteredIngredients: [IngredientModel] {
             if searchText.isEmpty {
                 return ingredients

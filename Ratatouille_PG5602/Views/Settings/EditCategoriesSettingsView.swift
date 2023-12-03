@@ -21,7 +21,7 @@ struct EditCategoriesSettingsView: View {
                             .padding(20)
                     }
                 } else {
-                    List(viewModel.categories, id: \.strCategory) { category in
+                    List(viewModel.filteredCategories, id: \.strCategory) { category in
                         HStack {
                             NavigationLink {
                                 EditCategoryDetailsView(category: category, categoriesViewModel: viewModel)
@@ -39,6 +39,7 @@ struct EditCategoriesSettingsView: View {
                     .listStyle(PlainListStyle())
                 }
             }
+            .searchable(text: $viewModel.searchText, prompt: "Søk etter kategorier")
             .navigationBarTitle("Kategorier", displayMode: .inline)
             .navigationBarItems(trailing: addButton)
 

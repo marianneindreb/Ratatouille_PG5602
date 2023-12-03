@@ -6,6 +6,7 @@ import SwiftUI
 final class CategoriesViewModel: ObservableObject {
     @Published var categories: [CategoryModel] = []
     @Published var meals: [MealListItemModel] = []
+    @Published var searchText = ""
     
     enum LoadFrom {
         case API
@@ -26,6 +27,14 @@ final class CategoriesViewModel: ObservableObject {
     func loadCategoriesFromCoreData() {
         self.categories = self.getCategoriesFromCoreData()
     }
+    
+    var filteredCategories: [CategoryModel] {
+            if searchText.isEmpty {
+                return categories
+            } else {
+                return categories.filter { $0.strCategory.lowercased().contains(searchText.lowercased()) }
+            }
+        }
     
     func getCategories() -> [CategoryModel] {
         if !self.categories.isEmpty {

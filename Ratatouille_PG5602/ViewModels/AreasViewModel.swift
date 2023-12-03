@@ -6,6 +6,7 @@ import SwiftUI
 final class AreasViewModel: ObservableObject {
     @Published var areas: [AreaModel] = []
     @Published var meals: [MealListItemModel] = []
+    @Published var searchText = ""
     
     enum LoadFrom {
         case API
@@ -53,6 +54,14 @@ final class AreasViewModel: ObservableObject {
             loadAreasFromCoreData()
         }
     }
+    
+    var filteredAreas: [AreaModel] {
+            if searchText.isEmpty {
+                return areas
+            } else {
+                return areas.filter { $0.strArea.lowercased().contains(searchText.lowercased()) }
+            }
+        }
     
     func getAreas() -> [AreaModel] {
         if !areas.isEmpty {
