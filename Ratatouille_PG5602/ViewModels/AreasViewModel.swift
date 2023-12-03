@@ -7,6 +7,7 @@ final class AreasViewModel: ObservableObject {
     @Published var areas: [AreaModel] = []
     @Published var meals: [MealListItemModel] = []
     @Published var searchText = ""
+    @Published var editingArea: String? = nil
     
     enum LoadFrom {
         case API
@@ -52,6 +53,24 @@ final class AreasViewModel: ObservableObject {
             fetchAreasFromAPIAndSaveToCoreData()
         } else {
             loadAreasFromCoreData()
+        }
+    }
+    func saveEditedArea(originalName: String, newName: String) {
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "strArea == %@", originalName)
+        
+        do {
+            if let areaEntity = try context.fetch(fetchRequest).first {
+                areaEntity.strArea = newName
+                
+                try context.save()
+                print("Area name updated from \(originalName) to \(newName)")
+                
+                self.loadAreasFromCoreData()
+            }
+        } catch {
+            print("Error updating area: \(error)")
         }
     }
     
