@@ -13,8 +13,10 @@ struct EditMealDetailView: View {
     @State private var description: String = ""
     @State private var imageUrl: String = ""
     @State private var ingredients: [String] = []
+    @Binding var modalPresented: Bool
     
-    init(meal: MealModel) {
+    init(meal: MealModel, modalPresented: Binding<Bool>) {
+        _modalPresented = modalPresented
         viewModel = MealDetailViewModel(meal: meal)
         _title = State(initialValue: meal.strMeal)
         _description = State(initialValue: meal.strInstructions)
@@ -60,6 +62,7 @@ struct EditMealDetailView: View {
                 
                 Button("Lagre endringer") {
                     viewModel.updateMeal(title: title, description: description, imageUrl: imageUrl, ingredients: ingredients)
+                    modalPresented = false
                 }
                 .padding()
                 .frame(maxWidth: .infinity)
@@ -71,6 +74,8 @@ struct EditMealDetailView: View {
         }
     }
 }
+
+
 
 private func getIngredientList(meal: MealModel) -> [String] {
     var ingredientList = [String]()
@@ -93,6 +98,6 @@ private func getIngredientList(meal: MealModel) -> [String] {
     
 }
 
-#Preview {
-    EditMealDetailView(meal: MealModel.sampleMeal)
-}
+//#Preview {
+//    EditMealDetailView(meal: MealModel.sampleMeal, modalPresented: )
+//}

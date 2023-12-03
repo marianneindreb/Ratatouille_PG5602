@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreData
 
 @Observable
 final class MealDetailViewModel: ObservableObject {
@@ -18,6 +19,57 @@ final class MealDetailViewModel: ObservableObject {
         self.fetchMeal(mealId: id, onCompletion: self.saveMeal)
     }
     
+    func updateMeal(title: String, description: String, imageUrl: String, ingredients: [String]) {
+        guard let mealId = self.meal?.idMeal else {
+            print("Meal ID not found")
+            return
+        }
+        self.meal?.strMeal = title
+        self.meal?.strInstructions = description
+        self.meal?.strMealThumb = imageUrl
+                
+
+        let context = CoreDataManager.shared.context
+        let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "idMeal == %@", mealId)
+
+        do {
+            if let mealEntity = try context.fetch(fetchRequest).first {
+                mealEntity.strMeal = title
+                mealEntity.strInstructions = description
+                mealEntity.strMealThumb = imageUrl
+                
+                mealEntity.strIngredient1 = ingredients.count > 0 ? ingredients[0] : nil
+                mealEntity.strIngredient2 = ingredients.count > 1 ? ingredients[1] : nil
+                mealEntity.strIngredient3 = ingredients.count > 2 ? ingredients[2] : nil
+                mealEntity.strIngredient4 = ingredients.count > 3 ? ingredients[3] : nil
+                mealEntity.strIngredient5 = ingredients.count > 4 ? ingredients[4] : nil
+                mealEntity.strIngredient6 = ingredients.count > 5 ? ingredients[5] : nil
+                mealEntity.strIngredient7 = ingredients.count > 6 ? ingredients[6] : nil
+                mealEntity.strIngredient8 = ingredients.count > 7 ? ingredients[7] : nil
+                mealEntity.strIngredient9 = ingredients.count > 8 ? ingredients[8] : nil
+                mealEntity.strIngredient10 = ingredients.count > 9 ? ingredients[9] : nil
+                mealEntity.strIngredient11 = ingredients.count > 10 ? ingredients[10] : nil
+                mealEntity.strIngredient12 = ingredients.count > 11 ? ingredients[11] : nil
+                mealEntity.strIngredient13 = ingredients.count > 12 ? ingredients[12] : nil
+                mealEntity.strIngredient14 = ingredients.count > 13 ? ingredients[13] : nil
+                mealEntity.strIngredient15 = ingredients.count > 14 ? ingredients[14] : nil
+                mealEntity.strIngredient16 = ingredients.count > 15 ? ingredients[15] : nil
+                mealEntity.strIngredient17 = ingredients.count > 16 ? ingredients[16] : nil
+                mealEntity.strIngredient18 = ingredients.count > 17 ? ingredients[17] : nil
+                mealEntity.strIngredient19 = ingredients.count > 18 ? ingredients[18] : nil
+                mealEntity.strIngredient20 = ingredients.count > 19 ? ingredients[19] : nil
+
+                try context.save()
+                print("Meal updated successfully")
+            } else {
+                print("Meal not found in Core Data")
+            }
+        } catch {
+            print("Error updating meal: \(error)")
+        }
+    }
+    
     func fetchMeal(mealId: String, onCompletion: (() -> Void)? = nil) {
         print("Fetching meal \(mealId)")
         let urlString = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=\(mealId)"
@@ -32,9 +84,7 @@ final class MealDetailViewModel: ObservableObject {
         }
     }
     
-    func updateMeal(title: String, description: String, imageUrl: String, ingredients: [String]) {
-        // TODO: Implement code to update meal
-    }
+
     
     func saveMeal() {
         if let meal = self.meal {

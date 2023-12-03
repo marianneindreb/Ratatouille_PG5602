@@ -31,19 +31,6 @@ struct RecipeListView: View {
                                     viewModel.archiveMeal(id: meal.idMeal)
                                 }
                                 .tint(.brandSecondary)
-                                
-                                NavigationLink {
-                                    EditMealDetailView(meal: meal)
-                                } label: {
-                                    Image(systemName: "square.and.pencil")
-                                    Text("Rediger")
-                                }
-                                .buttonStyle(PlainButtonStyle())
-//                                NavigationLink(destination: EditMealDetailView(meal: meal)) {
-//                                    Label("Rediger", systemImage: "square.and.pencil")
-//                                }
-                                
-                                .tint(.blue)
                             }
                         }
                         .listStyle(PlainListStyle())
