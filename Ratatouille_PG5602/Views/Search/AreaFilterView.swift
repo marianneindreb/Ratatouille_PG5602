@@ -4,9 +4,8 @@ import Kingfisher
 
 struct AreaFilterView: View {
     @StateObject var viewModel: AreasViewModel
-    
     @State private var selectedOption = "Velg land"
-    // optionsArray could include areas and flag
+
     
     var body: some View {
         VStack {
@@ -19,20 +18,6 @@ struct AreaFilterView: View {
                         }) {
                             Text(area.strArea)
                                 .foregroundColor(.gray)
-                            
-                            //                                if let url = URL(string: area.flagURL), !area.flagURL.isEmpty {
-                            //                                    KFImage(url)
-                            //                                        .resizable()
-                            //                                        .scaledToFit()
-                            //                                        .frame(width: 16, height: 16)
-                            
-                            
-                            //                        }else {
-                            //                            Image("placeholderImage")
-                            //                                .resizable()
-                            //                                .scaledToFit()
-                            //                                .frame(width: 16, height: 16)
-                            //                        }
                         }
                     }
                     

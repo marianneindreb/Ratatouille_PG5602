@@ -1,5 +1,4 @@
 import SwiftUI
-import Kingfisher
 
 struct CategoryFilterView: View {
     @StateObject var viewModel: CategoriesViewModel

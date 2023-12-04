@@ -1,9 +1,3 @@
-//
-//  EditCategoriesSettingsView.swift
-//  Ratatouille_PG5602
-//
-//  Created by Marianne Indrebø on 02/12/2023.
-//
 
 import SwiftUI
 
@@ -66,16 +60,13 @@ struct EditCategoriesSettingsView: View {
             .navigationBarTitle("Kategorier", displayMode: .inline)
             .navigationBarItems(trailing: addButton)
 
-            // Custom modal presentation
             if showingAddCategoryModal {
-                // Overlay for dimming the background
                 Color.black.opacity(0.4)
                     .edgesIgnoringSafeArea(.all)
                     .onTapGesture {
                         showingAddCategoryModal = false
                     }
 
-                // Modal content
                 AddCategoryModal(isPresented: $showingAddCategoryModal, viewModel: viewModel)
                     .frame(width: 300, height: 300)
                     .background(Color.white)

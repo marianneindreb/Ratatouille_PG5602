@@ -1,5 +1,4 @@
 import SwiftUI
-import Kingfisher
 
 struct IngredientFilterView: View {
     @StateObject var viewModel: IngredientsViewModel

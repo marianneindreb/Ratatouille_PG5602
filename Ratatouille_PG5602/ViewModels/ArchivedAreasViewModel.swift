@@ -11,7 +11,7 @@ class ArchivedAreasViewModel: ObservableObject {
         let context = CoreDataManager.shared.context
         let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "isArchived == %@", NSNumber(value: true))
-
+        
         do {
             let areasEntities = try context.fetch(fetchRequest)
             self.archivedAreas = areasEntities.map {
@@ -28,7 +28,7 @@ class ArchivedAreasViewModel: ObservableObject {
         let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
         let predicate = NSPredicate(format: "strArea == %@", strArea)
         fetchRequest.predicate = predicate
-
+        
         do {
             if let areaEntity = try context.fetch(fetchRequest).first {
                 areaEntity.isArchived = false
@@ -46,7 +46,7 @@ class ArchivedAreasViewModel: ObservableObject {
         let fetchRequest: NSFetchRequest<AreaEntity> = AreaEntity.fetchRequest()
         let predicate = NSPredicate(format: "strArea == %@", strArea)
         fetchRequest.predicate = predicate
-
+        
         do {
             if let areaEntity = try context.fetch(fetchRequest).first {
                 context.delete(areaEntity)

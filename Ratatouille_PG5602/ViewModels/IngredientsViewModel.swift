@@ -48,14 +48,14 @@ final class IngredientsViewModel: ObservableObject {
     }
     
     
-    //søke etter ingredienser i settings -> Rediger ingredienser
+    
     var filteredIngredients: [IngredientModel] {
-            if searchText.isEmpty {
-                return ingredients
-            } else {
-                return ingredients.filter { $0.strIngredient.lowercased().contains(searchText.lowercased()) }
-            }
+        if searchText.isEmpty {
+            return ingredients
+        } else {
+            return ingredients.filter { $0.strIngredient.lowercased().contains(searchText.lowercased()) }
         }
+    }
     
     func loadIngredientsFromCoreData(){
         self.ingredients = getIngredientsFromCoreData()
@@ -104,8 +104,8 @@ final class IngredientsViewModel: ObservableObject {
                     )
                     DispatchQueue.main.async {
                         let uniqueIngredients = ingredientResponse.meals.removingDuplicates()
-                               self?.ingredients = uniqueIngredients
-                               self?.saveIngredientsToCoreData()
+                        self?.ingredients = uniqueIngredients
+                        self?.saveIngredientsToCoreData()
                     }
                 } catch {
                     DispatchQueue.main.async {
@@ -257,7 +257,7 @@ extension IngredientsViewModel {
     
     func createNewIngredient(named name: String) {
         let context = CoreDataManager.shared.context
-    
+        
         let newIngredient = IngredientEntity(context: context)
         newIngredient.strIngredient = name
         newIngredient.idIngredient = UUID().uuidString

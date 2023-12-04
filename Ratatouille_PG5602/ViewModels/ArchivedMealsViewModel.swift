@@ -11,7 +11,7 @@ class ArchivedMealsViewModel: ObservableObject {
         let context = CoreDataManager.shared.context
         let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "isArchived == %@", NSNumber(value: true))
-
+        
         do {
             let mealsEntities = try context.fetch(fetchRequest)
             self.archivedMeals = mealsEntities.map {
@@ -28,7 +28,7 @@ class ArchivedMealsViewModel: ObservableObject {
         let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
         let predicate = NSPredicate(format: "idMeal == %@", id)
         fetchRequest.predicate = predicate
-
+        
         do {
             if let mealEntity = try context.fetch(fetchRequest).first {
                 mealEntity.isArchived = false
@@ -46,7 +46,7 @@ class ArchivedMealsViewModel: ObservableObject {
         let fetchRequest: NSFetchRequest<MealEntity> = MealEntity.fetchRequest()
         let predicate = NSPredicate(format: "idMeal == %@", id)
         fetchRequest.predicate = predicate
-
+        
         do {
             if let mealEntity = try context.fetch(fetchRequest).first {
                 context.delete(mealEntity)

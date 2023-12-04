@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct SearchView: View {
-    //  @StateObject var viewModel = MealListViewModel()
     @State private var selectedFilter: Filters = .area
     @Binding var areasViewModel: AreasViewModel
     @Binding var categoriesViewModel: CategoriesViewModel
